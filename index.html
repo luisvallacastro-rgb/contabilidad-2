@@ -1,0 +1,4333 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contabilidad II</title>
+  <style>
+    :root {
+      --ink: #152126;
+      --muted: #5c6a70;
+      --line: #d9e2e0;
+      --paper: #f6f8f6;
+      --white: #ffffff;
+      --teal: #047a73;
+      --green: #71a03a;
+      --gold: #d39b2d;
+      --coral: #cc5d4f;
+      --navy: #203d52;
+      --shadow: 0 16px 40px rgba(21, 33, 38, .12);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      background:
+        linear-gradient(135deg, rgba(4, 122, 115, .06), transparent 34%),
+        linear-gradient(315deg, rgba(211, 155, 45, .08), transparent 28%),
+        var(--paper);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+      height: 100vh;
+      width: 100%;
+      position: fixed;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: center;
+      gap: 16px;
+      padding: 10px clamp(16px, 3vw, 40px);
+      color: var(--white);
+      background: rgba(21, 33, 38, .92);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 1px 0 rgba(255,255,255,.08);
+    }
+
+    .topbar-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
+      min-width: 0;
+    }
+
+    .control-btn {
+      width: 42px;
+      height: 42px;
+      min-height: 42px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 8px;
+      color: var(--white);
+      background: rgba(255,255,255,.07);
+      text-decoration: none;
+      padding: 0;
+      display: inline-grid;
+      place-items: center;
+      transition: transform .24s ease, background .24s ease, border-color .24s ease, box-shadow .24s ease;
+    }
+
+    .control-btn svg {
+      width: 21px;
+      height: 21px;
+      stroke: currentColor;
+      stroke-width: 2.1;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .control-btn.reset {
+      color: #ffe9e6;
+      border-color: rgba(204, 93, 79, .42);
+      background: rgba(204, 93, 79, .18);
+    }
+
+    .control-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.16);
+      border-color: rgba(255,255,255,.28);
+      box-shadow: 0 14px 28px rgba(0,0,0,.16);
+    }
+
+    .control-btn.reset:hover {
+      background: rgba(204, 93, 79, .3);
+    }
+
+    .hero {
+      min-height: 88vh;
+      display: grid;
+      align-items: end;
+      position: relative;
+      isolation: isolate;
+      color: var(--white);
+      background-image:
+        linear-gradient(90deg, rgba(7, 16, 19, .94), rgba(9, 22, 25, .78) 45%, rgba(8, 19, 22, .48) 100%),
+        linear-gradient(0deg, rgba(0, 0, 0, .34), rgba(0, 0, 0, .34)),
+        url("assets/contabilidad-2-hero.png");
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image:
+        linear-gradient(rgba(255,255,255,.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+      background-size: 68px 68px;
+      mask-image: linear-gradient(90deg, rgba(0,0,0,.6), transparent 74%);
+      animation: gridDrift 18s linear infinite;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -20% 0;
+      height: 38%;
+      z-index: -1;
+      background: linear-gradient(90deg, transparent, rgba(243, 197, 101, .2), transparent);
+      transform: translateX(-45%) skewX(-14deg);
+      animation: lightSweep 8s ease-in-out infinite;
+    }
+
+    .hero-inner {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 88px 0 44px;
+      animation: heroRise .9s ease-out both;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .84rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #bde4df;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 3px;
+      background: var(--gold);
+      border-radius: 999px;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin: 14px 0 18px;
+      font-size: clamp(2.4rem, 7vw, 5.9rem);
+      line-height: .96;
+      letter-spacing: 0;
+    }
+
+    .hero-copy {
+      max-width: 720px;
+      margin: 0 0 28px;
+      color: rgba(255,255,255,.88);
+      font-size: clamp(1.05rem, 2vw, 1.28rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .primary,
+    .secondary,
+    .video-trigger {
+      min-height: 46px;
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 16px;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .primary {
+      color: var(--ink);
+      background: #f3c565;
+      box-shadow: 0 12px 28px rgba(211, 155, 45, .28);
+    }
+
+    .secondary {
+      color: var(--white);
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.24);
+    }
+
+    .video-trigger {
+      color: var(--white);
+      background: rgba(4, 122, 115, .82);
+      border: 1px solid rgba(255,255,255,.25);
+      box-shadow: 0 14px 34px rgba(4, 122, 115, .25);
+    }
+
+    .play-dot {
+      width: 24px;
+      height: 24px;
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 999px;
+      background: rgba(255,255,255,.2);
+    }
+
+    .play-dot::before {
+      content: "";
+      width: 0;
+      height: 0;
+      margin-left: 2px;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 9px solid currentColor;
+    }
+
+    .primary:hover,
+    .secondary:hover,
+    .video-trigger:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero-dashboard {
+      display: grid;
+      grid-template-columns: minmax(280px, 620px);
+      gap: 12px;
+      width: min(620px, 100%);
+      margin-top: 34px;
+    }
+
+    .speaker-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 104px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: var(--radius);
+      background: rgba(10, 24, 28, .62);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.18);
+      animation: metricFloat 5.5s ease-in-out infinite;
+    }
+
+    .speaker-card:nth-child(2) {
+      animation-delay: .35s;
+    }
+
+    .speaker-card::after {
+      content: "";
+      position: absolute;
+      inset: auto 12px 12px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--gold), var(--green), var(--teal));
+      transform-origin: left;
+      animation: metricBar 3.8s ease-in-out infinite;
+    }
+
+    .speaker-card span {
+      display: block;
+      color: #bde4df;
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .speaker-card strong {
+      display: block;
+      margin-top: 10px;
+      font-size: clamp(1.2rem, 2.2vw, 1.75rem);
+      line-height: 1.08;
+    }
+
+    .speaker-card p {
+      margin: 8px 0 18px;
+      color: rgba(255,255,255,.78);
+      font-size: .98rem;
+    }
+
+    .speaker-card.instructor-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .profile-icon-btn {
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 8px;
+      color: var(--white);
+      background: rgba(255,255,255,.11);
+      display: inline-grid;
+      place-items: center;
+      box-shadow: 0 14px 30px rgba(0,0,0,.16);
+      transition: transform .24s ease, background .24s ease, border-color .24s ease;
+    }
+
+    .profile-icon-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(243,197,101,.55);
+      background: rgba(243,197,101,.18);
+    }
+
+    .profile-icon-btn svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    main {
+      padding-bottom: 70px;
+    }
+
+    section {
+      width: min(1180px, calc(100% - 32px));
+      margin: 64px auto 0;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+      transition-delay: var(--delay, 0ms);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.7rem, 3.4vw, 3rem);
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      max-width: 560px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .module-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+      padding: 18px;
+      min-height: 310px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 10px 24px rgba(21, 33, 38, .07);
+      position: relative;
+      overflow: hidden;
+      transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+    }
+
+    .module-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,.7), transparent 38%);
+      opacity: 0;
+      transition: opacity .28s ease;
+    }
+
+    .module-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(4, 122, 115, .45);
+      box-shadow: 0 22px 42px rgba(21, 33, 38, .13);
+    }
+
+    .module-card:hover::after {
+      opacity: 1;
+    }
+
+    .module-card.active {
+      border-color: var(--teal);
+      outline: 3px solid rgba(4, 122, 115, .16);
+    }
+
+    .module-num {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      color: var(--white);
+      background: var(--navy);
+      font-weight: 900;
+    }
+
+    .module-card:nth-child(2) .module-num { background: var(--teal); }
+    .module-card:nth-child(3) .module-num { background: var(--green); }
+    .module-card:nth-child(4) .module-num { background: var(--coral); }
+
+    .module-card.delivery-card .module-num {
+      background: linear-gradient(135deg, var(--gold), var(--teal));
+    }
+
+    .module-card.delivery-card .module-num svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      stroke-width: 2.1;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .module-card h3 {
+      margin: 18px 0 8px;
+      font-size: 1.25rem;
+      line-height: 1.2;
+    }
+
+    .module-card p {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .module-status {
+      display: inline-flex;
+      width: fit-content;
+      margin-top: 14px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: var(--ink);
+      background: var(--gold);
+      font-size: .82rem;
+      font-weight: 950;
+      box-shadow: 0 10px 20px rgba(21,33,38,.1);
+      animation: rise .54s ease both;
+    }
+
+    .module-status:empty,
+    .module-status[hidden] {
+      display: none;
+    }
+
+    .module-status.failed {
+      color: var(--white);
+      background: #b44a3f;
+    }
+
+    .module-card .module-link {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #eef5f3;
+      color: var(--teal);
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .module-actions {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 10px;
+      margin-top: 18px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .agenda-card-btn {
+      width: 46px;
+      min-height: 42px;
+      display: inline-grid;
+      place-items: center;
+      border: 1px solid rgba(4,122,115,.2);
+      border-radius: 8px;
+      color: var(--teal);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(243,197,101,.28), transparent 46%),
+        rgba(238,245,243,.92);
+      box-shadow: 0 10px 24px rgba(21,33,38,.08);
+      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease, background .24s ease;
+    }
+
+    .agenda-card-btn svg {
+      width: 21px;
+      height: 21px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .agenda-card-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      border-color: rgba(243,197,101,.58);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(243,197,101,.46), transparent 48%),
+        rgba(255,255,255,.96);
+      box-shadow: 0 18px 34px rgba(21,33,38,.15);
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+      padding: 20px;
+      box-shadow: 0 10px 24px rgba(21, 33, 38, .06);
+    }
+
+    .panel h3 {
+      margin: 0 0 10px;
+      font-size: 1.25rem;
+    }
+
+    .panel ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--white);
+    }
+
+    .compare-column {
+      padding: 22px;
+    }
+
+    .compare-column:first-child {
+      border-right: 1px solid var(--line);
+      background: #fbfcfb;
+    }
+
+    .compare-column h3 {
+      margin: 0 0 14px;
+    }
+
+    .pill-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .pill-list li {
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: #eef5f3;
+      color: #314348;
+    }
+
+    .process-wrap {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .stage-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .stage-btn {
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      padding: 12px;
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .stage-btn.active {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: var(--white);
+    }
+
+    .stage-detail {
+      min-height: 470px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: clamp(20px, 3vw, 34px);
+      box-shadow: 0 10px 24px rgba(21, 33, 38, .07);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stage-detail::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--teal), var(--green), var(--gold), var(--coral));
+      background-size: 220% 100%;
+      animation: flowLine 4.5s linear infinite;
+    }
+
+    .stage-detail h3 {
+      margin: 0 0 10px;
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+    }
+
+    .stage-detail p {
+      color: var(--muted);
+      max-width: 760px;
+    }
+
+    .stage-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .mini-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      background: #fbfcfb;
+    }
+
+    .mini-card strong {
+      display: block;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+
+    .mini-card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+
+    .activity-grid,
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .activity,
+    .kpi {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+      padding: 18px;
+      min-height: 190px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+    }
+
+    .activity:hover,
+    .kpi:hover {
+      transform: translateY(-6px);
+      border-color: rgba(4, 122, 115, .36);
+      box-shadow: 0 20px 40px rgba(21, 33, 38, .11);
+    }
+
+    .activity::before,
+    .kpi::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--teal), var(--gold));
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform .28s ease;
+    }
+
+    .activity:hover::before,
+    .kpi:hover::before {
+      transform: scaleY(1);
+    }
+
+    .activity h3,
+    .kpi h3 {
+      margin: 0 0 8px;
+      font-size: 1.12rem;
+    }
+
+    .activity p,
+    .kpi p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .activity footer,
+    .kpi footer {
+      margin-top: 18px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      color: var(--ink);
+      background: #f4dfad;
+      font-size: .84rem;
+      font-weight: 800;
+    }
+
+    .kpi-value {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .kpi-value output {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--teal);
+    }
+
+    .slider-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--teal);
+    }
+
+    .checklist {
+      display: grid;
+      gap: 10px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .checklist label {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 10px;
+      align-items: start;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+      padding: 12px;
+    }
+
+    .checklist input {
+      margin-top: 4px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--teal);
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #eef5f3;
+      color: var(--teal);
+      font-weight: 900;
+    }
+
+    .progress {
+      height: 10px;
+      border-radius: 999px;
+      background: #dce7e4;
+      margin-top: 12px;
+      overflow: hidden;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--teal), var(--green), var(--gold));
+    }
+
+    .presenting .topbar {
+      transform: translateY(-100%);
+      transition: transform .25s ease;
+    }
+
+    .presenting section {
+      margin-top: 44px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 26px;
+      transform: translateX(-50%) translateY(30px);
+      opacity: 0;
+      pointer-events: none;
+      padding: 12px 16px;
+      border-radius: 8px;
+      color: var(--white);
+      background: rgba(21,33,38,.94);
+      transition: .22s ease;
+      z-index: 40;
+      max-width: calc(100vw - 32px);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .video-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(9, 21, 25, .76);
+      backdrop-filter: blur(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+
+    .profile-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 59;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(9, 21, 25, .76);
+      backdrop-filter: blur(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+
+    .profile-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .profile-dialog {
+      width: min(920px, 100%);
+      max-height: min(88dvh, 860px);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: var(--radius);
+      color: var(--white);
+      background:
+        linear-gradient(135deg, rgba(4,122,115,.78), rgba(21,33,38,.96)),
+        #152126;
+      box-shadow: 0 30px 90px rgba(0,0,0,.35);
+      transform: translateY(18px) scale(.98);
+      transition: transform .25s ease;
+    }
+
+    .profile-modal.open .profile-dialog {
+      transform: translateY(0) scale(1);
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: clamp(20px, 4vw, 32px);
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+
+    .profile-header h2 {
+      margin: 8px 0 0;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1;
+    }
+
+    .profile-close {
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 8px;
+      color: var(--white);
+      background: rgba(255,255,255,.1);
+      font-size: 1.2rem;
+    }
+
+    .profile-body {
+      display: grid;
+      gap: 14px;
+      padding: clamp(20px, 4vw, 32px);
+      max-height: calc(88dvh - 150px);
+      overflow: auto;
+      scrollbar-gutter: stable;
+    }
+
+    .profile-lead {
+      margin: 0;
+      color: rgba(255,255,255,.84);
+      font-size: clamp(1rem, 2vw, 1.16rem);
+      line-height: 1.55;
+    }
+
+    .profile-row {
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius);
+      padding: 16px;
+      background: rgba(255,255,255,.08);
+    }
+
+    .profile-row strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #f3c565;
+      font-size: .84rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .profile-row span {
+      color: rgba(255,255,255,.84);
+    }
+
+    .profile-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .profile-tags span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      border-radius: 999px;
+      padding: 5px 10px;
+      color: var(--ink);
+      background: #f4dfad;
+      font-size: .86rem;
+      font-weight: 850;
+    }
+
+    .video-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .video-dialog {
+      width: min(980px, 100%);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #0b171b;
+      box-shadow: 0 30px 90px rgba(0,0,0,.35);
+      transform: translateY(18px) scale(.98);
+      transition: transform .25s ease;
+    }
+
+    .video-modal.open .video-dialog {
+      transform: translateY(0) scale(1);
+    }
+
+    .video-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 14px;
+      color: var(--white);
+      background: #152126;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+
+    .video-header strong {
+      font-size: 1rem;
+    }
+
+    .video-close {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 8px;
+      color: var(--white);
+      background: rgba(255,255,255,.08);
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .video-dialog video {
+      display: block;
+      width: 100%;
+      max-height: min(72vh, 620px);
+      background: #000;
+    }
+
+    .video-empty {
+      min-height: min(56vh, 420px);
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 10px;
+      padding: 28px;
+      color: rgba(255,255,255,.86);
+      text-align: center;
+      background:
+        linear-gradient(135deg, rgba(4,122,115,.26), rgba(21,33,38,.94)),
+        repeating-linear-gradient(135deg, rgba(255,255,255,.05) 0 1px, transparent 1px 16px);
+    }
+
+    .video-empty strong {
+      display: block;
+      color: #f3c565;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+    }
+
+    .video-empty span {
+      max-width: 560px;
+      color: rgba(255,255,255,.72);
+    }
+
+    .agenda-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 58;
+      display: grid;
+      place-items: center;
+      padding: clamp(10px, 2vw, 24px);
+      background:
+        radial-gradient(circle at 20% 18%, rgba(243, 197, 101, .18), transparent 28%),
+        radial-gradient(circle at 82% 22%, rgba(4, 122, 115, .24), transparent 30%),
+        rgba(9, 21, 25, .78);
+      backdrop-filter: blur(14px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+      overflow: hidden;
+    }
+
+    .agenda-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .agenda-dialog {
+      width: min(1040px, calc(100vw - 28px));
+      height: min(88dvh, 760px);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.26);
+      border-radius: 18px;
+      color: var(--white);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.16), rgba(255,255,255,.06)),
+        rgba(12, 29, 34, .68);
+      box-shadow: 0 34px 100px rgba(0,0,0,.42);
+      backdrop-filter: blur(24px) saturate(140%);
+      transform: translateY(22px) scale(.98);
+      transition: transform .28s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .agenda-modal.open .agenda-dialog {
+      transform: translateY(0) scale(1);
+    }
+
+    .agenda-header {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      padding: clamp(18px, 3vw, 30px);
+      background:
+        radial-gradient(circle at 82% 18%, rgba(243,197,101,.2), transparent 30%),
+        linear-gradient(135deg, rgba(4, 122, 115, .7), rgba(32, 61, 82, .62)),
+        linear-gradient(90deg, transparent, rgba(255,255,255,.16), transparent);
+      flex: 0 0 auto;
+    }
+
+    .agenda-header::after {
+      content: "";
+      position: absolute;
+      inset: auto -10% 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold), var(--green), var(--teal), var(--coral));
+      background-size: 220% 100%;
+      animation: flowLine 4.2s linear infinite;
+    }
+
+    .agenda-header h2 {
+      margin: 8px 0 8px;
+      font-size: clamp(1.7rem, 4vw, 3rem);
+      line-height: 1;
+    }
+
+    .agenda-header p {
+      max-width: 760px;
+      margin: 0;
+      color: rgba(255,255,255,.82);
+    }
+
+    .agenda-close {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 8px;
+      color: var(--white);
+      background: rgba(255,255,255,.1);
+      font-size: 1.25rem;
+      line-height: 1;
+    }
+
+    .agenda-body {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: auto;
+      padding: clamp(18px, 3vw, 28px);
+      overscroll-behavior: contain;
+      scrollbar-gutter: stable;
+    }
+
+    .agenda-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .agenda-summary div,
+    .agenda-module {
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.07);
+      backdrop-filter: blur(8px);
+    }
+
+    .agenda-summary div {
+      padding: 14px;
+    }
+
+    .agenda-summary strong {
+      display: block;
+      font-size: 1.35rem;
+      color: #f3c565;
+    }
+
+    .agenda-summary span {
+      color: rgba(255,255,255,.74);
+      font-size: .92rem;
+    }
+
+    .agenda-completion {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 18px;
+      padding: 14px 16px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: var(--radius);
+      background: rgba(8, 22, 25, .32);
+    }
+
+    .agenda-completion strong {
+      min-width: 78px;
+      color: #f3c565;
+      font-size: 1.35rem;
+      line-height: 1;
+    }
+
+    .agenda-completion span {
+      color: rgba(255,255,255,.78);
+      font-weight: 800;
+    }
+
+    .agenda-completion.complete {
+      border-color: rgba(82, 168, 130, .65);
+      background: rgba(45, 126, 116, .28);
+    }
+
+    .agenda-modules {
+      display: grid;
+      gap: 12px;
+    }
+
+    .agenda-stage {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .agenda-stage-num {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      color: var(--ink);
+      background: linear-gradient(135deg, var(--gold), #f6dc99);
+      font-weight: 950;
+      box-shadow: 0 12px 30px rgba(0,0,0,.18);
+    }
+
+    .agenda-module h4 {
+      margin: 0 0 6px;
+      color: #ffffff;
+      font-size: 1.05rem;
+    }
+
+    .agenda-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 8px;
+      color: rgba(255,255,255,.64);
+      font-size: .8rem;
+      font-weight: 850;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .agenda-check {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      width: fit-content;
+      margin-top: 12px;
+      padding: 8px 10px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 8px;
+      color: rgba(255,255,255,.82);
+      background: rgba(255,255,255,.06);
+      font-size: .88rem;
+      font-weight: 850;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .agenda-check input {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      accent-color: var(--teal);
+      cursor: pointer;
+    }
+
+    .agenda-module.complete {
+      border-color: rgba(82, 168, 130, .58);
+      background: rgba(45, 126, 116, .18);
+    }
+
+    .agenda-module {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(14px);
+      transform-origin: center;
+      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease, background .24s ease;
+    }
+
+    .agenda-modal.open .agenda-module {
+      animation: agendaItemIn .48s ease forwards;
+      animation-delay: var(--agenda-delay, 0ms);
+    }
+
+    .agenda-module::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 5px;
+      background: linear-gradient(180deg, var(--gold), var(--teal));
+    }
+
+    .agenda-module h3 {
+      margin: 0 0 8px;
+      font-size: 1.16rem;
+    }
+
+    .agenda-module p {
+      margin: 0 0 10px;
+      color: rgba(255,255,255,.76);
+    }
+
+    .agenda-module ul {
+      margin: 0;
+      padding-left: 18px;
+      color: rgba(255,255,255,.74);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .agenda-module:hover {
+        z-index: 4;
+        border-color: rgba(243, 197, 101, .46);
+        background: rgba(255,255,255,.11);
+        box-shadow: 0 24px 56px rgba(0,0,0,.26);
+        transform: translateY(-3px) scale(1.035);
+      }
+
+    }
+
+    @keyframes agendaItemIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes heroRise {
+      from {
+        opacity: 0;
+        transform: translateY(26px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes gridDrift {
+      from {
+        background-position: 0 0;
+      }
+      to {
+        background-position: 136px 68px;
+      }
+    }
+
+    @keyframes lightSweep {
+      0%, 48% {
+        transform: translateX(-55%) skewX(-14deg);
+        opacity: 0;
+      }
+      62% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(55%) skewX(-14deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes metricFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    @keyframes metricBar {
+      0%, 100% {
+        transform: scaleX(.36);
+      }
+      50% {
+        transform: scaleX(1);
+      }
+    }
+
+    @keyframes cardSheen {
+      0%, 45% {
+        transform: translateX(-100%);
+      }
+      70%, 100% {
+        transform: translateX(100%);
+      }
+    }
+
+    @keyframes flowLine {
+      from {
+        background-position: 0 0;
+      }
+      to {
+        background-position: 220% 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .topbar {
+        grid-template-columns: 1fr;
+      }
+
+      .module-grid,
+      .activity-grid,
+      .kpi-grid,
+        .hero-dashboard,
+      .compare,
+      .process-wrap,
+      .stage-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .compare-column:first-child {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+    }
+
+    @media (max-width: 620px) {
+      .hero {
+        min-height: 100dvh;
+        align-items: start;
+        background-position: 54% center;
+      }
+
+      .hero-inner {
+        width: min(100% - 32px, 640px);
+        padding: 28px 0 18px;
+      }
+
+      .hero .eyebrow {
+        font-size: .72rem;
+        gap: 7px;
+        letter-spacing: .075em;
+      }
+
+      .hero .eyebrow::before {
+        width: 22px;
+      }
+
+      .hero h1 {
+        margin: 10px 0 12px;
+        font-size: clamp(2.45rem, 14vw, 3.75rem);
+        line-height: .94;
+      }
+
+      .hero-copy {
+        margin-bottom: 16px;
+        font-size: clamp(.98rem, 4.7vw, 1.16rem);
+        line-height: 1.42;
+      }
+
+      .hero-actions {
+        display: grid;
+        gap: 9px;
+      }
+
+      .primary,
+      .secondary,
+      .video-trigger {
+        min-height: 42px;
+        padding: 9px 14px;
+        justify-content: center;
+      }
+
+      .hero-dashboard {
+        gap: 8px;
+        margin-top: 18px;
+      }
+
+      .speaker-card.instructor-card {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-icon-btn {
+        width: 44px;
+        height: 44px;
+      }
+
+      .speaker-card {
+        min-height: 0;
+        padding: 13px 14px 16px;
+      }
+
+      .speaker-card span {
+        font-size: .68rem;
+      }
+
+      .speaker-card strong {
+        margin-top: 7px;
+        font-size: clamp(1.25rem, 7.5vw, 1.65rem);
+      }
+
+      .speaker-card p {
+        margin: 6px 0 13px;
+        font-size: .9rem;
+        line-height: 1.25;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .section-head p {
+        margin-top: 8px;
+      }
+
+      .agenda-modal {
+        padding: 8px;
+        place-items: stretch;
+      }
+
+      .agenda-dialog {
+        width: 100%;
+        height: calc(100dvh - 16px);
+      }
+
+      .agenda-header {
+        gap: 10px;
+        padding: 18px 16px;
+      }
+
+      .agenda-header h2 {
+        max-width: 250px;
+        margin: 7px 0;
+        font-size: 1.72rem;
+        line-height: 1.02;
+      }
+
+      .agenda-header p {
+        max-width: 250px;
+        font-size: .9rem;
+        line-height: 1.35;
+      }
+
+      .agenda-close {
+        width: 40px;
+        height: 40px;
+      }
+
+      .agenda-body {
+        padding: 14px;
+      }
+
+      .agenda-summary {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .agenda-summary div {
+        padding: 11px 12px;
+      }
+
+      .agenda-summary strong {
+        font-size: 1.1rem;
+      }
+
+      .agenda-module {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 14px 14px 14px 16px;
+      }
+
+      .agenda-module h3 {
+        font-size: 1.05rem;
+        line-height: 1.24;
+      }
+
+      .agenda-module p,
+      .agenda-module li {
+        font-size: .94rem;
+      }
+
+    }
+
+    @media print {
+      .topbar,
+      .hero-actions,
+      .module-card .module-link,
+      .stage-list,
+      .toast {
+        display: none;
+      }
+
+      .hero {
+        min-height: 360px;
+      }
+
+      section {
+        break-inside: avoid;
+      }
+    }
+  
+
+    .schedule-section {
+      margin-top: 72px;
+    }
+
+    .schedule-toolbar {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin: 20px 0 16px;
+    }
+
+    .schedule-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .schedule-stat,
+    .filter-panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: 0 10px 24px rgba(21, 33, 38, .06);
+    }
+
+    .schedule-stat {
+      padding: 16px;
+    }
+
+    .schedule-stat strong {
+      display: block;
+      color: var(--teal);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      line-height: 1;
+    }
+
+    .schedule-stat span {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-weight: 750;
+    }
+
+    .filter-panel {
+      padding: 14px;
+      overflow: hidden;
+    }
+
+    .filter-slider-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .filter-label {
+      display: block;
+      color: var(--muted);
+      font-size: .85rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .filter-slider-status {
+      color: var(--teal);
+      font-size: .86rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .filter-slider-shell {
+      position: relative;
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) 42px;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .filter-nav {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--teal);
+      background: #eef5f3;
+      box-shadow: 0 10px 22px rgba(21, 33, 38, .08);
+    }
+
+    .filter-nav svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .filter-nav:disabled {
+      opacity: .38;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .schedule-filters {
+      position: relative;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      padding: 4px 2px 12px;
+    }
+
+    .schedule-filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-track-wrap {
+      position: relative;
+      min-width: 0;
+    }
+
+    .filter-track-wrap::before,
+    .filter-track-wrap::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 8px;
+      z-index: 2;
+      width: 34px;
+      pointer-events: none;
+    }
+
+    .filter-track-wrap::before {
+      left: 0;
+      background: linear-gradient(90deg, var(--white), rgba(255,255,255,0));
+    }
+
+    .filter-track-wrap::after {
+      right: 0;
+      background: linear-gradient(270deg, var(--white), rgba(255,255,255,0));
+    }
+
+    .filter-btn {
+      flex: 0 0 auto;
+      min-width: 154px;
+      min-height: 70px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 10px;
+      scroll-snap-align: start;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 13px;
+      color: var(--ink);
+      background: linear-gradient(180deg, #f8fbfa, #eef5f3);
+      box-shadow: inset 0 -1px 0 rgba(21, 33, 38, .04);
+      font-weight: 900;
+      text-align: left;
+    }
+
+    .filter-btn span:first-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .filter-count {
+      display: grid;
+      place-items: center;
+      min-width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      color: var(--teal);
+      background: #dcece8;
+      font-size: .84rem;
+      font-weight: 950;
+    }
+
+    .filter-btn.active {
+      color: var(--white);
+      border-color: var(--teal);
+      background: linear-gradient(135deg, var(--teal), #145f56);
+      box-shadow: 0 14px 28px rgba(45, 126, 116, .24);
+    }
+
+    .filter-btn.active .filter-count {
+      color: #143238;
+      background: #f3c565;
+    }
+
+    .filter-progress {
+      position: relative;
+      height: 4px;
+      margin: 2px 54px 0;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #dfe9e6;
+    }
+
+    .filter-progress span {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: var(--filter-progress, 10%);
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--gold), var(--teal));
+      transition: width .24s ease;
+    }
+
+    .schedule-table-wrap {
+      max-height: 680px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+      font-size: .92rem;
+    }
+
+    .schedule-table th,
+    .schedule-table td {
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .schedule-table th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      color: var(--white);
+      background: #152126;
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+    }
+
+    .schedule-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .schedule-table tbody tr {
+      transition: background .2s ease, box-shadow .2s ease;
+    }
+
+    .schedule-table tbody tr.schedule-row-complete td {
+      border-bottom-color: #c9e2d8;
+      background: #e8f5ef;
+    }
+
+    .schedule-table tbody tr.schedule-row-complete td:first-child {
+      box-shadow: inset 5px 0 0 var(--teal);
+    }
+
+    .class-pill,
+    .category-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .class-pill {
+      color: var(--white);
+      background: var(--navy);
+    }
+
+    .category-pill {
+      color: var(--ink);
+      background: #f4dfad;
+    }
+
+    .schedule-table tbody tr.schedule-row-complete .class-pill {
+      color: var(--white);
+      background: var(--teal);
+    }
+
+    .schedule-table tbody tr.schedule-row-complete .category-pill {
+      color: #145f56;
+      background: #d8f0e6;
+    }
+
+    .schedule-topic strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .schedule-table tbody tr.schedule-row-complete .schedule-topic strong::after {
+      content: "Completada";
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      margin-left: 10px;
+      border-radius: 999px;
+      padding: 2px 8px;
+      color: #145f56;
+      background: #cdeade;
+      font-size: .72rem;
+      font-weight: 950;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      vertical-align: middle;
+    }
+
+    .schedule-topic span {
+      color: var(--muted);
+    }
+
+    .schedule-empty {
+      padding: 18px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+  
+
+    @media (max-width: 980px) {
+      .hero {
+        min-height: auto;
+        align-items: end;
+      }
+
+      .hero-inner {
+        padding-top: clamp(46px, 8vw, 76px);
+      }
+
+      .hero h1 {
+        max-width: 100%;
+        overflow-wrap: normal;
+        word-break: normal;
+        hyphens: none;
+        text-wrap: balance;
+      }
+
+      .module-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .module-card {
+        min-height: 260px;
+      }
+
+      .schedule-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        padding: 8px 12px;
+      }
+
+      .control-btn {
+        width: 38px;
+        height: 38px;
+        min-height: 38px;
+      }
+
+      .hero {
+        min-height: auto;
+        align-items: start;
+        background-position: 58% center;
+      }
+
+      .hero-inner {
+        width: min(calc(100vw - 28px), 362px);
+        max-width: min(calc(100vw - 28px), 362px);
+        margin-left: 14px;
+        margin-right: auto;
+        padding: 32px 0 28px;
+      }
+
+      .hero h1 {
+        max-width: 100%;
+        margin: 10px 0 12px;
+        font-size: clamp(1.95rem, 8.7vw, 2.45rem);
+        line-height: 1.04;
+        overflow-wrap: normal;
+        word-break: normal;
+        hyphens: none;
+        text-wrap: balance;
+      }
+
+      .hero-copy {
+        width: 100%;
+        max-width: 100%;
+        font-size: clamp(.98rem, 4.5vw, 1.12rem);
+        line-height: 1.46;
+        overflow-wrap: break-word;
+      }
+
+      .hero-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .secondary,
+      .video-trigger {
+        width: 100%;
+        max-width: 100%;
+        justify-content: center;
+        white-space: normal;
+        text-align: center;
+      }
+
+      section {
+        width: min(100% - 24px, 620px);
+        margin-top: 42px;
+      }
+
+      .section-head {
+        display: grid;
+        gap: 8px;
+      }
+
+      .section-head h2 {
+        font-size: clamp(1.55rem, 8vw, 2.1rem);
+      }
+
+      .module-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .module-card {
+        min-height: 0;
+        padding: 16px;
+      }
+
+      .module-card h3 {
+        margin-top: 14px;
+        font-size: 1.18rem;
+      }
+
+      .schedule-section {
+        margin-top: 48px;
+      }
+
+      .schedule-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .schedule-stat {
+        padding: 12px;
+      }
+
+      .schedule-stat strong {
+        font-size: 1.7rem;
+      }
+
+      .filter-panel {
+        padding: 12px;
+      }
+
+      .filter-slider-head {
+        display: grid;
+        gap: 4px;
+        margin-bottom: 10px;
+      }
+
+      .filter-slider-status {
+        white-space: normal;
+      }
+
+      .filter-slider-shell {
+        grid-template-columns: 36px minmax(0, 1fr) 36px;
+        gap: 6px;
+      }
+
+      .filter-nav {
+        width: 36px;
+        height: 36px;
+      }
+
+      .filter-btn {
+        min-width: min(68vw, 210px);
+        min-height: 60px;
+        padding: 10px 11px;
+      }
+
+      .filter-progress {
+        margin: 0 42px;
+      }
+
+      .schedule-table-wrap {
+        max-height: none;
+        overflow: visible;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .schedule-table {
+        display: block;
+        min-width: 0;
+        font-size: .95rem;
+      }
+
+      .schedule-table thead {
+        display: none;
+      }
+
+      .schedule-table tbody,
+      .schedule-table tr,
+      .schedule-table td {
+        display: block;
+        width: 100%;
+      }
+
+      .schedule-table tbody {
+        display: grid;
+        gap: 12px;
+      }
+
+      .schedule-table tr {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: var(--white);
+        box-shadow: 0 10px 24px rgba(21, 33, 38, .07);
+      }
+
+      .schedule-table td {
+        display: grid;
+        grid-template-columns: 112px minmax(0, 1fr);
+        gap: 12px;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .schedule-table td::before {
+        content: attr(data-label);
+        color: var(--muted);
+        font-size: .72rem;
+        font-weight: 950;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+      }
+
+      .schedule-table td:first-child {
+        padding-top: 14px;
+      }
+
+      .schedule-table td:last-child {
+        border-bottom: 0;
+        padding-bottom: 14px;
+      }
+
+      .schedule-table tbody tr.schedule-row-complete td:first-child {
+        box-shadow: inset 5px 0 0 var(--teal);
+      }
+
+      .schedule-table tbody tr.schedule-row-complete .schedule-topic strong::after {
+        display: flex;
+        width: fit-content;
+        margin: 7px 0 0;
+      }
+
+      .agenda-modal,
+      .profile-modal,
+      .video-modal {
+        padding: 8px;
+        place-items: stretch;
+      }
+
+      .agenda-dialog,
+      .profile-dialog,
+      .video-dialog {
+        width: 100%;
+        max-height: calc(100dvh - 16px);
+        border-radius: 12px;
+      }
+
+      .agenda-dialog {
+        height: calc(100dvh - 16px);
+      }
+
+      .profile-header,
+      .agenda-header {
+        padding: 16px;
+      }
+
+      .profile-header h2,
+      .agenda-header h2 {
+        font-size: clamp(1.55rem, 9vw, 2.15rem);
+      }
+
+      .profile-body,
+      .agenda-body {
+        padding: 14px;
+      }
+
+      .agenda-summary {
+        grid-template-columns: 1fr;
+      }
+
+      .agenda-completion {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
+      .agenda-stage {
+        grid-template-columns: 42px 1fr;
+        gap: 12px;
+      }
+
+      .agenda-stage-num {
+        width: 42px;
+        height: 42px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .hero-inner {
+        width: min(calc(100vw - 24px), 420px);
+        max-width: calc(100vw - 24px);
+        padding-top: 24px;
+      }
+
+      .hero .eyebrow {
+        max-width: 100%;
+        font-size: .68rem;
+        letter-spacing: .055em;
+      }
+
+      .hero h1 {
+        max-width: 100%;
+        font-size: clamp(1.85rem, 8.3vw, 2.25rem);
+      }
+
+      .hero-copy {
+        font-size: .98rem;
+      }
+
+      .speaker-card strong {
+        font-size: clamp(1.35rem, 8.2vw, 1.8rem);
+      }
+
+      .schedule-stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .schedule-table td {
+        grid-template-columns: 92px minmax(0, 1fr);
+        gap: 8px;
+      }
+    }
+
+  
+
+    .control-btn.nav-control {
+      color: #bde4df;
+      border-color: rgba(189, 228, 223, .28);
+      background: rgba(4,122,115,.14);
+    }
+
+    .control-btn.nav-control:hover {
+      color: var(--white);
+      border-color: rgba(189, 228, 223, .46);
+      background: rgba(4,122,115,.28);
+    }
+
+  
+
+    .topbar-fixed-overlay {
+      display: none;
+    }
+
+    .topbar {
+      position: fixed !important;
+      left: 0;
+      right: 0;
+      top: 0;
+      background: rgba(21, 33, 38, .9);
+    }
+
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-controls">
+      <a class="control-btn nav-control" href="#modulos" aria-label="Ir a modulos" title="Ir a modulos">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h7v7H4z"></path><path d="M13 5h7v7h-7z"></path><path d="M4 14h7v5H4z"></path><path d="M13 14h7v5h-7z"></path></svg>
+      </a>
+      <a class="control-btn nav-control" href="#matriz" aria-label="Ir a matriz" title="Ir a matriz">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path><path d="M8 5v14"></path><path d="M16 5v14"></path></svg>
+      </a>
+      <button class="control-btn reset" id="resetEvaluations" type="button" aria-label="Resetear evaluaciones" title="Resetear evaluaciones">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v6h6"></path></svg>
+      </button>
+      <button class="control-btn" id="presentMode" type="button" aria-label="Pantalla completa" title="Pantalla completa">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5"></path><path d="M16 3h5v5"></path><path d="M21 16v5h-5"></path><path d="M3 16v5h5"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Universidad Modular Abierta</div>
+      <h1>Contabilidad II</h1>
+      <p class="hero-copy">Contabilidad II organiza 80 clases en 20 semanas, con enfoque NIIF para PYMES, medicion individual por clase y evaluacion integradora semanal mediante casos practicos numericos.</p>
+      <div class="hero-actions">
+        <a class="secondary" href="#modulos">Ver modulos</a>
+        <a class="secondary" href="#matriz">Ver matriz</a>
+        <button class="video-trigger" id="openProgramVideo" type="button"><span class="play-dot" aria-hidden="true"></span>Video pendiente</button>
+      </div>
+      <div class="hero-dashboard" aria-label="Ficha del catedratico">
+        <article class="speaker-card instructor-card">
+          <div>
+            <span>Catedratico</span>
+            <strong>MaFi. Luis Valladares</strong>
+          </div>
+          <button class="profile-icon-btn" id="openInstructorProfile" type="button" aria-label="Presentacion a detalle de la ficha academica del expositor" title="Ficha academica del expositor">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z"></path><path d="M8 8h8"></path><path d="M8 12h8"></path><path d="M8 16h5"></path><path d="M17 3v4"></path><path d="M7 3v4"></path></svg>
+          </button>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  
+  <main>
+    <section id="modulos">
+      <div class="section-head">
+        <h2>Ruta de aprendizaje</h2>
+        <p>Los modulos corresponden a las unidades definitivas de Contabilidad II, con clases individuales y cierre practico semanal.</p>
+      </div>
+
+      <div class="module-grid">
+
+        <article class="module-card active" data-module="0">
+          <div>
+            <div class="module-num">I</div>
+            <h3>Estados financieros básicos</h3>
+            <p>Comprender y analizar los estados financieros como principal fuente para conocer la situación económica y financiera de la empresa.</p>
+            <span class="module-status" data-exam-status="modulo1" hidden></span>
+          </div>
+          <div class="module-actions">
+            <button class="agenda-card-btn" type="button" data-open-agenda="0" aria-label="Ver agenda de Unidad I: Estados financieros básicos">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M3 10h18"></path><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
+            </button>
+            <a class="module-link" href="modulo-1-estados-financieros.html?class=01&v=conta2-class4-impact">Abrir modulo</a>
+          </div>
+        </article>
+        <article class="module-card" data-module="1">
+          <div>
+            <div class="module-num">II</div>
+            <h3>El efectivo y sus equivalentes</h3>
+            <p>Monitorear el efectivo y equivalentes, garantizando exactitud y confiabilidad de registros.</p>
+            <span class="module-status" data-exam-status="modulo2" hidden></span>
+          </div>
+          <div class="module-actions">
+            <button class="agenda-card-btn" type="button" data-open-agenda="1" aria-label="Ver agenda de Unidad II: El efectivo y sus equivalentes">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M3 10h18"></path><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
+            </button>
+            <a class="module-link" href="modulo-2-efectivo-bancos.html?class=13&v=conta2-class4-impact">Abrir modulo</a>
+          </div>
+        </article>
+        <article class="module-card" data-module="2">
+          <div>
+            <div class="module-num">III</div>
+            <h3>Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA</h3>
+            <p>Aplicar reglas de medición, reconocimiento y presentación de inversiones temporales.</p>
+            <span class="module-status" data-exam-status="modulo3" hidden></span>
+          </div>
+          <div class="module-actions">
+            <button class="agenda-card-btn" type="button" data-open-agenda="2" aria-label="Ver agenda de Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M3 10h18"></path><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
+            </button>
+            <a class="module-link" href="modulo-3-inversiones-cxc-iva.html?class=29&v=conta2-class4-impact">Abrir modulo</a>
+          </div>
+        </article>
+        <article class="module-card" data-module="3">
+          <div>
+            <div class="module-num">IV</div>
+            <h3>Inventario y gastos pagados por anticipado</h3>
+            <p>Registrar el tratamiento contable de inventarios, registro, valuación y control.</p>
+            <span class="module-status" data-exam-status="modulo4" hidden></span>
+          </div>
+          <div class="module-actions">
+            <button class="agenda-card-btn" type="button" data-open-agenda="3" aria-label="Ver agenda de Unidad IV: Inventario y gastos pagados por anticipado">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M3 10h18"></path><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
+            </button>
+            <a class="module-link" href="modulo-4-inventarios-anticipados.html?class=53&v=conta2-class4-impact">Abrir modulo</a>
+          </div>
+        </article>
+        <article class="module-card" data-module="4">
+          <div>
+            <div class="module-num">I</div>
+            <h3>Integración de contenidos del programa</h3>
+            <p>Integrar los contenidos vistos en la valuación, registro, control, ajustes y presentación de cuentas del activo.</p>
+            <span class="module-status" data-exam-status="modulo5" hidden></span>
+          </div>
+          <div class="module-actions">
+            <button class="agenda-card-btn" type="button" data-open-agenda="4" aria-label="Ver agenda de Integración de contenidos del programa">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M3 10h18"></path><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
+            </button>
+            <a class="module-link" href="cierre.html?class=77&v=conta2-class4-impact">Abrir modulo</a>
+          </div>
+        </article>
+
+        <article class="module-card delivery-card" data-module="cases">
+          <div>
+            <div class="module-num" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M9 3h6"></path><path d="M9 3a2 2 0 0 0-2 2v1h10V5a2 2 0 0 0-2-2"></path><path d="M7 6H5a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-2"></path><path d="M8 12h8"></path><path d="M8 16h6"></path></svg>
+            </div>
+            <h3>Casos practicos semanales</h3>
+            <p>20 semanas con enunciado, desarrollo numerico y analisis esperado para medir el aprendizaje semanal.</p>
+          </div>
+          <div class="module-actions">
+            <button class="agenda-card-btn" type="button" data-open-agenda="5" aria-label="Ver agenda de casos practicos">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M3 10h18"></path><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path></svg>
+            </button>
+            <a class="module-link" href="#matriz">Ver matriz</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="schedule-section" id="matriz">
+      <div class="section-head">
+        <h2>Matriz de 80 clases</h2>
+        <p>Organizacion por numero de clase, semana, unidad, subcontenido, actividad y evaluacion. Usa los filtros para aislar cada bloque tematico.</p>
+      </div>
+
+      <div class="schedule-toolbar">
+        <div class="schedule-stats" aria-label="Resumen de planificacion">
+          <div class="schedule-stat"><strong>80</strong><span>clases</span></div>
+          <div class="schedule-stat"><strong>20</strong><span>semanas</span></div>
+          <div class="schedule-stat"><strong>5</strong><span>unidades</span></div>
+          <div class="schedule-stat"><strong>20</strong><span>casos NIIF</span></div>
+        </div>
+        <div class="filter-panel">
+          <div class="filter-slider-head">
+            <span class="filter-label">Filtros tematicos</span>
+            <span class="filter-slider-status" id="filterSliderStatus">Todos · 80 clases</span>
+          </div>
+          <div class="filter-slider-shell">
+            <button class="filter-nav" id="filterPrev" type="button" aria-label="Ver filtros anteriores">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+            </button>
+            <div class="filter-track-wrap">
+              <div class="schedule-filters" id="filterSlider" role="group" aria-label="Filtrar matriz de clases">
+                <button class="filter-btn active" type="button" data-plan-filter="Todos" aria-pressed="true"><span>Todos</span><span class="filter-count">80</span></button><button class="filter-btn" type="button" data-plan-filter="Unidad I" aria-pressed="false"><span>Unidad I</span><span class="filter-count">12</span></button><button class="filter-btn" type="button" data-plan-filter="Unidad II" aria-pressed="false"><span>Unidad II</span><span class="filter-count">16</span></button><button class="filter-btn" type="button" data-plan-filter="Unidad III" aria-pressed="false"><span>Unidad III</span><span class="filter-count">24</span></button><button class="filter-btn" type="button" data-plan-filter="Unidad IV" aria-pressed="false"><span>Unidad IV</span><span class="filter-count">24</span></button><button class="filter-btn" type="button" data-plan-filter="Cierre" aria-pressed="false"><span>Cierre</span><span class="filter-count">4</span></button>
+              </div>
+            </div>
+            <button class="filter-nav" id="filterNext" type="button" aria-label="Ver mas filtros">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg>
+            </button>
+          </div>
+          <div class="filter-progress" aria-hidden="true">
+            <span id="filterProgress"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="schedule-table-wrap">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th>Clase</th>
+              <th>Semana</th>
+              <th>Filtro</th>
+              <th>Unidad</th>
+              <th>Seccion / subtema</th>
+              <th>Actividad metodologica</th>
+              <th>Evaluacion</th>
+            </tr>
+          </thead>
+          <tbody id="classPlanRows"></tbody>
+        </table>
+        <div class="schedule-empty" id="classPlanEmpty" hidden>No hay clases para este filtro.</div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="agenda-modal" id="agendaModal" aria-hidden="true">
+    <div class="agenda-dialog" role="dialog" aria-modal="true" aria-labelledby="agendaModalTitle">
+      <div class="agenda-header">
+        <div>
+          <div class="eyebrow" id="agendaModalEyebrow">Agenda del modulo</div>
+          <h2 id="agendaModalTitle">Agenda del modulo</h2>
+          <p id="agendaModalCopy">Ruta de formacion para revisar temas clave.</p>
+        </div>
+        <button class="agenda-close" id="closeAgendaModal" type="button" aria-label="Cerrar agenda">x</button>
+      </div>
+      <div class="agenda-body">
+        <div class="agenda-summary" id="agendaSummary"></div>
+        <div class="agenda-completion" id="agendaCompletion" aria-live="polite"></div>
+        <div class="agenda-modules" id="agendaModules"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-modal" id="instructorProfileModal" aria-hidden="true">
+    <div class="profile-dialog" role="dialog" aria-modal="true" aria-labelledby="instructorProfileTitle">
+      <div class="profile-header">
+        <div>
+          <div class="eyebrow">Ficha academica</div>
+          <h2 id="instructorProfileTitle">MaFi. Luis Valladares</h2>
+        </div>
+        <button class="profile-close" id="closeInstructorProfile" type="button" aria-label="Cerrar ficha academica">x</button>
+      </div>
+      <div class="profile-body">
+        <p class="profile-lead">Profesional con experiencia en contabilidad, analisis financiero, gestion de riesgos, consultoria empresarial y direccion financiera. Su enfoque conecta la practica contable con la formacion academica aplicada a NIIF para PYMES.</p>
+        <div class="profile-row">
+          <strong>Que aporta a la catedra</strong>
+          <span>Una vision practica de la Contabilidad II orientada a estados financieros, efectivo, inversiones, cuentas por cobrar, IVA, inventarios, anticipos y aplicacion de NIIF para PYMES.</span>
+        </div>
+        <div class="profile-row">
+          <strong>Formacion academica</strong>
+          <span>Licenciado en Contaduria Publica, Maestria en Banca y Finanzas y Posgrado en Riesgos Bancarios y Financieros.</span>
+        </div>
+        <div class="profile-row">
+          <strong>Experiencia profesional relevante</strong>
+          <span>Ha trabajado en direccion financiera, consultoria empresarial, analisis financiero institucional, presupuestos, flujos de efectivo, evaluacion de proyectos de inversion, control de costos, rentabilidad y gestion de riesgos financieros.</span>
+        </div>
+        <div class="profile-row">
+          <strong>Sectores de experiencia</strong>
+          <span>Sector financiero, comercial, industrial, farmaceutico, grafico, cooperativo y de inversiones empresariales.</span>
+        </div>
+        <div class="profile-row">
+          <strong>Areas que conecta con la clase</strong>
+          <div class="profile-tags">
+            <span>Finanzas corporativas</span>
+            <span>Analisis financiero</span>
+            <span>Riesgos financieros</span>
+            <span>Evaluacion de proyectos</span>
+            <span>Planeacion financiera</span>
+            <span>Presupuestos</span>
+            <span>Business Intelligence financiero</span>
+          </div>
+        </div>
+        <div class="profile-row">
+          <strong>Experiencia academica y formativa</strong>
+          <span>Ha desarrollado actividades de capacitacion, instructorias especializadas, asesorias tecnicas, horas clase universitarias y participaciones como ponente invitado en materias de especialidad.</span>
+        </div>
+        <div class="profile-row">
+          <strong>Enfoque para el estudiante</strong>
+          <span>La asignatura se abordara con clases por tema, casos semanales, ejercicios numericos, desarrollo guiado y criterios NIIF aplicables a decisiones contables reales.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="video-modal" id="programVideoModal" aria-hidden="true">
+    <div class="video-dialog" role="dialog" aria-modal="true" aria-labelledby="programVideoTitle">
+      <div class="video-header">
+        <strong id="programVideoTitle">Video general pendiente</strong>
+        <button class="video-close" id="closeProgramVideo" type="button" aria-label="Cerrar video">x</button>
+      </div>
+      <div class="video-empty" id="programVideo">
+        <strong>Cuadro de video reseteado</strong><span>Espacio reservado para agregar el video general de Contabilidad II.</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const toast = document.getElementById("toast");
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.clearTimeout(showToast.timeoutId);
+      showToast.timeoutId = window.setTimeout(() => toast.classList.remove("show"), 1800);
+    }
+
+    const motionAllowed = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const revealTargets = document.querySelectorAll("section, .module-card, .panel, .schedule-stat");
+
+    revealTargets.forEach((target, index) => {
+      target.classList.add("reveal");
+      target.style.setProperty("--delay", `${Math.min(index % 6, 5) * 55}ms`);
+    });
+
+    if (motionAllowed && "IntersectionObserver" in window) {
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .14 });
+
+      revealTargets.forEach((target) => revealObserver.observe(target));
+    } else {
+      revealTargets.forEach((target) => target.classList.add("is-visible"));
+    }
+
+    const examStatusKeys = {
+      modulo1: "conta2.modulo1.exam.v1",
+      modulo2: "conta2.modulo2.exam.v1",
+      modulo3: "conta2.modulo3.exam.v1",
+      modulo4: "conta2.modulo4.exam.v1",
+      modulo5: "conta2.modulo5.exam.v1",
+      modulo6: "conta2.modulo6.exam.v1",
+      modulo7: "conta2.modulo7.exam.v1"
+    };
+
+    document.querySelectorAll("[data-exam-status]").forEach((statusBadge, index) => {
+      const statusId = statusBadge.dataset.examStatus || `modulo${index + 1}`;
+      const storageKey = examStatusKeys[statusId];
+      if (!storageKey) return;
+
+      let examResult = null;
+      try {
+        examResult = JSON.parse(localStorage.getItem(storageKey) || "null");
+      } catch (error) {
+        examResult = null;
+      }
+
+      if (!examResult?.status) return;
+      const approved = examResult.status === "approved";
+      statusBadge.hidden = false;
+      statusBadge.classList.toggle("failed", !approved);
+      statusBadge.textContent = `${approved ? "Aprobado" : "Reprobado"} · ${examResult.score}/${examResult.total}`;
+    });
+
+    document.getElementById("resetEvaluations").addEventListener("click", () => {
+      const shouldReset = window.confirm("Resetear todas las evaluaciones guardadas?");
+      if (!shouldReset) return;
+
+      Object.values(examStatusKeys).forEach((storageKey) => localStorage.removeItem(storageKey));
+      document.querySelectorAll("[data-exam-status]").forEach((statusBadge) => {
+        statusBadge.hidden = true;
+        statusBadge.textContent = "";
+        statusBadge.classList.remove("failed");
+      });
+      showToast("Evaluaciones reseteadas");
+    });
+
+    const presentModeButton = document.getElementById("presentMode");
+    const presentationModeKey = "conta2.presentationMode.active";
+    const presentationNavigationKey = "conta2.presentationMode.navigating";
+
+    function wantsPresentationMode() {
+      return localStorage.getItem(presentationModeKey) === "true";
+    }
+
+    function updatePresentModeLabel() {
+      const active = Boolean(document.fullscreenElement) || wantsPresentationMode();
+      presentModeButton.title = active ? "Salir de pantalla completa" : "Pantalla completa";
+      presentModeButton.setAttribute("aria-label", presentModeButton.title);
+    }
+
+    function armPresentationResume() {
+      const resume = async () => {
+        if (!wantsPresentationMode() || document.fullscreenElement) return;
+        try {
+          await document.documentElement.requestFullscreen();
+        } catch (error) {
+          return;
+        }
+        updatePresentModeLabel();
+      };
+      window.addEventListener("pointerdown", resume, { once: true });
+      window.addEventListener("keydown", resume, { once: true });
+    }
+
+    document.addEventListener("click", (event) => {
+      const link = event.target.closest("a[href]");
+      if (!link || !wantsPresentationMode()) return;
+      const url = new URL(link.href, window.location.href);
+      if (url.origin === window.location.origin) sessionStorage.setItem(presentationNavigationKey, "true");
+    }, true);
+
+    async function setPresentationMode(active, fromUser = false) {
+      localStorage.setItem(presentationModeKey, active ? "true" : "false");
+      document.body.classList.toggle("presenting", active);
+
+      if (active && !document.fullscreenElement) {
+        try {
+          await document.documentElement.requestFullscreen();
+        } catch (error) {
+          armPresentationResume();
+          if (fromUser) showToast("Modo presentacion activado");
+        }
+      }
+
+      if (!active && document.fullscreenElement) await document.exitFullscreen();
+      updatePresentModeLabel();
+    }
+
+    presentModeButton.addEventListener("click", () => setPresentationMode(!wantsPresentationMode(), true));
+
+    document.addEventListener("fullscreenchange", () => {
+      const navigating = sessionStorage.getItem(presentationNavigationKey) === "true";
+      if (!document.fullscreenElement && wantsPresentationMode() && document.body.classList.contains("presenting") && !navigating) {
+        localStorage.setItem(presentationModeKey, "false");
+        document.body.classList.remove("presenting");
+      }
+      updatePresentModeLabel();
+    });
+
+    if (wantsPresentationMode()) {
+      document.body.classList.add("presenting");
+      armPresentationResume();
+    }
+    updatePresentModeLabel();
+    window.setTimeout(() => sessionStorage.removeItem(presentationNavigationKey), 900);
+
+    const agendaModal = document.getElementById("agendaModal");
+    const closeAgendaModal = document.getElementById("closeAgendaModal");
+    const agendaModalEyebrow = document.getElementById("agendaModalEyebrow");
+    const agendaModalTitle = document.getElementById("agendaModalTitle");
+    const agendaModalCopy = document.getElementById("agendaModalCopy");
+    const agendaSummary = document.getElementById("agendaSummary");
+    const agendaCompletion = document.getElementById("agendaCompletion");
+    const agendaModules = document.getElementById("agendaModules");
+    let activeAgendaTrigger = null;
+    let lockedScrollY = 0;
+    const classCompletionKey = "conta2.classCompletion.v1";
+
+    const moduleAgendas = [
+      {
+            "eyebrow": "Unidad I",
+            "title": "Estados financieros básicos",
+            "copy": "Comprender y analizar los estados financieros como principal fuente para conocer la situación económica y financiera de la empresa.",
+            "summary": [
+                  [
+                        "Objetivo",
+                        "Comprender y analizar los estados financieros como principal fuente para conocer la situación económica y financiera de la empresa."
+                  ],
+                  [
+                        "Clases",
+                        "12 clases"
+                  ],
+                  [
+                        "Semanas",
+                        "1-3"
+                  ]
+            ],
+            "items": [
+                  {
+                        "key": "class-1",
+                        "classNumber": 1,
+                        "week": 1,
+                        "category": "Unidad I",
+                        "unit": "Unidad I: Estados financieros básicos",
+                        "title": "Clase 01 - Estados financieros básicos: balance de situación, estado de resultados integrado, Estado de c...",
+                        "copy": "- Estados financieros básicos: balance de situación, estado de resultados integrado, Estado de cambios en el patrimonio y estado de flujos de efectivo.",
+                        "activity": "Diagnóstico general, exposición dialogada y análisis de estructura de estados financieros.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-2",
+                        "classNumber": 2,
+                        "week": 1,
+                        "category": "Unidad I",
+                        "unit": "Unidad I: Estados financieros básicos",
+                        "title": "Clase 02 - Importancia y objetivos, para cada estado financiero.",
+                        "copy": "- Importancia y objetivos, para cada estado financiero.",
+                        "activity": "Diagnóstico general, exposición dialogada y análisis de estructura de estados financieros.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-3",
+                        "classNumber": 3,
+                        "week": 1,
+                        "category": "Unidad I",
+                        "unit": "Unidad I: Estados financieros básicos",
+                        "title": "Clase 03 - Elementos que conforman los estados financieros.",
+                        "copy": "- Elementos que conforman los estados financieros.",
+                        "activity": "Diagnóstico general, exposición dialogada y análisis de estructura de estados financieros.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-4",
+                        "classNumber": 4,
+                        "week": 1,
+                        "category": "Unidad I",
+                        "unit": "Unidad I: Estados financieros básicos",
+                        "title": "Clase 04 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Preparacion de estados financieros basicos desde una balanza ajustada",
+                        "activity": "La PYME Comercial Rivera presenta saldos al cierre: efectivo L 45,000; bancos L 120,000; cuentas por cobrar L 80,000; inventarios L 150,000; equipo L 200,000; depreciacion acumulada L 40,000; proveedores L 95,000; prestamo CP L 50,000; capital L 250,000; ventas L 300,000; costo de ventas L 180,000; gastos administrativos L 45,000; gastos de venta L 20,000.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-5",
+                        "classNumber": 5,
+                        "week": 2,
+                        "category": "Unidad I",
+                        "unit": "Unidad I: Estados financieros básicos",
+                        "title": "Clase 05 - Presentación de estados financieros en base a normas contables internacionales.",
+                        "copy": "- Presentación de estados financieros en base a normas contables internacionales. - Reconocimiento y medición.",
+                        "activity": "Estudio de casos sobre reconocimiento, medición y presentación.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-6",
+                        "classNumber": 6,
+                        "week": 2,
+                        "category": "Unidad I",
+                        "unit": "Unidad I: Estados financieros básicos",
+                        "title": "Clase 06 - Provisiones y contingencias.",
+                        "copy": "- Provisiones y contingencias.",
+                        "activity": "Estudio de casos sobre reconocimiento, medición y presentación.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-7",
+                        "classNumber": 7,
+                        "week": 2,
+                        "category": "Unidad I",
+                        "unit": "Unidad I: Estados financieros básicos",
+                        "title": "Clase 07 - Definiciones.",
+                        "copy": "- Definiciones.",
+                        "activity": "Estudio de casos sobre reconocimiento, medición y presentación.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-8",
+                        "classNumber": 8,
+                        "week": 2,
+                        "category": "Unidad I",
+                        "unit": "Unidad I: Estados financieros básicos",
+                        "title": "Clase 08 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Reconocimiento de provision y revelacion de contingencia",
+                        "activity": "La empresa enfrenta una demanda laboral. El abogado estima probabilidad alta de perder y desembolso de L 72,000. Tambien existe una multa ambiental posible, no probable, de L 40,000.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-9",
+                        "classNumber": 9,
+                        "week": 3,
+                        "category": "Unidad I",
+                        "unit": "Unidad I: Estados financieros básicos",
+                        "title": "Clase 09 - Tratamiento contable, presentación y revelación en los estados financieros.",
+                        "copy": "- Tratamiento contable, presentación y revelación en los estados financieros.",
+                        "activity": "Taller de identificación de políticas, estimaciones, errores y revelaciones.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-10",
+                        "classNumber": 10,
+                        "week": 3,
+                        "category": "Unidad I",
+                        "unit": "Unidad I: Estados financieros básicos",
+                        "title": "Clase 10 - Políticas contables, estimaciones y errores.",
+                        "copy": "- Políticas contables, estimaciones y errores.",
+                        "activity": "Taller de identificación de políticas, estimaciones, errores y revelaciones.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-11",
+                        "classNumber": 11,
+                        "week": 3,
+                        "category": "Unidad I",
+                        "unit": "Unidad I: Estados financieros básicos",
+                        "title": "Clase 11 - Políticas contables, estimaciones y errores.",
+                        "copy": "- Políticas contables, estimaciones y errores.",
+                        "activity": "Taller de identificación de políticas, estimaciones, errores y revelaciones.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-12",
+                        "classNumber": 12,
+                        "week": 3,
+                        "category": "Unidad I",
+                        "unit": "Unidad I: Estados financieros básicos",
+                        "title": "Clase 12 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Correccion de error y cambio de estimacion contable",
+                        "activity": "Al cierre se detecta que en el periodo anterior no se registro gasto de servicios por L 18,000. Ademas, la estimacion de incobrables del periodo actual cambia de 3% a 5% sobre cuentas por cobrar de L 140,000.",
+                        "evaluation": "Caso practico semanal"
+                  }
+            ]
+      },
+      {
+            "eyebrow": "Unidad II",
+            "title": "El efectivo y sus equivalentes",
+            "copy": "Monitorear el efectivo y equivalentes, garantizando exactitud y confiabilidad de registros.",
+            "summary": [
+                  [
+                        "Objetivo",
+                        "Monitorear el efectivo y equivalentes, garantizando exactitud y confiabilidad de registros."
+                  ],
+                  [
+                        "Clases",
+                        "16 clases"
+                  ],
+                  [
+                        "Semanas",
+                        "4-7"
+                  ]
+            ],
+            "items": [
+                  {
+                        "key": "class-13",
+                        "classNumber": 13,
+                        "week": 4,
+                        "category": "Unidad II",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Clase 13 - Definición del efectivo.",
+                        "copy": "- Definición del efectivo. - Caja chica. - Valuación.",
+                        "activity": "Mapa conceptual, clasificación de partidas y ejercicio de presentación del efectivo.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-14",
+                        "classNumber": 14,
+                        "week": 4,
+                        "category": "Unidad II",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Clase 14 - Clasificación.",
+                        "copy": "- Clasificación. - Bancos.",
+                        "activity": "Mapa conceptual, clasificación de partidas y ejercicio de presentación del efectivo.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-15",
+                        "classNumber": 15,
+                        "week": 4,
+                        "category": "Unidad II",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Clase 15 - Caja.",
+                        "copy": "- Caja. - Presentación en los estados financieros.",
+                        "activity": "Mapa conceptual, clasificación de partidas y ejercicio de presentación del efectivo.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-16",
+                        "classNumber": 16,
+                        "week": 4,
+                        "category": "Unidad II",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Clase 16 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Clasificacion de efectivo, equivalentes y presentacion",
+                        "activity": "La entidad posee caja L 8,000; bancos L 92,000; deposito a plazo de 60 dias L 50,000; deposito a plazo de 180 dias L 70,000; cheque posfechado recibido L 12,000; sobregiro bancario exigible L 18,000.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-17",
+                        "classNumber": 17,
+                        "week": 5,
+                        "category": "Unidad II",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Clase 17 - Control interno aplicado al manejo del efectivo en caja.",
+                        "copy": "- Control interno aplicado al manejo del efectivo en caja. - Objetivos de aplicación del control interno. - Arqueos de caja y caja chica.",
+                        "activity": "Práctica de arqueo, reposición de fondo fijo y análisis de faltantes/sobrantes.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-18",
+                        "classNumber": 18,
+                        "week": 5,
+                        "category": "Unidad II",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Clase 18 - Definición de control interno.",
+                        "copy": "- Definición de control interno. - Normas de control interno.",
+                        "activity": "Práctica de arqueo, reposición de fondo fijo y análisis de faltantes/sobrantes.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-19",
+                        "classNumber": 19,
+                        "week": 5,
+                        "category": "Unidad II",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Clase 19 - Norma de contabilidad aplicable.",
+                        "copy": "- Norma de contabilidad aplicable. - Procedimientos de control interno.",
+                        "activity": "Práctica de arqueo, reposición de fondo fijo y análisis de faltantes/sobrantes.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-20",
+                        "classNumber": 20,
+                        "week": 5,
+                        "category": "Unidad II",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Clase 20 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Arqueo y reposicion de caja chica con sobrante o faltante",
+                        "activity": "El fondo fijo autorizado es de L 10,000. En arqueo hay efectivo L 2,150 y comprobantes: papeleria L 2,800; transporte L 1,250; limpieza L 1,700; alimentacion autorizada L 2,000.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-21",
+                        "classNumber": 21,
+                        "week": 6,
+                        "category": "Unidad II",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Clase 21 - Aplicación de los aspectos legales.",
+                        "copy": "- Aplicación de los aspectos legales. - Bancos.",
+                        "activity": "Resolución de caso sobre corte documental y análisis de movimientos.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-22",
+                        "classNumber": 22,
+                        "week": 6,
+                        "category": "Unidad II",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Clase 22 - Estudio y análisis de movimientos.",
+                        "copy": "- Estudio y análisis de movimientos. - Definición.",
+                        "activity": "Resolución de caso sobre corte documental y análisis de movimientos.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-23",
+                        "classNumber": 23,
+                        "week": 6,
+                        "category": "Unidad II",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Clase 23 - Corte de ingresos y egresos.",
+                        "copy": "- Corte de ingresos y egresos.",
+                        "activity": "Resolución de caso sobre corte documental y análisis de movimientos.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-24",
+                        "classNumber": 24,
+                        "week": 6,
+                        "category": "Unidad II",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Clase 24 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Corte de ingresos y egresos de efectivo",
+                        "activity": "El 31 de agosto se recibieron ventas al contado por L 36,000, pero L 8,000 fueron depositados el 1 de septiembre. Tambien se emitio cheque de proveedores por L 14,500 el 31 de agosto, entregado el 2 de septiembre.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-25",
+                        "classNumber": 25,
+                        "week": 7,
+                        "category": "Unidad II",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Clase 25 - Control interno aplicado a las cuentas de bancos.",
+                        "copy": "- Control interno aplicado a las cuentas de bancos. - Objetivos de aplicación de control interno. - Conciliación bancaria. - Confirmación bancaria.",
+                        "activity": "Laboratorio de conciliación bancaria, confirmación y ajustes contables.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-26",
+                        "classNumber": 26,
+                        "week": 7,
+                        "category": "Unidad II",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Clase 26 - Definición de control interno.",
+                        "copy": "- Definición de control interno. - Normas de control interno. - Estudio y análisis de movimientos. - Aplicación de los aspectos legales.",
+                        "activity": "Laboratorio de conciliación bancaria, confirmación y ajustes contables.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-27",
+                        "classNumber": 27,
+                        "week": 7,
+                        "category": "Unidad II",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Clase 27 - Norma de contabilidad aplicable.",
+                        "copy": "- Norma de contabilidad aplicable. - Procedimientos de control interno. - Corte de ingresos y egresos.",
+                        "activity": "Laboratorio de conciliación bancaria, confirmación y ajustes contables.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-28",
+                        "classNumber": 28,
+                        "week": 7,
+                        "category": "Unidad II",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Clase 28 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Conciliacion bancaria y ajustes contables",
+                        "activity": "Saldo segun bancos L 84,200; saldo segun libros L 78,600. Cheques pendientes L 12,500; depositos en transito L 9,800; nota de credito bancaria por intereses L 1,200; cargo bancario L 300; cheque de cliente devuelto L 2,600.",
+                        "evaluation": "Caso practico semanal"
+                  }
+            ]
+      },
+      {
+            "eyebrow": "Unidad III",
+            "title": "Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+            "copy": "Aplicar reglas de medición, reconocimiento y presentación de inversiones temporales.",
+            "summary": [
+                  [
+                        "Objetivo",
+                        "Aplicar reglas de medición, reconocimiento y presentación de inversiones temporales."
+                  ],
+                  [
+                        "Clases",
+                        "24 clases"
+                  ],
+                  [
+                        "Semanas",
+                        "8-13"
+                  ]
+            ],
+            "items": [
+                  {
+                        "key": "class-29",
+                        "classNumber": 29,
+                        "week": 8,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 29 - Inversiones temporales.",
+                        "copy": "- Inversiones temporales. - Valuación y registro. - Normativa de contabilidad aplicable.",
+                        "activity": "Caso de inversión temporal, clasificación, registro y rendimiento.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-30",
+                        "classNumber": 30,
+                        "week": 8,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 30 - Definición.",
+                        "copy": "- Definición. - Control interno aplicado a la administración de las inversiones temporales. - Objetivos de aplicación del control interno.",
+                        "activity": "Caso de inversión temporal, clasificación, registro y rendimiento.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-31",
+                        "classNumber": 31,
+                        "week": 8,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 31 - Clasificación.",
+                        "copy": "- Clasificación. - definición de control Interno.",
+                        "activity": "Caso de inversión temporal, clasificación, registro y rendimiento.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-32",
+                        "classNumber": 32,
+                        "week": 8,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 32 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Reconocimiento inicial de inversion temporal",
+                        "activity": "La empresa compra un certificado de deposito a 90 dias por L 100,000 con rendimiento pactado de 9% anual. La comision bancaria por adquisicion asciende a L 500.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-33",
+                        "classNumber": 33,
+                        "week": 9,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 33 - Normas de control interno.",
+                        "copy": "- Normas de control interno. - Arqueos de los títulos valores. - Cálculo de rendimientos.",
+                        "activity": "Taller de control documental, arqueo de títulos y cálculo de rendimientos.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-34",
+                        "classNumber": 34,
+                        "week": 9,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 34 - Procedimientos de control interno.",
+                        "copy": "- Procedimientos de control interno. - Confirmación. - Aplicación de los aspectos legales.",
+                        "activity": "Taller de control documental, arqueo de títulos y cálculo de rendimientos.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-35",
+                        "classNumber": 35,
+                        "week": 9,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 35 - Manejo físico de títulos valores.",
+                        "copy": "- Manejo físico de títulos valores. - Análisis de movimientos.",
+                        "activity": "Taller de control documental, arqueo de títulos y cálculo de rendimientos.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-36",
+                        "classNumber": 36,
+                        "week": 9,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 36 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Venta de titulo valor e identificacion de ganancia",
+                        "activity": "Se adquirieron bonos por L 60,000 mas comision de L 600. Antes del vencimiento se venden por L 62,400, pagando comision de venta de L 300.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-37",
+                        "classNumber": 37,
+                        "week": 10,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 37 - Cuentas y documentos por cobrar.",
+                        "copy": "- Cuentas y documentos por cobrar. - Valuación y registro. - Norma de contabilidad aplicable.",
+                        "activity": "Registro de venta al crédito, documentos por cobrar y control auxiliar.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-38",
+                        "classNumber": 38,
+                        "week": 10,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 38 - Definiciones.",
+                        "copy": "- Definiciones. - Control interno aplicado a la administración de las cuentas y documentos por cobrar. - Objetivos de aplicación del control interno.",
+                        "activity": "Registro de venta al crédito, documentos por cobrar y control auxiliar.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-39",
+                        "classNumber": 39,
+                        "week": 10,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 39 - Clasificación.",
+                        "copy": "- Clasificación. - Definición de control interno.",
+                        "activity": "Registro de venta al crédito, documentos por cobrar y control auxiliar.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-40",
+                        "classNumber": 40,
+                        "week": 10,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 40 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Venta al credito, documento por cobrar e interes implicito",
+                        "activity": "Se vende mercaderia al credito documentada por L 48,000 a 6 meses, con interes del 12% anual cobrado al vencimiento. El costo de la mercaderia vendida es L 29,000.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-41",
+                        "classNumber": 41,
+                        "week": 11,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 41 - Normas de control interno.",
+                        "copy": "- Normas de control interno. - Arqueos de los títulos valores. - Análisis de saldos.",
+                        "activity": "Análisis de saldos, confirmación de cartera y revisión de cobros posteriores.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-42",
+                        "classNumber": 42,
+                        "week": 11,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 42 - Procedimientos.",
+                        "copy": "- Procedimientos. - Confirmación de saldos. - Conexión con otras cuentas.",
+                        "activity": "Análisis de saldos, confirmación de cartera y revisión de cobros posteriores.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-43",
+                        "classNumber": 43,
+                        "week": 11,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 43 - Manejo físico de las cuentas y documentos por cobrar.",
+                        "copy": "- Manejo físico de las cuentas y documentos por cobrar. - Cobros posteriores.",
+                        "activity": "Análisis de saldos, confirmación de cartera y revisión de cobros posteriores.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-44",
+                        "classNumber": 44,
+                        "week": 11,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 44 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Confirmacion de saldos y ajuste por diferencia",
+                        "activity": "La cuenta Cliente Alfa muestra saldo contable de L 35,000. La confirmacion directa del cliente indica L 32,500 porque una devolucion autorizada por L 2,500 no fue registrada.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-45",
+                        "classNumber": 45,
+                        "week": 12,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 45 - Estudio y análisis de recuperabilidad.",
+                        "copy": "- Estudio y análisis de recuperabilidad. - Métodos de estimación para la provisión de cuentas incobrables.",
+                        "activity": "Caso de antigüedad de saldos, estimación de incobrables y descuento de documentos.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-46",
+                        "classNumber": 46,
+                        "week": 12,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 46 - Aplicación de los aspectos legales y tributarios.",
+                        "copy": "- Aplicación de los aspectos legales y tributarios. - Liquidación de cuentas incobrables.",
+                        "activity": "Caso de antigüedad de saldos, estimación de incobrables y descuento de documentos.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-47",
+                        "classNumber": 47,
+                        "week": 12,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 47 - Recuperación.",
+                        "copy": "- Recuperación. - Documentación por cobrar descontados.",
+                        "activity": "Caso de antigüedad de saldos, estimación de incobrables y descuento de documentos.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-48",
+                        "classNumber": 48,
+                        "week": 12,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 48 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Deterioro de cuentas por cobrar y recuperacion parcial",
+                        "activity": "Cuentas por cobrar al cierre L 180,000. Analisis de recuperabilidad: 60% sin riesgo, 30% con perdida esperada de 8%, 10% con perdida esperada de 45%. La estimacion existente es L 5,000.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-49",
+                        "classNumber": 49,
+                        "week": 13,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 49 - Crédito Fiscal-IVA.",
+                        "copy": "- Crédito Fiscal-IVA. - Control interno aplicado a la administración del crédito fiscal - IVA. - Objetivos de aplicación del control interno. - Aplicación de los aspectos legales ...",
+                        "activity": "Registro de compras con crédito fiscal IVA y revisión documental tributaria.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-50",
+                        "classNumber": 50,
+                        "week": 13,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 50 - Definición.",
+                        "copy": "- Definición. - Definición de control interno. - Normas de control interno.",
+                        "activity": "Registro de compras con crédito fiscal IVA y revisión documental tributaria.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-51",
+                        "classNumber": 51,
+                        "week": 13,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 51 - Registro.",
+                        "copy": "- Registro. - Norma de contabilidad aplicable. - Procedimientos de control interno.",
+                        "activity": "Registro de compras con crédito fiscal IVA y revisión documental tributaria.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-52",
+                        "classNumber": 52,
+                        "week": 13,
+                        "category": "Unidad III",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Clase 52 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Registro de credito fiscal IVA en compra de inventario",
+                        "activity": "Se compra mercaderia gravada por L 80,000 mas IVA 15%, al credito. El 70% se destinara a ventas gravadas y el 30% a operaciones exentas.",
+                        "evaluation": "Caso practico semanal"
+                  }
+            ]
+      },
+      {
+            "eyebrow": "Unidad IV",
+            "title": "Inventario y gastos pagados por anticipado",
+            "copy": "Registrar el tratamiento contable de inventarios, registro, valuación y control.",
+            "summary": [
+                  [
+                        "Objetivo",
+                        "Registrar el tratamiento contable de inventarios, registro, valuación y control."
+                  ],
+                  [
+                        "Clases",
+                        "24 clases"
+                  ],
+                  [
+                        "Semanas",
+                        "14-19"
+                  ]
+            ],
+            "items": [
+                  {
+                        "key": "class-53",
+                        "classNumber": 53,
+                        "week": 14,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 53 - Inventarios.",
+                        "copy": "- Inventarios. - Métodos de registro y valuación. - Norma de contabilidad aplicable.",
+                        "activity": "Caso de compra de inventario, costo unitario y control interno.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-54",
+                        "classNumber": 54,
+                        "week": 14,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 54 - Definición.",
+                        "copy": "- Definición. - Control interno aplicado a la administración de los inventarios. - Objetivos de aplicación del control interno.",
+                        "activity": "Caso de compra de inventario, costo unitario y control interno.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-55",
+                        "classNumber": 55,
+                        "week": 14,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 55 - Clasificación.",
+                        "copy": "- Clasificación. - Definición de control interno.",
+                        "activity": "Caso de compra de inventario, costo unitario y control interno.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-56",
+                        "classNumber": 56,
+                        "week": 14,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 56 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Costo de adquisicion de inventarios",
+                        "activity": "Se adquieren 500 unidades a L 120 cada una. Flete de compra L 3,000; seguro de traslado L 1,200; descuento comercial L 2,500; gasto de venta posterior estimado L 1,000.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-57",
+                        "classNumber": 57,
+                        "week": 15,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 57 - Normas de control interno.",
+                        "copy": "- Normas de control interno. - Inspección de la toma física de inventarios.",
+                        "activity": "Guía de observación de toma física y análisis de inventarios obsoletos.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-58",
+                        "classNumber": 58,
+                        "week": 15,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 58 - Procedimientos de control interno.",
+                        "copy": "- Procedimientos de control interno. - Confirmación de inventarios en poder de terceros.",
+                        "activity": "Guía de observación de toma física y análisis de inventarios obsoletos.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-59",
+                        "classNumber": 59,
+                        "week": 15,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 59 - La obsolescencia.",
+                        "copy": "- La obsolescencia.",
+                        "activity": "Guía de observación de toma física y análisis de inventarios obsoletos.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-60",
+                        "classNumber": 60,
+                        "week": 15,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 60 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Toma fisica, faltante y obsolescencia",
+                        "activity": "El sistema muestra 1,200 unidades a L 45. La toma fisica encuentra 1,160 unidades. Ademas, 100 unidades estan obsoletas y solo podran venderse a L 30 con costo de venta de L 2 por unidad.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-61",
+                        "classNumber": 61,
+                        "week": 16,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 61 - Estudio y análisis de la valuación.",
+                        "copy": "- Estudio y análisis de la valuación. - Comparación costos versus precio de venta.",
+                        "activity": "Ejercicio de valor neto realizable, deterioro y análisis de lenta rotación.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-62",
+                        "classNumber": 62,
+                        "week": 16,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 62 - Verificación de precios de compra.",
+                        "copy": "- Verificación de precios de compra. - Estudio de los inventarios de lento movimiento.",
+                        "activity": "Ejercicio de valor neto realizable, deterioro y análisis de lenta rotación.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-63",
+                        "classNumber": 63,
+                        "week": 16,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 63 - Examen del sistema de costos.",
+                        "copy": "- Examen del sistema de costos. - Aplicación de los aspectos legales y tributarios.",
+                        "activity": "Ejercicio de valor neto realizable, deterioro y análisis de lenta rotación.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-64",
+                        "classNumber": 64,
+                        "week": 16,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 64 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Valor neto realizable por linea de inventario",
+                        "activity": "Producto A: costo L 35,000, precio estimado de venta L 38,000, costos de terminacion y venta L 4,500. Producto B: costo L 22,000, precio estimado L 25,000, costos de venta L 1,200.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-65",
+                        "classNumber": 65,
+                        "week": 17,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 65 - Mercaderías en consignación.",
+                        "copy": "- Mercaderías en consignación.",
+                        "activity": "Discusión de casos FOB, consignación y transferencia de riesgos.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-66",
+                        "classNumber": 66,
+                        "week": 17,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 66 - Mercaderías en tránsito.",
+                        "copy": "- Mercaderías en tránsito.",
+                        "activity": "Discusión de casos FOB, consignación y transferencia de riesgos.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-67",
+                        "classNumber": 67,
+                        "week": 17,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 67 - Mercaderías en tránsito.",
+                        "copy": "- Mercaderías en tránsito.",
+                        "activity": "Discusión de casos FOB, consignación y transferencia de riesgos.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-68",
+                        "classNumber": 68,
+                        "week": 17,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 68 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Mercaderias en transito y consignacion",
+                        "activity": "Al cierre hay compra FOB punto de embarque por L 40,000 ya despachada y no recibida, con flete L 2,000. Tambien hay mercaderia recibida en consignacion por L 25,000 perteneciente a un tercero.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-69",
+                        "classNumber": 69,
+                        "week": 18,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 69 - Gastos pagados por anticipado.",
+                        "copy": "- Gastos pagados por anticipado. - Valuación y registro.",
+                        "activity": "Ejercicio de seguro o alquiler pagado por anticipado y amortización mensual.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-70",
+                        "classNumber": 70,
+                        "week": 18,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 70 - Definición",
+                        "copy": "- Definición - Amortización",
+                        "activity": "Ejercicio de seguro o alquiler pagado por anticipado y amortización mensual.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-71",
+                        "classNumber": 71,
+                        "week": 18,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 71 - Clasificación.",
+                        "copy": "- Clasificación.",
+                        "activity": "Ejercicio de seguro o alquiler pagado por anticipado y amortización mensual.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-72",
+                        "classNumber": 72,
+                        "week": 18,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 72 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Gasto pagado por anticipado y amortizacion mensual",
+                        "activity": "El 1 de octubre se paga seguro anual por L 24,000. Al 31 de diciembre se preparan estados financieros.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-73",
+                        "classNumber": 73,
+                        "week": 19,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 73 - Control interno aplicado a la administración de los gastos pagados por anticipado.",
+                        "copy": "- Control interno aplicado a la administración de los gastos pagados por anticipado. - Objetivos de aplicación del control interno. - Aplicación de los aspectos legales y tributar...",
+                        "activity": "Taller de expediente, control auxiliar y ajuste de gastos anticipados.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-74",
+                        "classNumber": 74,
+                        "week": 19,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 74 - Definición de control interno.",
+                        "copy": "- Definición de control interno. - Norma de control interno.",
+                        "activity": "Taller de expediente, control auxiliar y ajuste de gastos anticipados.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-75",
+                        "classNumber": 75,
+                        "week": 19,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 75 - Norma de contabilidad aplicable.",
+                        "copy": "- Norma de contabilidad aplicable. - Procedimientos de control interno.",
+                        "activity": "Taller de expediente, control auxiliar y ajuste de gastos anticipados.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-76",
+                        "classNumber": 76,
+                        "week": 19,
+                        "category": "Unidad IV",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Clase 76 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Control interno y reclasificacion de anticipos vencidos",
+                        "activity": "La empresa muestra anticipos a proveedores por L 30,000. Al revisar soporte: L 18,000 corresponden a mercaderia recibida, L 7,000 siguen vigentes y L 5,000 no tienen evidencia ni confirmacion.",
+                        "evaluation": "Caso practico semanal"
+                  }
+            ]
+      },
+      {
+            "eyebrow": "Cierre",
+            "title": "Integración de contenidos del programa",
+            "copy": "Integrar los contenidos vistos en la valuación, registro, control, ajustes y presentación de cuentas del activo.",
+            "summary": [
+                  [
+                        "Objetivo",
+                        "Integrar los contenidos vistos en la valuación, registro, control, ajustes y presentación de cuentas del activo."
+                  ],
+                  [
+                        "Clases",
+                        "4 clases"
+                  ],
+                  [
+                        "Semanas",
+                        "20-20"
+                  ]
+            ],
+            "items": [
+                  {
+                        "key": "class-77",
+                        "classNumber": 77,
+                        "week": 20,
+                        "category": "Cierre",
+                        "unit": "Integración de contenidos del programa",
+                        "title": "Clase 77 - Integración de efectivo y equivalentes.",
+                        "copy": "- Integración de efectivo y equivalentes. - Ajustes y cierre de cuentas del activo.",
+                        "activity": "Proyecto final integrador de cuentas de activo y sustentación.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-78",
+                        "classNumber": 78,
+                        "week": 20,
+                        "category": "Cierre",
+                        "unit": "Integración de contenidos del programa",
+                        "title": "Clase 78 - Integración de inversiones temporales, cuentas y documentos por cobrar y crédito fiscal IVA.",
+                        "copy": "- Integración de inversiones temporales, cuentas y documentos por cobrar y crédito fiscal IVA. - Presentación en estados financieros conforme a normativa aplicable.",
+                        "activity": "Proyecto final integrador de cuentas de activo y sustentación.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-79",
+                        "classNumber": 79,
+                        "week": 20,
+                        "category": "Cierre",
+                        "unit": "Integración de contenidos del programa",
+                        "title": "Clase 79 - Integración de inventarios y gastos pagados por anticipado.",
+                        "copy": "- Integración de inventarios y gastos pagados por anticipado.",
+                        "activity": "Proyecto final integrador de cuentas de activo y sustentación.",
+                        "evaluation": "Formativa"
+                  },
+                  {
+                        "key": "class-80",
+                        "classNumber": 80,
+                        "week": 20,
+                        "category": "Cierre",
+                        "unit": "Integración de contenidos del programa",
+                        "title": "Clase 80 - Caso práctico semanal: integración y evaluación de lo aprendido.",
+                        "copy": "Caso integrador de activos corrientes bajo NIIF para PYMES",
+                        "activity": "Al cierre: efectivo segun libros L 65,000; conciliacion requiere registrar cargo bancario L 400 e intereses L 900. Cuentas por cobrar L 120,000 con deterioro requerido L 6,000 y estimacion existente L 2,500. Inventarios costo L 95,000 y VNR L 91,000. Seguro anticipado L 12,000, consumido L 3,000.",
+                        "evaluation": "Caso practico semanal"
+                  }
+            ]
+      },
+      {
+            "eyebrow": "Evaluacion semanal",
+            "title": "Casos practicos NIIF",
+            "copy": "Cada semana cierra con una clase integradora evaluativa basada en un enunciado practico y su desarrollo numerico.",
+            "summary": [
+                  [
+                        "Casos",
+                        "20 casos NIIF"
+                  ],
+                  [
+                        "Ritmo",
+                        "1 caso por semana"
+                  ],
+                  [
+                        "Enfoque",
+                        "Aprendizaje semanal"
+                  ]
+            ],
+            "items": [
+                  {
+                        "key": "class-4",
+                        "classNumber": 4,
+                        "week": 1,
+                        "category": "Caso semanal",
+                        "unit": "Unidad I: Estados financieros básicos",
+                        "title": "Semana 1 - Preparacion de estados financieros basicos desde una balanza ajustada",
+                        "copy": "Evaluar clasificacion de elementos, utilidad del periodo, estructura del estado de resultados y balance de situacion conforme a presentacion de estados financieros.",
+                        "activity": "La PYME Comercial Rivera presenta saldos al cierre: efectivo L 45,000; bancos L 120,000; cuentas por cobrar L 80,000; inventarios L 150,000; equipo L 200,000; depreciacion acumulada L 40,000; proveedores L 95,000; prestamo CP L 50,000; capital L 250,000; ventas L 300,000; costo de ventas L 180,000; gastos administrativos L 45,000; gastos de venta L 20,000.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-8",
+                        "classNumber": 8,
+                        "week": 2,
+                        "category": "Caso semanal",
+                        "unit": "Unidad I: Estados financieros básicos",
+                        "title": "Semana 2 - Reconocimiento de provision y revelacion de contingencia",
+                        "copy": "Distinguir provision reconocida de contingencia revelada y medir el importe por mejor estimacion.",
+                        "activity": "La empresa enfrenta una demanda laboral. El abogado estima probabilidad alta de perder y desembolso de L 72,000. Tambien existe una multa ambiental posible, no probable, de L 40,000.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-12",
+                        "classNumber": 12,
+                        "week": 3,
+                        "category": "Caso semanal",
+                        "unit": "Unidad I: Estados financieros básicos",
+                        "title": "Semana 3 - Correccion de error y cambio de estimacion contable",
+                        "copy": "Separar error de periodo anterior y estimacion corriente, aplicando el tratamiento contable adecuado.",
+                        "activity": "Al cierre se detecta que en el periodo anterior no se registro gasto de servicios por L 18,000. Ademas, la estimacion de incobrables del periodo actual cambia de 3% a 5% sobre cuentas por cobrar de L 140,000.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-16",
+                        "classNumber": 16,
+                        "week": 4,
+                        "category": "Caso semanal",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Semana 4 - Clasificacion de efectivo, equivalentes y presentacion",
+                        "copy": "Clasificar efectivo y equivalentes, separar partidas no equivalentes y presentar sobregiros segun su naturaleza.",
+                        "activity": "La entidad posee caja L 8,000; bancos L 92,000; deposito a plazo de 60 dias L 50,000; deposito a plazo de 180 dias L 70,000; cheque posfechado recibido L 12,000; sobregiro bancario exigible L 18,000.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-20",
+                        "classNumber": 20,
+                        "week": 5,
+                        "category": "Caso semanal",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Semana 5 - Arqueo y reposicion de caja chica con sobrante o faltante",
+                        "copy": "Verificar control interno de caja chica, calcular faltante o sobrante y registrar reposicion.",
+                        "activity": "El fondo fijo autorizado es de L 10,000. En arqueo hay efectivo L 2,150 y comprobantes: papeleria L 2,800; transporte L 1,250; limpieza L 1,700; alimentacion autorizada L 2,000.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-24",
+                        "classNumber": 24,
+                        "week": 6,
+                        "category": "Caso semanal",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Semana 6 - Corte de ingresos y egresos de efectivo",
+                        "copy": "Aplicar corte contable para reconocer ingresos y egresos en el periodo correcto.",
+                        "activity": "El 31 de agosto se recibieron ventas al contado por L 36,000, pero L 8,000 fueron depositados el 1 de septiembre. Tambien se emitio cheque de proveedores por L 14,500 el 31 de agosto, entregado el 2 de septiembre.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-28",
+                        "classNumber": 28,
+                        "week": 7,
+                        "category": "Caso semanal",
+                        "unit": "Unidad II: El efectivo y sus equivalentes",
+                        "title": "Semana 7 - Conciliacion bancaria y ajustes contables",
+                        "copy": "Preparar conciliacion bancaria y registrar solo ajustes que corresponden a libros.",
+                        "activity": "Saldo segun bancos L 84,200; saldo segun libros L 78,600. Cheques pendientes L 12,500; depositos en transito L 9,800; nota de credito bancaria por intereses L 1,200; cargo bancario L 300; cheque de cliente devuelto L 2,600.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-32",
+                        "classNumber": 32,
+                        "week": 8,
+                        "category": "Caso semanal",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Semana 8 - Reconocimiento inicial de inversion temporal",
+                        "copy": "Registrar inversion temporal a costo amortizado y calcular interes devengado mensual.",
+                        "activity": "La empresa compra un certificado de deposito a 90 dias por L 100,000 con rendimiento pactado de 9% anual. La comision bancaria por adquisicion asciende a L 500.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-36",
+                        "classNumber": 36,
+                        "week": 9,
+                        "category": "Caso semanal",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Semana 9 - Venta de titulo valor e identificacion de ganancia",
+                        "copy": "Determinar valor en libros, efectivo neto recibido y resultado de la venta.",
+                        "activity": "Se adquirieron bonos por L 60,000 mas comision de L 600. Antes del vencimiento se venden por L 62,400, pagando comision de venta de L 300.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-40",
+                        "classNumber": 40,
+                        "week": 10,
+                        "category": "Caso semanal",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Semana 10 - Venta al credito, documento por cobrar e interes implicito",
+                        "copy": "Registrar cuenta/documento por cobrar, venta, costo e interes devengado.",
+                        "activity": "Se vende mercaderia al credito documentada por L 48,000 a 6 meses, con interes del 12% anual cobrado al vencimiento. El costo de la mercaderia vendida es L 29,000.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-44",
+                        "classNumber": 44,
+                        "week": 11,
+                        "category": "Caso semanal",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Semana 11 - Confirmacion de saldos y ajuste por diferencia",
+                        "copy": "Evaluar control interno de cuentas por cobrar y ajustar saldos confirmados.",
+                        "activity": "La cuenta Cliente Alfa muestra saldo contable de L 35,000. La confirmacion directa del cliente indica L 32,500 porque una devolucion autorizada por L 2,500 no fue registrada.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-48",
+                        "classNumber": 48,
+                        "week": 12,
+                        "category": "Caso semanal",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Semana 12 - Deterioro de cuentas por cobrar y recuperacion parcial",
+                        "copy": "Calcular deterioro requerido, ajuste adicional y efecto sobre resultados.",
+                        "activity": "Cuentas por cobrar al cierre L 180,000. Analisis de recuperabilidad: 60% sin riesgo, 30% con perdida esperada de 8%, 10% con perdida esperada de 45%. La estimacion existente es L 5,000.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-52",
+                        "classNumber": 52,
+                        "week": 13,
+                        "category": "Caso semanal",
+                        "unit": "Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA",
+                        "title": "Semana 13 - Registro de credito fiscal IVA en compra de inventario",
+                        "copy": "Separar costo de inventario, credito fiscal recuperable y porcion no recuperable segun enfoque contable y tributario.",
+                        "activity": "Se compra mercaderia gravada por L 80,000 mas IVA 15%, al credito. El 70% se destinara a ventas gravadas y el 30% a operaciones exentas.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-56",
+                        "classNumber": 56,
+                        "week": 14,
+                        "category": "Caso semanal",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Semana 14 - Costo de adquisicion de inventarios",
+                        "copy": "Determinar costo inicial del inventario conforme a componentes permitidos.",
+                        "activity": "Se adquieren 500 unidades a L 120 cada una. Flete de compra L 3,000; seguro de traslado L 1,200; descuento comercial L 2,500; gasto de venta posterior estimado L 1,000.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-60",
+                        "classNumber": 60,
+                        "week": 15,
+                        "category": "Caso semanal",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Semana 15 - Toma fisica, faltante y obsolescencia",
+                        "copy": "Registrar faltante de inventario y deterioro por obsolescencia.",
+                        "activity": "El sistema muestra 1,200 unidades a L 45. La toma fisica encuentra 1,160 unidades. Ademas, 100 unidades estan obsoletas y solo podran venderse a L 30 con costo de venta de L 2 por unidad.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-64",
+                        "classNumber": 64,
+                        "week": 16,
+                        "category": "Caso semanal",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Semana 16 - Valor neto realizable por linea de inventario",
+                        "copy": "Comparar costo contra valor neto realizable y reconocer ajuste requerido.",
+                        "activity": "Producto A: costo L 35,000, precio estimado de venta L 38,000, costos de terminacion y venta L 4,500. Producto B: costo L 22,000, precio estimado L 25,000, costos de venta L 1,200.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-68",
+                        "classNumber": 68,
+                        "week": 17,
+                        "category": "Caso semanal",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Semana 17 - Mercaderias en transito y consignacion",
+                        "copy": "Determinar que inventarios reconoce la PYME y que partidas solo controla o revela.",
+                        "activity": "Al cierre hay compra FOB punto de embarque por L 40,000 ya despachada y no recibida, con flete L 2,000. Tambien hay mercaderia recibida en consignacion por L 25,000 perteneciente a un tercero.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-72",
+                        "classNumber": 72,
+                        "week": 18,
+                        "category": "Caso semanal",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Semana 18 - Gasto pagado por anticipado y amortizacion mensual",
+                        "copy": "Reconocer activo por beneficio futuro y registrar amortizacion del periodo consumido.",
+                        "activity": "El 1 de octubre se paga seguro anual por L 24,000. Al 31 de diciembre se preparan estados financieros.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-76",
+                        "classNumber": 76,
+                        "week": 19,
+                        "category": "Caso semanal",
+                        "unit": "Unidad IV: Inventario y gastos pagados por anticipado",
+                        "title": "Semana 19 - Control interno y reclasificacion de anticipos vencidos",
+                        "copy": "Evaluar existencia, recuperabilidad y clasificacion correcta de gastos/anticipos.",
+                        "activity": "La empresa muestra anticipos a proveedores por L 30,000. Al revisar soporte: L 18,000 corresponden a mercaderia recibida, L 7,000 siguen vigentes y L 5,000 no tienen evidencia ni confirmacion.",
+                        "evaluation": "Caso practico semanal"
+                  },
+                  {
+                        "key": "class-80",
+                        "classNumber": 80,
+                        "week": 20,
+                        "category": "Caso semanal",
+                        "unit": "Integración de contenidos del programa",
+                        "title": "Semana 20 - Caso integrador de activos corrientes bajo NIIF para PYMES",
+                        "copy": "Integrar efectivo, instrumentos financieros, inventarios y anticipos con ajustes de cierre.",
+                        "activity": "Al cierre: efectivo segun libros L 65,000; conciliacion requiere registrar cargo bancario L 400 e intereses L 900. Cuentas por cobrar L 120,000 con deterioro requerido L 6,000 y estimacion existente L 2,500. Inventarios costo L 95,000 y VNR L 91,000. Seguro anticipado L 12,000, consumido L 3,000.",
+                        "evaluation": "Caso practico semanal"
+                  }
+            ]
+      }
+];
+
+    function readClassCompletion() {
+      try {
+        return JSON.parse(localStorage.getItem(classCompletionKey) || "{}");
+      } catch (error) {
+        return {};
+      }
+    }
+
+    function writeClassCompletion(state) {
+      localStorage.setItem(classCompletionKey, JSON.stringify(state));
+    }
+
+    function isClassComplete(key) {
+      return Boolean(readClassCompletion()[key]);
+    }
+
+    function setClassComplete(key, value) {
+      const state = readClassCompletion();
+      if (value) state[key] = true;
+      else delete state[key];
+      writeClassCompletion(state);
+    }
+
+    function updateAgendaCompletion(agenda) {
+      const completed = agenda.items.filter((item) => isClassComplete(item.key)).length;
+      const total = agenda.items.length;
+      const isComplete = total > 0 && completed === total;
+      agendaCompletion.classList.toggle("complete", isComplete);
+      agendaCompletion.innerHTML = `
+        <strong>${completed}/${total}</strong>
+        <span>${isComplete ? "Seccion completada" : "Clases vistas marcadas"}</span>
+      `;
+    }
+
+    function lockPageScroll() {
+      lockedScrollY = window.scrollY;
+      document.body.style.top = `-${lockedScrollY}px`;
+      document.body.classList.add("modal-open");
+    }
+
+    function unlockPageScroll() {
+      document.body.classList.remove("modal-open");
+      document.body.style.top = "";
+      window.scrollTo(0, lockedScrollY);
+    }
+
+    function renderAgenda(index) {
+      const agenda = moduleAgendas[index] || moduleAgendas[0];
+      agendaModalEyebrow.textContent = agenda.eyebrow;
+      agendaModalTitle.textContent = agenda.title;
+      agendaModalCopy.textContent = agenda.copy;
+      agendaSummary.innerHTML = agenda.summary.map(([value, label]) => `
+        <div><strong>${value}</strong><span>${label}</span></div>
+      `).join("");
+      updateAgendaCompletion(agenda);
+      agendaModules.innerHTML = agenda.items.map((item, itemIndex) => {
+        const checked = isClassComplete(item.key);
+        return `
+        <article class="agenda-module${checked ? " complete" : ""}" style="--agenda-delay: ${40 + itemIndex * 55}ms">
+          <div class="agenda-stage">
+            <span class="agenda-stage-num">${String(item.classNumber).padStart(2, "0")}</span>
+            <div>
+              <div class="agenda-meta">
+                <span>Semana ${item.week}</span>
+                <span>${item.category}</span>
+              </div>
+              <h4>${item.title}</h4>
+              <p>${item.copy}</p>
+              <p>${item.activity}</p>
+              <label class="agenda-check">
+                <input type="checkbox" data-agenda-check="${item.key}" ${checked ? "checked" : ""}>
+                <span>Clase vista</span>
+              </label>
+            </div>
+          </div>
+        </article>
+      `;
+      }).join("");
+      agendaModules.querySelectorAll("[data-agenda-check]").forEach((input) => {
+        input.addEventListener("change", () => {
+          setClassComplete(input.dataset.agendaCheck, input.checked);
+          input.closest(".agenda-module")?.classList.toggle("complete", input.checked);
+          updateAgendaCompletion(agenda);
+          renderClassPlan(document.querySelector("[data-plan-filter].active")?.dataset.planFilter || "Todos");
+        });
+      });
+    }
+
+    function showAgendaModal(index, trigger) {
+      activeAgendaTrigger = trigger || null;
+      renderAgenda(index);
+      agendaModal.classList.add("open");
+      lockPageScroll();
+      agendaModal.setAttribute("aria-hidden", "false");
+      closeAgendaModal.focus();
+    }
+
+    function hideAgendaModal() {
+      agendaModal.classList.remove("open");
+      agendaModal.setAttribute("aria-hidden", "true");
+      if (!programVideoModal.classList.contains("open")) unlockPageScroll();
+      activeAgendaTrigger?.focus();
+    }
+
+    document.querySelectorAll("[data-open-agenda]").forEach((button) => {
+      button.addEventListener("click", () => showAgendaModal(Number(button.dataset.openAgenda), button));
+    });
+
+    closeAgendaModal.addEventListener("click", hideAgendaModal);
+    agendaModal.addEventListener("click", (event) => {
+      if (event.target === agendaModal) hideAgendaModal();
+    });
+
+    const programVideoModal = document.getElementById("programVideoModal");
+    const openProgramVideo = document.getElementById("openProgramVideo");
+    const closeProgramVideo = document.getElementById("closeProgramVideo");
+
+    function openVideoModal() {
+      programVideoModal.classList.add("open");
+      lockPageScroll();
+      programVideoModal.setAttribute("aria-hidden", "false");
+      closeProgramVideo.focus();
+    }
+
+    function closeVideoModal() {
+      programVideoModal.classList.remove("open");
+      programVideoModal.setAttribute("aria-hidden", "true");
+      if (!agendaModal.classList.contains("open")) unlockPageScroll();
+      openProgramVideo.focus();
+    }
+
+    openProgramVideo.addEventListener("click", openVideoModal);
+    closeProgramVideo.addEventListener("click", closeVideoModal);
+    programVideoModal.addEventListener("click", (event) => {
+      if (event.target === programVideoModal) closeVideoModal();
+    });
+
+    const instructorProfileModal = document.getElementById("instructorProfileModal");
+    const openInstructorProfile = document.getElementById("openInstructorProfile");
+    const closeInstructorProfile = document.getElementById("closeInstructorProfile");
+
+    function openProfileModal() {
+      instructorProfileModal.classList.add("open");
+      lockPageScroll();
+      instructorProfileModal.setAttribute("aria-hidden", "false");
+      closeInstructorProfile.focus();
+    }
+
+    function closeProfileModal() {
+      instructorProfileModal.classList.remove("open");
+      instructorProfileModal.setAttribute("aria-hidden", "true");
+      if (!agendaModal.classList.contains("open") && !programVideoModal.classList.contains("open")) unlockPageScroll();
+      openInstructorProfile.focus();
+    }
+
+    openInstructorProfile.addEventListener("click", openProfileModal);
+    closeInstructorProfile.addEventListener("click", closeProfileModal);
+    instructorProfileModal.addEventListener("click", (event) => {
+      if (event.target === instructorProfileModal) closeProfileModal();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && agendaModal.classList.contains("open")) hideAgendaModal();
+      if (event.key === "Escape" && programVideoModal.classList.contains("open")) closeVideoModal();
+      if (event.key === "Escape" && instructorProfileModal.classList.contains("open")) closeProfileModal();
+    });
+
+    const classPlan = [{"number":1,"week":1,"category":"Unidad I","unit":"Unidad I: Estados financieros básicos","section":"Estados financieros básicos: balance de situación, estado de resultados integrado, Estado de cambios en el patrimonio y estado de flujos de efectivo.","topic":"- Estados financieros básicos: balance de situación, estado de resultados integrado, Estado de cambios en el patrimonio y estado de flujos de efectivo.","activity":"Diagnóstico general, exposición dialogada y análisis de estructura de estados financieros.","evaluation":"Formativa"},{"number":2,"week":1,"category":"Unidad I","unit":"Unidad I: Estados financieros básicos","section":"Importancia y objetivos, para cada estado financiero.","topic":"- Importancia y objetivos, para cada estado financiero.","activity":"Diagnóstico general, exposición dialogada y análisis de estructura de estados financieros.","evaluation":"Formativa"},{"number":3,"week":1,"category":"Unidad I","unit":"Unidad I: Estados financieros básicos","section":"Elementos que conforman los estados financieros.","topic":"- Elementos que conforman los estados financieros.","activity":"Diagnóstico general, exposición dialogada y análisis de estructura de estados financieros.","evaluation":"Formativa"},{"number":4,"week":1,"category":"Unidad I","unit":"Unidad I: Estados financieros básicos","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Preparacion de estados financieros basicos desde una balanza ajustada. Evaluar clasificacion de elementos, utilidad del periodo, estructura del estado de resultados y balance de situacion conforme a presentacion de estados financieros.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":5,"week":2,"category":"Unidad I","unit":"Unidad I: Estados financieros básicos","section":"Presentación de estados financieros en base a normas contables internacionales.","topic":"- Presentación de estados financieros en base a normas contables internacionales. - Reconocimiento y medición.","activity":"Estudio de casos sobre reconocimiento, medición y presentación.","evaluation":"Formativa"},{"number":6,"week":2,"category":"Unidad I","unit":"Unidad I: Estados financieros básicos","section":"Provisiones y contingencias.","topic":"- Provisiones y contingencias.","activity":"Estudio de casos sobre reconocimiento, medición y presentación.","evaluation":"Formativa"},{"number":7,"week":2,"category":"Unidad I","unit":"Unidad I: Estados financieros básicos","section":"Definiciones.","topic":"- Definiciones.","activity":"Estudio de casos sobre reconocimiento, medición y presentación.","evaluation":"Formativa"},{"number":8,"week":2,"category":"Unidad I","unit":"Unidad I: Estados financieros básicos","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Reconocimiento de provision y revelacion de contingencia. Distinguir provision reconocida de contingencia revelada y medir el importe por mejor estimacion.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":9,"week":3,"category":"Unidad I","unit":"Unidad I: Estados financieros básicos","section":"Tratamiento contable, presentación y revelación en los estados financieros.","topic":"- Tratamiento contable, presentación y revelación en los estados financieros.","activity":"Taller de identificación de políticas, estimaciones, errores y revelaciones.","evaluation":"Formativa"},{"number":10,"week":3,"category":"Unidad I","unit":"Unidad I: Estados financieros básicos","section":"Políticas contables, estimaciones y errores.","topic":"- Políticas contables, estimaciones y errores.","activity":"Taller de identificación de políticas, estimaciones, errores y revelaciones.","evaluation":"Formativa"},{"number":11,"week":3,"category":"Unidad I","unit":"Unidad I: Estados financieros básicos","section":"Políticas contables, estimaciones y errores.","topic":"- Políticas contables, estimaciones y errores.","activity":"Taller de identificación de políticas, estimaciones, errores y revelaciones.","evaluation":"Formativa"},{"number":12,"week":3,"category":"Unidad I","unit":"Unidad I: Estados financieros básicos","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Correccion de error y cambio de estimacion contable. Separar error de periodo anterior y estimacion corriente, aplicando el tratamiento contable adecuado.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":13,"week":4,"category":"Unidad II","unit":"Unidad II: El efectivo y sus equivalentes","section":"Definición del efectivo.","topic":"- Definición del efectivo. - Caja chica. - Valuación.","activity":"Mapa conceptual, clasificación de partidas y ejercicio de presentación del efectivo.","evaluation":"Formativa"},{"number":14,"week":4,"category":"Unidad II","unit":"Unidad II: El efectivo y sus equivalentes","section":"Clasificación.","topic":"- Clasificación. - Bancos.","activity":"Mapa conceptual, clasificación de partidas y ejercicio de presentación del efectivo.","evaluation":"Formativa"},{"number":15,"week":4,"category":"Unidad II","unit":"Unidad II: El efectivo y sus equivalentes","section":"Caja.","topic":"- Caja. - Presentación en los estados financieros.","activity":"Mapa conceptual, clasificación de partidas y ejercicio de presentación del efectivo.","evaluation":"Formativa"},{"number":16,"week":4,"category":"Unidad II","unit":"Unidad II: El efectivo y sus equivalentes","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Clasificacion de efectivo, equivalentes y presentacion. Clasificar efectivo y equivalentes, separar partidas no equivalentes y presentar sobregiros segun su naturaleza.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":17,"week":5,"category":"Unidad II","unit":"Unidad II: El efectivo y sus equivalentes","section":"Control interno aplicado al manejo del efectivo en caja.","topic":"- Control interno aplicado al manejo del efectivo en caja. - Objetivos de aplicación del control interno. - Arqueos de caja y caja chica.","activity":"Práctica de arqueo, reposición de fondo fijo y análisis de faltantes/sobrantes.","evaluation":"Formativa"},{"number":18,"week":5,"category":"Unidad II","unit":"Unidad II: El efectivo y sus equivalentes","section":"Definición de control interno.","topic":"- Definición de control interno. - Normas de control interno.","activity":"Práctica de arqueo, reposición de fondo fijo y análisis de faltantes/sobrantes.","evaluation":"Formativa"},{"number":19,"week":5,"category":"Unidad II","unit":"Unidad II: El efectivo y sus equivalentes","section":"Norma de contabilidad aplicable.","topic":"- Norma de contabilidad aplicable. - Procedimientos de control interno.","activity":"Práctica de arqueo, reposición de fondo fijo y análisis de faltantes/sobrantes.","evaluation":"Formativa"},{"number":20,"week":5,"category":"Unidad II","unit":"Unidad II: El efectivo y sus equivalentes","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Arqueo y reposicion de caja chica con sobrante o faltante. Verificar control interno de caja chica, calcular faltante o sobrante y registrar reposicion.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":21,"week":6,"category":"Unidad II","unit":"Unidad II: El efectivo y sus equivalentes","section":"Aplicación de los aspectos legales.","topic":"- Aplicación de los aspectos legales. - Bancos.","activity":"Resolución de caso sobre corte documental y análisis de movimientos.","evaluation":"Formativa"},{"number":22,"week":6,"category":"Unidad II","unit":"Unidad II: El efectivo y sus equivalentes","section":"Estudio y análisis de movimientos.","topic":"- Estudio y análisis de movimientos. - Definición.","activity":"Resolución de caso sobre corte documental y análisis de movimientos.","evaluation":"Formativa"},{"number":23,"week":6,"category":"Unidad II","unit":"Unidad II: El efectivo y sus equivalentes","section":"Corte de ingresos y egresos.","topic":"- Corte de ingresos y egresos.","activity":"Resolución de caso sobre corte documental y análisis de movimientos.","evaluation":"Formativa"},{"number":24,"week":6,"category":"Unidad II","unit":"Unidad II: El efectivo y sus equivalentes","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Corte de ingresos y egresos de efectivo. Aplicar corte contable para reconocer ingresos y egresos en el periodo correcto.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":25,"week":7,"category":"Unidad II","unit":"Unidad II: El efectivo y sus equivalentes","section":"Control interno aplicado a las cuentas de bancos.","topic":"- Control interno aplicado a las cuentas de bancos. - Objetivos de aplicación de control interno. - Conciliación bancaria. - Confirmación bancaria.","activity":"Laboratorio de conciliación bancaria, confirmación y ajustes contables.","evaluation":"Formativa"},{"number":26,"week":7,"category":"Unidad II","unit":"Unidad II: El efectivo y sus equivalentes","section":"Definición de control interno.","topic":"- Definición de control interno. - Normas de control interno. - Estudio y análisis de movimientos. - Aplicación de los aspectos legales.","activity":"Laboratorio de conciliación bancaria, confirmación y ajustes contables.","evaluation":"Formativa"},{"number":27,"week":7,"category":"Unidad II","unit":"Unidad II: El efectivo y sus equivalentes","section":"Norma de contabilidad aplicable.","topic":"- Norma de contabilidad aplicable. - Procedimientos de control interno. - Corte de ingresos y egresos.","activity":"Laboratorio de conciliación bancaria, confirmación y ajustes contables.","evaluation":"Formativa"},{"number":28,"week":7,"category":"Unidad II","unit":"Unidad II: El efectivo y sus equivalentes","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Conciliacion bancaria y ajustes contables. Preparar conciliacion bancaria y registrar solo ajustes que corresponden a libros.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":29,"week":8,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Inversiones temporales.","topic":"- Inversiones temporales. - Valuación y registro. - Normativa de contabilidad aplicable.","activity":"Caso de inversión temporal, clasificación, registro y rendimiento.","evaluation":"Formativa"},{"number":30,"week":8,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Definición.","topic":"- Definición. - Control interno aplicado a la administración de las inversiones temporales. - Objetivos de aplicación del control interno.","activity":"Caso de inversión temporal, clasificación, registro y rendimiento.","evaluation":"Formativa"},{"number":31,"week":8,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Clasificación.","topic":"- Clasificación. - definición de control Interno.","activity":"Caso de inversión temporal, clasificación, registro y rendimiento.","evaluation":"Formativa"},{"number":32,"week":8,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Reconocimiento inicial de inversion temporal. Registrar inversion temporal a costo amortizado y calcular interes devengado mensual.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":33,"week":9,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Normas de control interno.","topic":"- Normas de control interno. - Arqueos de los títulos valores. - Cálculo de rendimientos.","activity":"Taller de control documental, arqueo de títulos y cálculo de rendimientos.","evaluation":"Formativa"},{"number":34,"week":9,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Procedimientos de control interno.","topic":"- Procedimientos de control interno. - Confirmación. - Aplicación de los aspectos legales.","activity":"Taller de control documental, arqueo de títulos y cálculo de rendimientos.","evaluation":"Formativa"},{"number":35,"week":9,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Manejo físico de títulos valores.","topic":"- Manejo físico de títulos valores. - Análisis de movimientos.","activity":"Taller de control documental, arqueo de títulos y cálculo de rendimientos.","evaluation":"Formativa"},{"number":36,"week":9,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Venta de titulo valor e identificacion de ganancia. Determinar valor en libros, efectivo neto recibido y resultado de la venta.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":37,"week":10,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Cuentas y documentos por cobrar.","topic":"- Cuentas y documentos por cobrar. - Valuación y registro. - Norma de contabilidad aplicable.","activity":"Registro de venta al crédito, documentos por cobrar y control auxiliar.","evaluation":"Formativa"},{"number":38,"week":10,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Definiciones.","topic":"- Definiciones. - Control interno aplicado a la administración de las cuentas y documentos por cobrar. - Objetivos de aplicación del control interno.","activity":"Registro de venta al crédito, documentos por cobrar y control auxiliar.","evaluation":"Formativa"},{"number":39,"week":10,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Clasificación.","topic":"- Clasificación. - Definición de control interno.","activity":"Registro de venta al crédito, documentos por cobrar y control auxiliar.","evaluation":"Formativa"},{"number":40,"week":10,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Venta al credito, documento por cobrar e interes implicito. Registrar cuenta/documento por cobrar, venta, costo e interes devengado.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":41,"week":11,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Normas de control interno.","topic":"- Normas de control interno. - Arqueos de los títulos valores. - Análisis de saldos.","activity":"Análisis de saldos, confirmación de cartera y revisión de cobros posteriores.","evaluation":"Formativa"},{"number":42,"week":11,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Procedimientos.","topic":"- Procedimientos. - Confirmación de saldos. - Conexión con otras cuentas.","activity":"Análisis de saldos, confirmación de cartera y revisión de cobros posteriores.","evaluation":"Formativa"},{"number":43,"week":11,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Manejo físico de las cuentas y documentos por cobrar.","topic":"- Manejo físico de las cuentas y documentos por cobrar. - Cobros posteriores.","activity":"Análisis de saldos, confirmación de cartera y revisión de cobros posteriores.","evaluation":"Formativa"},{"number":44,"week":11,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Confirmacion de saldos y ajuste por diferencia. Evaluar control interno de cuentas por cobrar y ajustar saldos confirmados.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":45,"week":12,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Estudio y análisis de recuperabilidad.","topic":"- Estudio y análisis de recuperabilidad. - Métodos de estimación para la provisión de cuentas incobrables.","activity":"Caso de antigüedad de saldos, estimación de incobrables y descuento de documentos.","evaluation":"Formativa"},{"number":46,"week":12,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Aplicación de los aspectos legales y tributarios.","topic":"- Aplicación de los aspectos legales y tributarios. - Liquidación de cuentas incobrables.","activity":"Caso de antigüedad de saldos, estimación de incobrables y descuento de documentos.","evaluation":"Formativa"},{"number":47,"week":12,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Recuperación.","topic":"- Recuperación. - Documentación por cobrar descontados.","activity":"Caso de antigüedad de saldos, estimación de incobrables y descuento de documentos.","evaluation":"Formativa"},{"number":48,"week":12,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Deterioro de cuentas por cobrar y recuperacion parcial. Calcular deterioro requerido, ajuste adicional y efecto sobre resultados.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":49,"week":13,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Crédito Fiscal-IVA.","topic":"- Crédito Fiscal-IVA. - Control interno aplicado a la administración del crédito fiscal - IVA. - Objetivos de aplicación del control interno. - Aplicación de los aspectos legales y tributarios.","activity":"Registro de compras con crédito fiscal IVA y revisión documental tributaria.","evaluation":"Formativa"},{"number":50,"week":13,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Definición.","topic":"- Definición. - Definición de control interno. - Normas de control interno.","activity":"Registro de compras con crédito fiscal IVA y revisión documental tributaria.","evaluation":"Formativa"},{"number":51,"week":13,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Registro.","topic":"- Registro. - Norma de contabilidad aplicable. - Procedimientos de control interno.","activity":"Registro de compras con crédito fiscal IVA y revisión documental tributaria.","evaluation":"Formativa"},{"number":52,"week":13,"category":"Unidad III","unit":"Unidad III: Inversiones temporales, cuentas y documentos por cobrar y crédito fiscal-IVA","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Registro de credito fiscal IVA en compra de inventario. Separar costo de inventario, credito fiscal recuperable y porcion no recuperable segun enfoque contable y tributario.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":53,"week":14,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Inventarios.","topic":"- Inventarios. - Métodos de registro y valuación. - Norma de contabilidad aplicable.","activity":"Caso de compra de inventario, costo unitario y control interno.","evaluation":"Formativa"},{"number":54,"week":14,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Definición.","topic":"- Definición. - Control interno aplicado a la administración de los inventarios. - Objetivos de aplicación del control interno.","activity":"Caso de compra de inventario, costo unitario y control interno.","evaluation":"Formativa"},{"number":55,"week":14,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Clasificación.","topic":"- Clasificación. - Definición de control interno.","activity":"Caso de compra de inventario, costo unitario y control interno.","evaluation":"Formativa"},{"number":56,"week":14,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Costo de adquisicion de inventarios. Determinar costo inicial del inventario conforme a componentes permitidos.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":57,"week":15,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Normas de control interno.","topic":"- Normas de control interno. - Inspección de la toma física de inventarios.","activity":"Guía de observación de toma física y análisis de inventarios obsoletos.","evaluation":"Formativa"},{"number":58,"week":15,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Procedimientos de control interno.","topic":"- Procedimientos de control interno. - Confirmación de inventarios en poder de terceros.","activity":"Guía de observación de toma física y análisis de inventarios obsoletos.","evaluation":"Formativa"},{"number":59,"week":15,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"La obsolescencia.","topic":"- La obsolescencia.","activity":"Guía de observación de toma física y análisis de inventarios obsoletos.","evaluation":"Formativa"},{"number":60,"week":15,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Toma fisica, faltante y obsolescencia. Registrar faltante de inventario y deterioro por obsolescencia.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":61,"week":16,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Estudio y análisis de la valuación.","topic":"- Estudio y análisis de la valuación. - Comparación costos versus precio de venta.","activity":"Ejercicio de valor neto realizable, deterioro y análisis de lenta rotación.","evaluation":"Formativa"},{"number":62,"week":16,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Verificación de precios de compra.","topic":"- Verificación de precios de compra. - Estudio de los inventarios de lento movimiento.","activity":"Ejercicio de valor neto realizable, deterioro y análisis de lenta rotación.","evaluation":"Formativa"},{"number":63,"week":16,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Examen del sistema de costos.","topic":"- Examen del sistema de costos. - Aplicación de los aspectos legales y tributarios.","activity":"Ejercicio de valor neto realizable, deterioro y análisis de lenta rotación.","evaluation":"Formativa"},{"number":64,"week":16,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Valor neto realizable por linea de inventario. Comparar costo contra valor neto realizable y reconocer ajuste requerido.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":65,"week":17,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Mercaderías en consignación.","topic":"- Mercaderías en consignación.","activity":"Discusión de casos FOB, consignación y transferencia de riesgos.","evaluation":"Formativa"},{"number":66,"week":17,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Mercaderías en tránsito.","topic":"- Mercaderías en tránsito.","activity":"Discusión de casos FOB, consignación y transferencia de riesgos.","evaluation":"Formativa"},{"number":67,"week":17,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Mercaderías en tránsito.","topic":"- Mercaderías en tránsito.","activity":"Discusión de casos FOB, consignación y transferencia de riesgos.","evaluation":"Formativa"},{"number":68,"week":17,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Mercaderias en transito y consignacion. Determinar que inventarios reconoce la PYME y que partidas solo controla o revela.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":69,"week":18,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Gastos pagados por anticipado.","topic":"- Gastos pagados por anticipado. - Valuación y registro.","activity":"Ejercicio de seguro o alquiler pagado por anticipado y amortización mensual.","evaluation":"Formativa"},{"number":70,"week":18,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Definición","topic":"- Definición - Amortización","activity":"Ejercicio de seguro o alquiler pagado por anticipado y amortización mensual.","evaluation":"Formativa"},{"number":71,"week":18,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Clasificación.","topic":"- Clasificación.","activity":"Ejercicio de seguro o alquiler pagado por anticipado y amortización mensual.","evaluation":"Formativa"},{"number":72,"week":18,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Gasto pagado por anticipado y amortizacion mensual. Reconocer activo por beneficio futuro y registrar amortizacion del periodo consumido.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":73,"week":19,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Control interno aplicado a la administración de los gastos pagados por anticipado.","topic":"- Control interno aplicado a la administración de los gastos pagados por anticipado. - Objetivos de aplicación del control interno. - Aplicación de los aspectos legales y tributarios.","activity":"Taller de expediente, control auxiliar y ajuste de gastos anticipados.","evaluation":"Formativa"},{"number":74,"week":19,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Definición de control interno.","topic":"- Definición de control interno. - Norma de control interno.","activity":"Taller de expediente, control auxiliar y ajuste de gastos anticipados.","evaluation":"Formativa"},{"number":75,"week":19,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Norma de contabilidad aplicable.","topic":"- Norma de contabilidad aplicable. - Procedimientos de control interno.","activity":"Taller de expediente, control auxiliar y ajuste de gastos anticipados.","evaluation":"Formativa"},{"number":76,"week":19,"category":"Unidad IV","unit":"Unidad IV: Inventario y gastos pagados por anticipado","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Control interno y reclasificacion de anticipos vencidos. Evaluar existencia, recuperabilidad y clasificacion correcta de gastos/anticipos.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"},{"number":77,"week":20,"category":"Cierre","unit":"Integración de contenidos del programa","section":"Integración de efectivo y equivalentes.","topic":"- Integración de efectivo y equivalentes. - Ajustes y cierre de cuentas del activo.","activity":"Proyecto final integrador de cuentas de activo y sustentación.","evaluation":"Formativa"},{"number":78,"week":20,"category":"Cierre","unit":"Integración de contenidos del programa","section":"Integración de inversiones temporales, cuentas y documentos por cobrar y crédito fiscal IVA.","topic":"- Integración de inversiones temporales, cuentas y documentos por cobrar y crédito fiscal IVA. - Presentación en estados financieros conforme a normativa aplicable.","activity":"Proyecto final integrador de cuentas de activo y sustentación.","evaluation":"Formativa"},{"number":79,"week":20,"category":"Cierre","unit":"Integración de contenidos del programa","section":"Integración de inventarios y gastos pagados por anticipado.","topic":"- Integración de inventarios y gastos pagados por anticipado.","activity":"Proyecto final integrador de cuentas de activo y sustentación.","evaluation":"Formativa"},{"number":80,"week":20,"category":"Cierre","unit":"Integración de contenidos del programa","section":"Caso práctico semanal: integración y evaluación de lo aprendido.","topic":"Caso semanal: Caso integrador de activos corrientes bajo NIIF para PYMES. Integrar efectivo, instrumentos financieros, inventarios y anticipos con ajustes de cierre.","activity":"Resolucion de caso practico semanal con desarrollo numerico y analisis NIIF.","evaluation":"Caso practico semanal"}];
+    const classPlanRows = document.getElementById("classPlanRows");
+    const classPlanEmpty = document.getElementById("classPlanEmpty");
+    const filterSlider = document.getElementById("filterSlider");
+    const filterPrev = document.getElementById("filterPrev");
+    const filterNext = document.getElementById("filterNext");
+    const filterProgress = document.getElementById("filterProgress");
+    const filterSliderStatus = document.getElementById("filterSliderStatus");
+    const focusedClass = new URLSearchParams(window.location.search).get("focusClass")?.padStart(2, "0") || "";
+
+    function filterLabel(filter, count) {
+      return `${filter} · ${count} ${count === 1 ? "clase" : "clases"}`;
+    }
+
+    function updateFilterSlider(activeButton = document.querySelector("[data-plan-filter].active")) {
+      const buttons = [...document.querySelectorAll("[data-plan-filter]")];
+      if (!buttons.length || !activeButton) return;
+      const index = buttons.indexOf(activeButton);
+      const count = Number(activeButton.querySelector(".filter-count")?.textContent || 0);
+      filterSliderStatus.textContent = filterLabel(activeButton.dataset.planFilter, count);
+      filterProgress.style.setProperty("--filter-progress", `${((index + 1) / buttons.length) * 100}%`);
+      filterPrev.disabled = filterSlider.scrollLeft <= 4;
+      filterNext.disabled = filterSlider.scrollLeft + filterSlider.clientWidth >= filterSlider.scrollWidth - 4;
+    }
+
+    const unitFiles = {
+      "Unidad I": "modulo-1-estados-financieros.html",
+      "Unidad II": "modulo-2-efectivo-bancos.html",
+      "Unidad III": "modulo-3-inversiones-cxc-iva.html",
+      "Unidad IV": "modulo-4-inventarios-anticipados.html",
+      "Cierre": "cierre.html"
+};
+
+    function classHref(item) {
+      const targetPage = unitFiles[item.category] || "";
+      if (!targetPage) return "";
+      const params = new URLSearchParams({
+        class: String(item.number).padStart(2, "0"),
+        v: "conta2-class4-impact"
+      });
+      return `${targetPage}?${params.toString()}`;
+    }
+
+    function focusClassRow() {
+      if (!focusedClass) return;
+      const row = document.getElementById(`class-row-${focusedClass}`);
+      if (!row) return;
+      row.setAttribute("tabindex", "-1");
+      if (window.location.hash !== `#class-row-${focusedClass}`) {
+        window.location.hash = `class-row-${focusedClass}`;
+      }
+      row.focus({ preventScroll: false });
+      const rowTop = row.getBoundingClientRect().top + window.scrollY;
+      const targetTop = Math.max(0, rowTop - (window.innerHeight * .38));
+      window.scrollTo({ top: targetTop, left: 0, behavior: "auto" });
+      document.documentElement.scrollTop = targetTop;
+      document.body.scrollTop = targetTop;
+    }
+
+    function scheduleFocusClassRow() {
+      if (!focusedClass) return;
+      window.setTimeout(focusClassRow, 60);
+      window.setTimeout(focusClassRow, 260);
+      window.setTimeout(focusClassRow, 620);
+    }
+
+    function renderClassPlan(filter = "Todos") {
+      const rows = classPlan.filter((item) => filter === "Todos" || item.category === filter);
+      classPlanRows.innerHTML = rows.map((item) => {
+        const completed = isClassComplete(`class-${item.number}`);
+        const href = classHref(item);
+        const classLabel = `Clase ${String(item.number).padStart(2, "0")}`;
+        const rowClassNumber = String(item.number).padStart(2, "0");
+        const isFocused = focusedClass === rowClassNumber;
+        return `
+        <tr id="class-row-${rowClassNumber}" class="${completed ? "schedule-row-complete" : ""}${isFocused ? " schedule-row-focus" : ""}">
+          <td data-label="Clase">${href ? `<a class="class-pill" href="${href}" title="Abrir contenido de ${classLabel}">${classLabel}</a>` : `<span class="class-pill" title="Contenido introductorio en matriz">${classLabel}</span>`}</td>
+          <td data-label="Semana">Semana ${item.week}</td>
+          <td data-label="Filtro"><span class="category-pill">${item.category}</span></td>
+          <td data-label="Unidad">${item.unit}</td>
+          <td data-label="Subtema" class="schedule-topic"><strong>${item.section}</strong><span>${item.topic}</span></td>
+          <td data-label="Actividad">${item.activity}</td>
+          <td data-label="Evaluacion">${item.evaluation}</td>
+        </tr>
+      `;
+      }).join("");
+      classPlanEmpty.hidden = rows.length > 0;
+      scheduleFocusClassRow();
+    }
+
+    document.querySelectorAll("[data-plan-filter]").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll("[data-plan-filter]").forEach((item) => {
+          item.classList.remove("active");
+          item.setAttribute("aria-pressed", "false");
+        });
+        button.classList.add("active");
+        button.setAttribute("aria-pressed", "true");
+        renderClassPlan(button.dataset.planFilter);
+        button.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+        updateFilterSlider(button);
+      });
+    });
+
+    filterPrev.addEventListener("click", () => {
+      filterSlider.scrollBy({ left: -Math.round(filterSlider.clientWidth * .75), behavior: "smooth" });
+    });
+
+    filterNext.addEventListener("click", () => {
+      filterSlider.scrollBy({ left: Math.round(filterSlider.clientWidth * .75), behavior: "smooth" });
+    });
+
+    filterSlider.addEventListener("scroll", () => updateFilterSlider(), { passive: true });
+    window.addEventListener("resize", () => updateFilterSlider());
+    window.addEventListener("load", scheduleFocusClassRow);
+    window.addEventListener("pageshow", scheduleFocusClassRow);
+
+    renderClassPlan();
+    updateFilterSlider();
+  </script>
+</body>
+</html>
