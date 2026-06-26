@@ -1650,7 +1650,7 @@ function pageFor(unit) {
 }
 
 function classHref(item) {
-  return `${pageFor(item.unit)}?class=${item.code}&v=conta2-class5-impact`;
+  return `${pageFor(item.unit)}?class=${item.code}&v=conta2-class5-full-material`;
 }
 
 function matrixReturnHref(classNumber = new URLSearchParams(window.location.search).get("class")) {
