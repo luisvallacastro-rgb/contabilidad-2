@@ -1266,6 +1266,25 @@ const customClassContent = {
     },
     readingSections: [
       {
+        title: "Base Técnica",
+        groups: [
+          {
+            subtitle: "NIIF para las PYMES",
+            bullets: [
+              "Sección 3: Presentación de Estados Financieros.",
+              "Párrafos 3.1 al 3.25."
+            ]
+          },
+          {
+            subtitle: "NIIF Completas",
+            bullets: [
+              "NIC 1: Presentación de Estados Financieros.",
+              "Párrafos 15 al 46."
+            ]
+          }
+        ]
+      },
+      {
         title: "Introducción",
         paragraphs: [
           "En las clases anteriores se estudiaron individualmente los cuatro estados financieros básicos. Sin embargo, conocer su estructura no es suficiente; es indispensable comprender cómo deben presentarse conforme a las Normas Internacionales de Información Financiera.",
@@ -1325,57 +1344,91 @@ const customClassContent = {
             subtitle: "1. Presentación razonable",
             paragraphs: [
               "La información financiera debe representar fielmente las operaciones realizadas por la entidad.",
-              "Presentar razonablemente implica que la información sea completa, neutral y libre de errores materiales.",
-              "Ejemplo: si una empresa posee una deuda bancaria de $150,000, esta debe reconocerse y presentarse como pasivo. Omitirla implicaría que los estados financieros no representan razonablemente la situación financiera."
+              "Presentar razonablemente implica que la información sea completa, neutral y libre de errores materiales."
+            ],
+            bullets: [
+              "Completa.",
+              "Neutral.",
+              "Libre de errores materiales."
+            ],
+            cards: [
+              ["Ejemplo", "Si una empresa posee una deuda bancaria de $150,000, esta debe reconocerse y presentarse como pasivo. Omitirla implicaría que los estados financieros no representan razonablemente la situación financiera."]
             ]
           },
           {
             subtitle: "2. Cumplimiento de la NIIF para las PYMES",
             paragraphs: [
-              "Una entidad solo puede manifestar que sus estados financieros cumplen con la NIIF para las PYMES cuando ha aplicado todos los requerimientos establecidos por dicha norma.",
-              "No es suficiente utilizar formatos similares a los exigidos por las NIIF; es necesario aplicar correctamente los criterios de reconocimiento, medición, presentación y revelación establecidos por la normativa."
+              "Una entidad solo puede manifestar que sus estados financieros cumplen con la NIIF para las PYMES cuando ha aplicado todos los requerimientos establecidos por dicha norma."
+            ],
+            cards: [
+              ["Análisis", "No es suficiente utilizar formatos similares a los exigidos por las NIIF; es necesario aplicar correctamente los criterios de reconocimiento, medición, presentación y revelación establecidos por la normativa."]
             ]
           },
           {
             subtitle: "3. Hipótesis de negocio en marcha",
             paragraphs: [
-              "Los estados financieros se preparan bajo el supuesto de que la empresa continuará operando en el futuro previsible y no tiene intención ni necesidad de liquidarse o reducir significativamente sus operaciones.",
-              "Ejemplo: una empresa que atraviesa dificultades temporales de liquidez continuará elaborando sus estados financieros bajo el supuesto de negocio en marcha, siempre que existan expectativas razonables de continuar sus actividades."
+              "Los estados financieros se preparan bajo el supuesto de que la empresa continuará operando en el futuro previsible y no tiene intención ni necesidad de liquidarse o reducir significativamente sus operaciones."
+            ],
+            cards: [
+              ["Ejemplo", "Una empresa que atraviesa dificultades temporales de liquidez continuará elaborando sus estados financieros bajo el supuesto de negocio en marcha, siempre que existan expectativas razonables de continuar sus actividades."]
             ]
           },
           {
             subtitle: "4. Base contable del devengo",
             paragraphs: [
-              "Las transacciones se reconocen cuando ocurren y no cuando se recibe o paga el efectivo.",
-              "Ejemplo: el 20 de diciembre una empresa vende mercadería por $8,000 al crédito. Aunque el cliente pagará en enero, el ingreso debe reconocerse en diciembre, ya que la venta ocurrió durante ese período."
+              "Las transacciones se reconocen cuando ocurren y no cuando se recibe o paga el efectivo."
+            ],
+            cards: [
+              ["Ejemplo", "El 20 de diciembre una empresa vende mercadería por $8,000 al crédito. Aunque el cliente pagará en enero, el ingreso debe reconocerse en diciembre, ya que la venta ocurrió durante ese período."]
             ]
           },
           {
             subtitle: "5. Materialidad o importancia relativa",
             paragraphs: [
-              "Una partida es material cuando su omisión o presentación incorrecta puede influir en las decisiones económicas de los usuarios.",
-              "Ejemplo: un error de $5 en gastos de papelería probablemente no sea material. Un error de $150,000 en inventarios sí puede modificar significativamente la interpretación de los estados financieros."
+              "Una partida es material cuando su omisión o presentación incorrecta puede influir en las decisiones económicas de los usuarios."
+            ],
+            cards: [
+              ["Ejemplo", "Un error de $5 en gastos de papelería probablemente no sea material."],
+              ["Contraste", "Un error de $150,000 en inventarios sí puede modificar significativamente la interpretación de los estados financieros."]
             ]
           },
           {
             subtitle: "6. Uniformidad en la presentación",
             paragraphs: [
-              "La estructura y clasificación de los estados financieros deben mantenerse de un período a otro.",
-              "La uniformidad permite realizar comparaciones entre ejercicios contables y evaluar la evolución financiera de la entidad."
+              "La estructura y clasificación de los estados financieros deben mantenerse de un período a otro."
+            ],
+            cards: [
+              ["Importancia", "La uniformidad permite realizar comparaciones entre ejercicios contables y evaluar la evolución financiera de la entidad."]
             ]
           },
           {
             subtitle: "7. Información comparativa",
             paragraphs: [
               "La NIIF para las PYMES exige presentar información del período actual junto con la correspondiente al período anterior.",
-              "Ejemplo: activos 2026 por $850,000 y 2025 por $790,000; pasivos 2026 por $320,000 y 2025 por $295,000; patrimonio 2026 por $530,000 y 2025 por $495,000.",
               "La comparación permite identificar tendencias y evaluar el crecimiento o deterioro financiero."
-            ]
+            ],
+            table: {
+              headers: ["Concepto", "2026", "2025"],
+              rows: [
+                ["Activos", "$850,000", "$790,000"],
+                ["Pasivos", "$320,000", "$295,000"],
+                ["Patrimonio", "$530,000", "$495,000"]
+              ]
+            }
           },
           {
             subtitle: "8. Notas a los estados financieros",
             paragraphs: [
-              "Las notas complementan la información presentada en los estados financieros y describen políticas contables aplicadas, criterios de medición, estimaciones significativas, información adicional sobre partidas específicas, riesgos y contingencias.",
+              "Las notas complementan la información presentada en los estados financieros y describen información necesaria para comprender las cifras presentadas."
+            ],
+            bullets: [
+              "Políticas contables aplicadas.",
+              "Criterios de medición.",
+              "Estimaciones significativas.",
+              "Información adicional sobre partidas específicas.",
+              "Riesgos y contingencias."
+            ],
+            paragraphsAfter: [
               "Las notas forman parte integral de los estados financieros y son indispensables para una adecuada comprensión de la información financiera."
             ]
           }
@@ -1398,15 +1451,35 @@ const customClassContent = {
       {
         title: "Caso Práctico: Comercial Centroamericana, S.A.",
         paragraphs: [
-          "El contador presenta el siguiente Estado de Situación Financiera: activos $450,000; pasivos $180,000; patrimonio $270,000.",
-          "Sin embargo, no incluye cifras comparativas del año anterior, no presenta notas a los estados financieros, cambia la clasificación de algunas cuentas respecto al período anterior sin justificación y omite un préstamo bancario de largo plazo por $90,000."
+          "El contador presenta el siguiente Estado de Situación Financiera."
+        ],
+        bullets: [
+          "Activos: $450,000.",
+          "Pasivos: $180,000.",
+          "Patrimonio: $270,000."
         ],
         groups: [
           {
+            subtitle: "Observaciones encontradas",
+            bullets: [
+              "No incluye cifras comparativas del año anterior.",
+              "No presenta notas a los estados financieros.",
+              "Cambia la clasificación de algunas cuentas respecto al período anterior sin justificación.",
+              "Omite un préstamo bancario de largo plazo por $90,000."
+            ]
+          },
+          {
             subtitle: "Análisis del caso",
             paragraphs: [
-              "¿Cumple con la NIIF para las PYMES? No.",
-              "La omisión del préstamo impide una presentación razonable; no existe información comparativa; no se presentan notas a los estados financieros; y no se mantiene uniformidad en la clasificación de las partidas.",
+              "¿Cumple con la NIIF para las PYMES? No."
+            ],
+            bullets: [
+              "La omisión del préstamo impide una presentación razonable.",
+              "No existe información comparativa.",
+              "No se presentan notas a los estados financieros.",
+              "No se mantiene uniformidad en la clasificación de las partidas."
+            ],
+            paragraphsAfter: [
               "Por lo tanto, los estados financieros no cumplen con los principios establecidos en la Sección 3 de la NIIF para las PYMES."
             ]
           }
@@ -1904,6 +1977,7 @@ function renderReadingSection(section) {
       <h6>${escapeHTML(section.title)}</h6>
       ${section.paragraphs ? `<div class="study-paragraphs">${section.paragraphs.map((text) => `<p>${escapeHTML(text)}</p>`).join("")}</div>` : ""}
       ${section.bullets ? `<ul>${section.bullets.map((item) => `<li>${escapeHTML(item)}</li>`).join("")}</ul>` : ""}
+      ${section.table ? renderStudyTable(section.table) : ""}
       ${section.groups ? `<div class="study-groups">${section.groups.map((group) => renderReadingGroup(group)).join("")}</div>` : ""}
       ${section.closing ? `<p class="study-closing">${escapeHTML(section.closing)}</p>` : ""}
     </article>`;
@@ -1915,14 +1989,30 @@ function renderReadingGroup(group) {
       <div class="study-group-title">${escapeHTML(group.subtitle)}</div>
       ${group.paragraphs ? group.paragraphs.map((text) => `<p>${escapeHTML(text)}</p>`).join("") : ""}
       ${group.bullets ? `<ul>${group.bullets.map((item) => `<li>${escapeHTML(item)}</li>`).join("")}</ul>` : ""}
+      ${group.table ? renderStudyTable(group.table) : ""}
       ${group.cards ? `<div class="study-card-grid">${group.cards.map(([title, body]) => `
         <article>
           <strong>${escapeHTML(title)}</strong>
           <p>${escapeHTML(body)}</p>
         </article>
       `).join("")}</div>` : ""}
+      ${group.paragraphsAfter ? group.paragraphsAfter.map((text) => `<p>${escapeHTML(text)}</p>`).join("") : ""}
       ${group.note ? `<div class="study-note">${escapeHTML(group.note)}</div>` : ""}
     </section>`;
+}
+
+function renderStudyTable(table) {
+  return `
+    <div class="study-table-wrap">
+      <table class="study-table">
+        <thead>
+          <tr>${table.headers.map((header) => `<th>${escapeHTML(header)}</th>`).join("")}</tr>
+        </thead>
+        <tbody>
+          ${table.rows.map((row) => `<tr>${row.map((cell) => `<td>${escapeHTML(cell)}</td>`).join("")}</tr>`).join("")}
+        </tbody>
+      </table>
+    </div>`;
 }
 
 function renderWeeklyCasePanel(weekCase, item) {
