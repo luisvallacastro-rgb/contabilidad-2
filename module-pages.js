@@ -1244,6 +1244,297 @@ const customClassContent = {
       "¿Por qué es importante analizar conjuntamente los cuatro estados financieros?"
     ],
     conclusion: "El Estado de Cambios en el Patrimonio explica las variaciones en la participación de los propietarios, mientras que el Estado de Flujos de Efectivo muestra cómo la entidad genera y utiliza efectivo. Ambos completan la lectura del Estado de Situación Financiera y del Estado del Resultado Integral, conforme a las Secciones 6 y 7 de la NIIF para las PYMES, la NIC 1 y la NIC 7."
+  },
+  "05": {
+    title: "Presentación de los Estados Financieros conforme a la NIIF para las PYMES",
+    shortTitle: "Presentación de Estados Financieros NIIF",
+    subtitle: "Cómo convertir estados financieros elaborados en información comparable, confiable y útil.",
+    duration: "50 minutos",
+    subtopics: "Presentación de estados financieros conforme a la NIIF para las PYMES: presentación razonable, comparabilidad, uniformidad, devengo, materialidad y notas.",
+    objective: "Comprender los principios generales de presentación de estados financieros exigidos por la Sección 3 de la NIIF para las PYMES y su relación con la NIC 1.",
+    niifPymes: "NIIF para las PYMES, Sección 3: Presentación de Estados Financieros, párrafos 3.1 al 3.25.",
+    fullNiif: "NIC 1: Presentación de Estados Financieros, párrafos 15 al 46.",
+    labels: {
+      flowEyebrow: "Mapa de presentación",
+      flowTitle: "De estados elaborados a estados financieros útiles",
+      usersEyebrow: "Decisión financiera",
+      usersTitle: "Quién gana confianza con una buena presentación",
+      setEyebrow: "Juego completo",
+      setTitle: "Conjunto completo exigido por la Sección 3",
+      caseEyebrow: "Caso práctico",
+      discussionTitle: "Actividad de aplicación: identifica el principio afectado"
+    },
+    readingSections: [
+      {
+        title: "Introducción",
+        paragraphs: [
+          "En las clases anteriores se estudiaron individualmente los cuatro estados financieros básicos. Sin embargo, conocer su estructura no es suficiente; es indispensable comprender cómo deben presentarse conforme a las Normas Internacionales de Información Financiera.",
+          "La NIIF para las PYMES establece principios generales que garantizan que los estados financieros sean comparables, confiables y útiles para los usuarios.",
+          "No basta con elaborar un balance o un estado de resultados; ambos deben cumplir requisitos mínimos de presentación que permitan reflejar fielmente la realidad económica de la entidad.",
+          "La correcta presentación de los estados financieros fortalece la transparencia, facilita el análisis financiero y aumenta la confianza de inversionistas, acreedores, organismos reguladores y demás usuarios de la información."
+        ]
+      },
+      {
+        title: "Fundamentación Normativa",
+        groups: [
+          {
+            subtitle: "NIIF para las PYMES - Sección 3",
+            paragraphs: [
+              "La Sección 3 establece los principios generales para la presentación de los estados financieros, indicando que estos deben presentar razonablemente la situación financiera, el rendimiento financiero y los flujos de efectivo de la entidad."
+            ],
+            bullets: [
+              "Prepare un juego completo de estados financieros.",
+              "Presente información comparativa con el período anterior.",
+              "Mantenga uniformidad en la presentación entre períodos.",
+              "Revele información suficiente mediante notas a los estados financieros."
+            ]
+          },
+          {
+            subtitle: "NIC 1 - Presentación de Estados Financieros",
+            paragraphs: [
+              "La NIC 1 desarrolla los principios generales de presentación y exige que los estados financieros cumplan con criterios técnicos que permitan comprender la realidad económica de la entidad."
+            ],
+            bullets: [
+              "Presenten razonablemente la situación financiera de la entidad.",
+              "Cumplan con las NIIF aplicables.",
+              "Se elaboren bajo el supuesto de negocio en marcha.",
+              "Se preparen utilizando la base contable del devengo o acumulación.",
+              "Presenten información material de forma separada.",
+              "Sean consistentes y comparables entre períodos."
+            ]
+          }
+        ]
+      },
+      {
+        title: "Objetivo de la Presentación de Estados Financieros",
+        paragraphs: [
+          "La presentación adecuada busca que los usuarios puedan comprender, comparar, evaluar y decidir con base en información financiera ordenada y confiable."
+        ],
+        bullets: [
+          "Comprender la situación financiera de la empresa.",
+          "Comparar información entre distintos períodos.",
+          "Comparar información entre diferentes empresas.",
+          "Evaluar tendencias financieras.",
+          "Tomar decisiones económicas fundamentadas."
+        ]
+      },
+      {
+        title: "Principios Generales de Presentación",
+        groups: [
+          {
+            subtitle: "1. Presentación razonable",
+            paragraphs: [
+              "La información financiera debe representar fielmente las operaciones realizadas por la entidad.",
+              "Presentar razonablemente implica que la información sea completa, neutral y libre de errores materiales.",
+              "Ejemplo: si una empresa posee una deuda bancaria de $150,000, esta debe reconocerse y presentarse como pasivo. Omitirla implicaría que los estados financieros no representan razonablemente la situación financiera."
+            ]
+          },
+          {
+            subtitle: "2. Cumplimiento de la NIIF para las PYMES",
+            paragraphs: [
+              "Una entidad solo puede manifestar que sus estados financieros cumplen con la NIIF para las PYMES cuando ha aplicado todos los requerimientos establecidos por dicha norma.",
+              "No es suficiente utilizar formatos similares a los exigidos por las NIIF; es necesario aplicar correctamente los criterios de reconocimiento, medición, presentación y revelación establecidos por la normativa."
+            ]
+          },
+          {
+            subtitle: "3. Hipótesis de negocio en marcha",
+            paragraphs: [
+              "Los estados financieros se preparan bajo el supuesto de que la empresa continuará operando en el futuro previsible y no tiene intención ni necesidad de liquidarse o reducir significativamente sus operaciones.",
+              "Ejemplo: una empresa que atraviesa dificultades temporales de liquidez continuará elaborando sus estados financieros bajo el supuesto de negocio en marcha, siempre que existan expectativas razonables de continuar sus actividades."
+            ]
+          },
+          {
+            subtitle: "4. Base contable del devengo",
+            paragraphs: [
+              "Las transacciones se reconocen cuando ocurren y no cuando se recibe o paga el efectivo.",
+              "Ejemplo: el 20 de diciembre una empresa vende mercadería por $8,000 al crédito. Aunque el cliente pagará en enero, el ingreso debe reconocerse en diciembre, ya que la venta ocurrió durante ese período."
+            ]
+          },
+          {
+            subtitle: "5. Materialidad o importancia relativa",
+            paragraphs: [
+              "Una partida es material cuando su omisión o presentación incorrecta puede influir en las decisiones económicas de los usuarios.",
+              "Ejemplo: un error de $5 en gastos de papelería probablemente no sea material. Un error de $150,000 en inventarios sí puede modificar significativamente la interpretación de los estados financieros."
+            ]
+          },
+          {
+            subtitle: "6. Uniformidad en la presentación",
+            paragraphs: [
+              "La estructura y clasificación de los estados financieros deben mantenerse de un período a otro.",
+              "La uniformidad permite realizar comparaciones entre ejercicios contables y evaluar la evolución financiera de la entidad."
+            ]
+          },
+          {
+            subtitle: "7. Información comparativa",
+            paragraphs: [
+              "La NIIF para las PYMES exige presentar información del período actual junto con la correspondiente al período anterior.",
+              "Ejemplo: activos 2026 por $850,000 y 2025 por $790,000; pasivos 2026 por $320,000 y 2025 por $295,000; patrimonio 2026 por $530,000 y 2025 por $495,000.",
+              "La comparación permite identificar tendencias y evaluar el crecimiento o deterioro financiero."
+            ]
+          },
+          {
+            subtitle: "8. Notas a los estados financieros",
+            paragraphs: [
+              "Las notas complementan la información presentada en los estados financieros y describen políticas contables aplicadas, criterios de medición, estimaciones significativas, información adicional sobre partidas específicas, riesgos y contingencias.",
+              "Las notas forman parte integral de los estados financieros y son indispensables para una adecuada comprensión de la información financiera."
+            ]
+          }
+        ]
+      },
+      {
+        title: "Juego Completo de Estados Financieros",
+        paragraphs: [
+          "De conformidad con la Sección 3 de la NIIF para las PYMES, una entidad debe presentar un conjunto completo de información financiera.",
+          "Estos documentos conforman un solo conjunto de información financiera y deben analizarse de manera conjunta."
+        ],
+        bullets: [
+          "Estado de Situación Financiera.",
+          "Estado del Resultado Integral.",
+          "Estado de Cambios en el Patrimonio.",
+          "Estado de Flujos de Efectivo.",
+          "Notas a los Estados Financieros."
+        ]
+      },
+      {
+        title: "Caso Práctico: Comercial Centroamericana, S.A.",
+        paragraphs: [
+          "El contador presenta el siguiente Estado de Situación Financiera: activos $450,000; pasivos $180,000; patrimonio $270,000.",
+          "Sin embargo, no incluye cifras comparativas del año anterior, no presenta notas a los estados financieros, cambia la clasificación de algunas cuentas respecto al período anterior sin justificación y omite un préstamo bancario de largo plazo por $90,000."
+        ],
+        groups: [
+          {
+            subtitle: "Análisis del caso",
+            paragraphs: [
+              "¿Cumple con la NIIF para las PYMES? No.",
+              "La omisión del préstamo impide una presentación razonable; no existe información comparativa; no se presentan notas a los estados financieros; y no se mantiene uniformidad en la clasificación de las partidas.",
+              "Por lo tanto, los estados financieros no cumplen con los principios establecidos en la Sección 3 de la NIIF para las PYMES."
+            ]
+          }
+        ]
+      },
+      {
+        title: "Actividad de Aplicación",
+        paragraphs: [
+          "Analice las siguientes situaciones e identifique el principio de presentación afectado."
+        ],
+        groups: [
+          {
+            subtitle: "Situación 1",
+            paragraphs: [
+              "Una empresa registra únicamente las ventas cobradas y omite las ventas al crédito.",
+              "Principio afectado: base contable del devengo."
+            ]
+          },
+          {
+            subtitle: "Situación 2",
+            paragraphs: [
+              "La empresa decide cambiar cada año el orden de presentación de las cuentas del Estado de Situación Financiera sin justificación.",
+              "Principio afectado: uniformidad."
+            ]
+          },
+          {
+            subtitle: "Situación 3",
+            paragraphs: [
+              "Se omite revelar una demanda judicial importante que podría afectar significativamente a la empresa.",
+              "Principio afectado: presentación razonable y revelación suficiente."
+            ]
+          },
+          {
+            subtitle: "Situación 4",
+            paragraphs: [
+              "La empresa afirma cumplir con la NIIF para las PYMES, pero no prepara el Estado de Flujos de Efectivo.",
+              "Principio afectado: cumplimiento de la NIIF para las PYMES."
+            ]
+          }
+        ]
+      }
+    ],
+    intro: [
+      "Conocer la estructura de cada estado financiero no es suficiente; deben presentarse conforme a NIIF.",
+      "La Sección 3 exige información comparable, confiable, uniforme y útil para los usuarios.",
+      "Una buena presentación fortalece transparencia, análisis financiero y confianza externa."
+    ],
+    normative: [
+      {
+        label: "NIIF para las PYMES",
+        title: "Sección 3 · 3.1 al 3.25",
+        body: "Define principios generales para presentar razonablemente situación financiera, rendimiento y flujos de efectivo.",
+        items: ["Juego completo", "Comparabilidad", "Uniformidad", "Notas"]
+      },
+      {
+        label: "NIIF completas",
+        title: "NIC 1 · 15 al 46",
+        body: "Desarrolla presentación razonable, negocio en marcha, devengo, materialidad, consistencia y comparabilidad.",
+        items: ["Presentación razonable", "Devengo", "Materialidad", "Negocio en marcha"]
+      }
+    ],
+    users: [
+      ["Inversionistas", "Confían más cuando la información es comparable y revela riesgos relevantes."],
+      ["Bancos", "Analizan deuda, solvencia y consistencia antes de conceder financiamiento."],
+      ["Gerencia", "Utiliza estados uniformes para evaluar tendencias y tomar decisiones internas."],
+      ["Acreedores", "Revisan presentación razonable, pasivos completos y notas suficientes."],
+      ["Reguladores", "Verifican cumplimiento normativo y revelación de información material."],
+      ["Estudiantes", "Aprenden que presentar bien también es cumplir con la norma, no solo sumar cifras."]
+    ],
+    informationMap: [
+      {
+        title: "Razonabilidad",
+        formula: "Completa + neutral + sin errores materiales",
+        body: "La información debe representar fielmente las operaciones y obligaciones de la entidad.",
+        examples: ["Deudas completas", "Riesgos revelados", "Activos reales"]
+      },
+      {
+        title: "Comparabilidad",
+        formula: "Actual vs. anterior",
+        body: "La entidad debe permitir análisis entre períodos y entre empresas mediante criterios consistentes.",
+        examples: ["2026", "2025", "Tendencias", "Uniformidad"]
+      },
+      {
+        title: "Revelación",
+        formula: "Estados + notas",
+        body: "Las notas explican políticas, mediciones, estimaciones, partidas específicas y contingencias.",
+        examples: ["Políticas", "Estimaciones", "Riesgos", "Contingencias"]
+      }
+    ],
+    completeSet: [
+      "Estado de Situación Financiera",
+      "Estado del Resultado Integral",
+      "Estado de Cambios en el Patrimonio",
+      "Estado de Flujos de Efectivo",
+      "Notas a los Estados Financieros"
+    ],
+    caseStudy: {
+      company: "Comercial Centroamericana, S.A.",
+      date: "Evaluación de cumplimiento con la Sección 3",
+      rows: [
+        ["Activos presentados", "$450,000"],
+        ["Pasivos presentados", "$180,000"],
+        ["Patrimonio presentado", "$270,000"],
+        ["Préstamo omitido", "$90,000"],
+        ["Notas", "No presentadas"],
+        ["Comparativos", "No incluidos"],
+        ["Clasificación", "Cambiada sin justificación"]
+      ],
+      solution: [
+        ["Cumplimiento NIIF", "No"],
+        ["Pasivo corregido", "$270,000"],
+        ["Patrimonio informado", "$270,000"],
+        ["Principios afectados", "4"]
+      ],
+      formulas: [
+        "Pasivo corregido = $180,000 + $90,000 = $270,000",
+        "La omisión del préstamo impide una presentación razonable.",
+        "Faltan comparativos, notas y uniformidad en la clasificación.",
+        "Conclusión: no cumple con la Sección 3 de la NIIF para las PYMES."
+      ]
+    },
+    discussion: [
+      "Una empresa registra únicamente las ventas cobradas y omite las ventas al crédito. Principio afectado: base contable del devengo.",
+      "La empresa cambia cada año el orden de presentación de las cuentas sin justificación. Principio afectado: uniformidad.",
+      "Se omite revelar una demanda judicial importante. Principio afectado: presentación razonable y revelación suficiente.",
+      "La empresa afirma cumplir NIIF para PYMES, pero no prepara el Estado de Flujos de Efectivo. Principio afectado: cumplimiento de la NIIF para las PYMES."
+    ],
+    conclusion: "La presentación de estados financieros conforme a la NIIF para las PYMES no se limita a mostrar cifras. Exige razonabilidad, cumplimiento normativo, negocio en marcha, devengo, materialidad, uniformidad, comparabilidad y notas suficientes para que los usuarios comprendan la situación financiera, el rendimiento y los flujos de efectivo de la entidad."
   }
 };
 
@@ -1286,7 +1577,7 @@ function pageFor(unit) {
 }
 
 function classHref(item) {
-  return `${pageFor(item.unit)}?class=${item.code}&v=conta2-class4-impact`;
+  return `${pageFor(item.unit)}?class=${item.code}&v=conta2-class5-impact`;
 }
 
 function matrixReturnHref(classNumber = new URLSearchParams(window.location.search).get("class")) {
