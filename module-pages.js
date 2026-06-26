@@ -2008,6 +2008,413 @@ const customClassContent = {
       "¿Cómo contribuye la NIC 37 a la transparencia de la información financiera?"
     ],
     conclusion: "Las provisiones constituyen obligaciones presentes cuya cuantía o fecha de cancelación presentan incertidumbre, pero cuya existencia puede demostrarse mediante evidencia suficiente y una estimación fiable. La Sección 21 de la NIIF para las PYMES y la NIC 37 establecen criterios claros para distinguir entre provisiones, pasivos contingentes y activos contingentes, garantizando que los estados financieros reflejen de manera razonable las obligaciones reales de la entidad. La correcta aplicación de estas normas fortalece la calidad, confiabilidad y transparencia de la información financiera, permitiendo a los usuarios evaluar adecuadamente los riesgos y compromisos futuros de la empresa."
+  },
+  "07": {
+    title: "Pasivos Contingentes y Activos Contingentes: Reconocimiento, Revelación y Tratamiento Contable",
+    shortTitle: "Pasivos y activos contingentes",
+    subtitle: "Cómo clasificar incertidumbres futuras sin reconocer obligaciones o ingresos que todavía no cumplen los criterios NIIF.",
+    duration: "50 minutos",
+    subtopics: "Pasivos contingentes y activos contingentes: reconocimiento, revelación, tratamiento contable, notas y diferenciación frente a provisiones.",
+    objective: "Distinguir provisiones, pasivos contingentes y activos contingentes conforme a la Sección 21 de la NIIF para las PYMES y la NIC 37.",
+    niifPymes: "NIIF para las PYMES, Sección 21: Provisiones y Contingencias, párrafos 21.9 al 21.16.",
+    fullNiif: "NIC 37: Provisiones, Pasivos Contingentes y Activos Contingentes, párrafos 27 al 35 y 84 al 92.",
+    labels: {
+      flowEyebrow: "Mapa de incertidumbre",
+      flowTitle: "Reconocer, revelar u omitir según la evidencia",
+      usersEyebrow: "Transparencia",
+      usersTitle: "Usuarios que dependen de notas completas",
+      setEyebrow: "Tratamiento contable",
+      setTitle: "Clasificación profesional de contingencias",
+      caseEyebrow: "Caso práctico",
+      discussionTitle: "Preguntas para discusión"
+    },
+    readingSections: [
+      {
+        title: "Base Técnica",
+        groups: [
+          {
+            subtitle: "NIIF para las PYMES",
+            bullets: [
+              "Sección 21: Provisiones y Contingencias.",
+              "Párrafos 21.9 al 21.16."
+            ]
+          },
+          {
+            subtitle: "NIIF Completas",
+            bullets: [
+              "NIC 37: Provisiones, Pasivos Contingentes y Activos Contingentes.",
+              "Párrafos 27 al 35, 84 al 92."
+            ]
+          }
+        ]
+      },
+      {
+        title: "Introducción",
+        paragraphs: [
+          "En la clase anterior se estudió que una provisión representa una obligación presente cuyo importe o fecha de pago son inciertos, pero que cumple con tres condiciones fundamentales.",
+          "Sin embargo, no todas las obligaciones posibles cumplen estos requisitos.",
+          "Existen situaciones donde una empresa enfrenta riesgos legales, financieros o contractuales cuya ocurrencia depende de hechos futuros inciertos. En estos casos, la normativa internacional introduce el concepto de pasivos contingentes y activos contingentes.",
+          "Comprender esta diferencia es fundamental, ya que un tratamiento contable incorrecto puede sobreestimar o subestimar la situación financiera de la entidad."
+        ],
+        bullets: [
+          "Existe una obligación presente.",
+          "Es probable la salida de recursos.",
+          "Puede realizarse una estimación fiable."
+        ]
+      },
+      {
+        title: "Fundamentación Normativa",
+        groups: [
+          {
+            subtitle: "NIIF para las PYMES - Sección 21",
+            paragraphs: [
+              "La Sección 21 distingue claramente entre provisiones, pasivos contingentes y activos contingentes.",
+              "La norma establece que no todas las obligaciones deben reconocerse contablemente. Algunas únicamente requieren revelación mediante notas a los estados financieros."
+            ],
+            bullets: [
+              "Provisiones.",
+              "Pasivos contingentes.",
+              "Activos contingentes."
+            ]
+          },
+          {
+            subtitle: "NIC 37",
+            paragraphs: [
+              "La NIC 37 desarrolla ampliamente el tratamiento de las contingencias, estableciendo cuándo una obligación debe reconocerse, revelarse u omitirse.",
+              "El objetivo es evitar que los estados financieros presenten obligaciones inexistentes o, por el contrario, oculten riesgos importantes para los usuarios."
+            ],
+            bullets: [
+              "Reconocerse.",
+              "Revelarse.",
+              "Omitirse."
+            ]
+          }
+        ]
+      },
+      {
+        title: "¿Qué es una Contingencia?",
+        paragraphs: [
+          "Una contingencia es una situación cuyo resultado depende de la ocurrencia o no de uno o varios eventos futuros inciertos que están fuera del control total de la empresa."
+        ],
+        bullets: [
+          "Demandas judiciales.",
+          "Litigios laborales.",
+          "Garantías otorgadas.",
+          "Reclamos tributarios.",
+          "Procesos ambientales.",
+          "Demandas por incumplimiento contractual."
+        ]
+      },
+      {
+        title: "Pasivo Contingente",
+        groups: [
+          {
+            subtitle: "Concepto",
+            paragraphs: [
+              "Un pasivo contingente es una obligación posible surgida de sucesos pasados cuya existencia será confirmada únicamente por la ocurrencia o no de uno o varios eventos futuros inciertos.",
+              "También puede ser una obligación presente que no se reconoce porque no es probable la salida de recursos o no puede estimarse con fiabilidad."
+            ],
+            bullets: [
+              "No es probable la salida de recursos.",
+              "No puede estimarse con fiabilidad."
+            ]
+          }
+        ]
+      },
+      {
+        title: "Diferencias entre Provisión y Pasivo Contingente",
+        table: {
+          headers: ["Provisión", "Pasivo Contingente"],
+          rows: [
+            ["Existe obligación presente.", "Existe obligación posible o incierta."],
+            ["La salida de recursos es probable.", "La salida de recursos no es probable o es incierta."],
+            ["Se reconoce contablemente.", "No se reconoce."],
+            ["Se presenta en el Estado de Situación Financiera.", "Se revela en notas."]
+          ]
+        }
+      },
+      {
+        title: "Ejemplo 1: Demanda Laboral",
+        paragraphs: [
+          "La empresa enfrenta una demanda.",
+          "Los abogados concluyen que la probabilidad de perder es del 30 %."
+        ],
+        groups: [
+          {
+            subtitle: "Análisis",
+            paragraphs: [
+              "Existe incertidumbre.",
+              "La probabilidad no es suficientemente alta para reconocer una obligación.",
+              "Por tanto, no se registra una provisión. Debe revelarse como pasivo contingente."
+            ]
+          }
+        ]
+      },
+      {
+        title: "Ejemplo 2: Reclamo Tributario",
+        paragraphs: [
+          "La Administración Tributaria cuestiona una declaración.",
+          "La empresa considera que posee suficiente evidencia para defender su posición.",
+          "Los asesores legales estiman una probabilidad muy baja de perder."
+        ],
+        groups: [
+          {
+            subtitle: "Tratamiento",
+            paragraphs: [
+              "No existe obligación probable.",
+              "Se revela como contingencia.",
+              "No se registra ningún pasivo."
+            ]
+          }
+        ]
+      },
+      {
+        title: "Activos Contingentes",
+        groups: [
+          {
+            subtitle: "Concepto",
+            paragraphs: [
+              "Un activo contingente es un posible activo surgido de sucesos pasados cuya existencia dependerá de acontecimientos futuros inciertos."
+            ]
+          },
+          {
+            subtitle: "Ejemplo",
+            paragraphs: [
+              "Una empresa demanda a un proveedor por incumplimiento de contrato y solicita una indemnización de $150,000.",
+              "Todavía no existe sentencia."
+            ]
+          },
+          {
+            subtitle: "Tratamiento",
+            paragraphs: [
+              "La empresa espera obtener beneficios.",
+              "Sin embargo, mientras el ingreso no sea prácticamente cierto, no puede reconocerse un activo.",
+              "Únicamente podrá revelarse en notas cuando sea apropiado."
+            ]
+          }
+        ]
+      },
+      {
+        title: "¿Por qué no se reconocen los Activos Contingentes?",
+        paragraphs: [
+          "La normativa internacional busca evitar que las empresas registren ingresos que todavía no han sido obtenidos.",
+          "Esto fortalece el principio de prudencia.",
+          "No deben anticiparse ganancias. Sí deben reconocerse oportunamente las pérdidas probables."
+        ]
+      },
+      {
+        title: "Comparación General",
+        table: {
+          headers: ["Concepto", "¿Se reconoce?", "¿Se revela?"],
+          rows: [
+            ["Provisión", "Sí", "Sí"],
+            ["Pasivo Contingente", "No", "Sí"],
+            ["Activo Contingente", "No", "Sí, cuando sea probable la entrada de beneficios económicos"]
+          ]
+        }
+      },
+      {
+        title: "Revelación en Notas a los Estados Financieros",
+        paragraphs: [
+          "Cuando exista un pasivo contingente significativo, la entidad debe revelar información suficiente para que los usuarios comprendan la naturaleza del riesgo y su posible efecto financiero."
+        ],
+        bullets: [
+          "Naturaleza de la contingencia.",
+          "Hechos que originaron la obligación.",
+          "Estimación financiera, cuando sea posible.",
+          "Incertidumbres relacionadas.",
+          "Posibles reembolsos."
+        ]
+      },
+      {
+        title: "Caso Práctico No. 1: Empresa Industrial El Progreso",
+        paragraphs: [
+          "La empresa enfrenta una demanda presentada por un cliente.",
+          "Información del abogado: probabilidad de perder del 40 %.",
+          "Monto reclamado: $80,000."
+        ],
+        groups: [
+          {
+            subtitle: "Preguntas y análisis",
+            cards: [
+              ["¿Existe obligación presente?", "No puede asegurarse."],
+              ["¿La salida de recursos es probable?", "No."],
+              ["¿Debe reconocerse una provisión?", "No."]
+            ]
+          },
+          {
+            subtitle: "Tratamiento",
+            paragraphs: [
+              "Se clasifica como pasivo contingente.",
+              "Debe revelarse en notas a los estados financieros."
+            ]
+          }
+        ]
+      },
+      {
+        title: "Caso Práctico No. 2: Comercial Delta",
+        paragraphs: [
+          "La empresa demanda a un proveedor y solicita $200,000.",
+          "Los abogados consideran probable ganar el proceso.",
+          "Sin embargo, aún no existe sentencia."
+        ],
+        groups: [
+          {
+            subtitle: "Tratamiento",
+            paragraphs: [
+              "No puede reconocerse un ingreso.",
+              "No puede registrarse un activo.",
+              "Se trata de un activo contingente."
+            ]
+          }
+        ]
+      },
+      {
+        title: "Caso Integrador: Comercial Centroamericana",
+        paragraphs: [
+          "Analice las siguientes situaciones y clasifique el tratamiento contable correspondiente."
+        ],
+        groups: [
+          {
+            subtitle: "Situación A",
+            paragraphs: [
+              "La empresa vende productos con garantía. Costo estimado: $12,000.",
+              "Respuesta: Provisión."
+            ]
+          },
+          {
+            subtitle: "Situación B",
+            paragraphs: [
+              "Existe una demanda cuya probabilidad de perder es únicamente del 15 %.",
+              "Respuesta: Pasivo contingente."
+            ]
+          },
+          {
+            subtitle: "Situación C",
+            paragraphs: [
+              "La empresa demanda a un proveedor. Existe alta probabilidad de ganar.",
+              "Respuesta: Activo contingente."
+            ]
+          },
+          {
+            subtitle: "Situación D",
+            paragraphs: [
+              "Existe una factura pendiente con un proveedor.",
+              "Respuesta: Pasivo. No constituye provisión ni contingencia."
+            ]
+          }
+        ]
+      },
+      {
+        title: "Actividad de Aplicación",
+        paragraphs: [
+          "Complete la siguiente tabla."
+        ],
+        table: {
+          headers: ["Situación", "Provisión", "Pasivo Contingente", "Activo Contingente"],
+          rows: [
+            ["Garantía sobre productos", "✓", "", ""],
+            ["Demanda con baja probabilidad de pérdida", "", "✓", ""],
+            ["Reclamo contra proveedor", "", "", "✓"],
+            ["Factura pendiente", "Pasivo normal", "", ""]
+          ]
+        }
+      },
+      {
+        title: "Análisis Profesional",
+        paragraphs: [
+          "La clasificación correcta de las contingencias influye directamente en la calidad de la información financiera.",
+          "Si una empresa registra como provisión una obligación que no cumple los requisitos establecidos por la NIIF para las PYMES, incrementará artificialmente sus pasivos y reducirá su utilidad.",
+          "Por el contrario, si omite registrar una provisión cuando la obligación sí existe y la salida de recursos es probable, presentará una situación financiera más favorable de la real, afectando la confianza de inversionistas, acreedores y demás usuarios.",
+          "La adecuada diferenciación entre provisiones y contingencias constituye una práctica esencial de la ética profesional del contador público."
+        ]
+      }
+    ],
+    intro: [
+      "No toda incertidumbre se reconoce: algunas obligaciones solo se revelan en notas.",
+      "El pasivo contingente evita registrar obligaciones posibles como si ya fueran pasivos reales.",
+      "El activo contingente protege la prudencia: no se reconocen ingresos antes de ser prácticamente ciertos."
+    ],
+    normative: [
+      {
+        label: "NIIF para las PYMES",
+        title: "Sección 21 · 21.9 al 21.16",
+        body: "Distingue provisiones, pasivos contingentes y activos contingentes, y define cuándo revelar en notas.",
+        items: ["Provisiones", "Pasivos contingentes", "Activos contingentes", "Notas"]
+      },
+      {
+        label: "NIIF completas",
+        title: "NIC 37 · 27-35, 84-92",
+        body: "Establece criterios para reconocer, revelar u omitir contingencias según probabilidad y evidencia.",
+        items: ["Reconocer", "Revelar", "Omitir", "Prudencia"]
+      }
+    ],
+    users: [
+      ["Inversionistas", "Necesitan conocer riesgos significativos aunque no se registren como pasivos."],
+      ["Bancos", "Evalúan si contingencias legales o fiscales pueden afectar la capacidad de pago."],
+      ["Gerencia", "Administra riesgos futuros y decide estrategias legales, financieras y contractuales."],
+      ["Auditores", "Verifican que una contingencia no se use para ocultar riesgos o inflar activos."],
+      ["Reguladores", "Revisan que las notas revelen información relevante para los usuarios."],
+      ["Contadores", "Aplican juicio profesional para clasificar obligación presente, posible o beneficio esperado."]
+    ],
+    informationMap: [
+      {
+        title: "Provisión",
+        formula: "Obligación presente + probable + estimable",
+        body: "Se reconoce en el Estado de Situación Financiera y se revela en notas.",
+        examples: ["Garantía $12,000", "Demanda probable", "Salida probable"]
+      },
+      {
+        title: "Pasivo contingente",
+        formula: "Obligación posible o salida no probable",
+        body: "No se reconoce; se revela si el riesgo es significativo.",
+        examples: ["Demanda 15 %", "Reclamo tributario", "Litigio incierto"]
+      },
+      {
+        title: "Activo contingente",
+        formula: "Beneficio futuro incierto",
+        body: "No se reconoce ingreso ni activo hasta que sea prácticamente cierto.",
+        examples: ["Demanda a proveedor", "$200,000 esperados", "Sin sentencia"]
+      }
+    ],
+    completeSet: [
+      "Provisión: reconocer y revelar",
+      "Pasivo contingente: revelar, no reconocer",
+      "Activo contingente: revelar cuando sea apropiado, no reconocer",
+      "Pasivo normal: registrar cuando la obligación es cierta",
+      "Notas: explicar naturaleza, monto estimado e incertidumbre"
+    ],
+    caseStudy: {
+      company: "Empresa Industrial El Progreso",
+      date: "Demanda de cliente y evaluación de contingencia",
+      rows: [
+        ["Probabilidad de perder", "40 %"],
+        ["Monto reclamado", "$80,000"],
+        ["Obligación presente", "No puede asegurarse"],
+        ["Salida de recursos", "No probable"],
+        ["Tratamiento", "Pasivo contingente"]
+      ],
+      solution: [
+        ["Provisión", "No"],
+        ["Registro contable", "No"],
+        ["Revelación", "Sí"],
+        ["Lugar", "Notas"]
+      ],
+      formulas: [
+        "Probabilidad 40 %: no es suficientemente alta para reconocer provisión.",
+        "No se registra pasivo porque la salida de recursos no es probable.",
+        "Debe revelarse como pasivo contingente por su relevancia para los usuarios.",
+        "Monto reclamado a revelar: $80,000, si es significativo y estimable."
+      ]
+    },
+    discussion: [
+      "¿Por qué las contingencias no siempre generan registros contables?",
+      "¿Qué diferencia existe entre una obligación presente y una obligación posible?",
+      "¿Por qué los activos contingentes no pueden reconocerse como ingresos?",
+      "¿Cómo afecta una clasificación incorrecta de contingencias a los estados financieros?",
+      "¿Cuál es la importancia de las notas a los estados financieros en el tratamiento de las contingencias?"
+    ],
+    conclusion: "Las contingencias representan situaciones de incertidumbre cuyo desenlace dependerá de acontecimientos futuros. La Sección 21 de la NIIF para las PYMES y la NIC 37 establecen criterios específicos para distinguir entre provisiones, pasivos contingentes y activos contingentes, garantizando que únicamente se reconozcan las obligaciones presentes cuya salida de recursos sea probable y pueda estimarse razonablemente. Las demás situaciones deberán revelarse mediante notas, fortaleciendo la transparencia, la prudencia y la confiabilidad de la información financiera presentada por la entidad."
   }
 };
 
@@ -2050,7 +2457,7 @@ function pageFor(unit) {
 }
 
 function classHref(item) {
-  return `${pageFor(item.unit)}?class=${item.code}&v=conta2-class6-provisiones`;
+  return `${pageFor(item.unit)}?class=${item.code}&v=conta2-class7-contingentes`;
 }
 
 function matrixReturnHref(classNumber = new URLSearchParams(window.location.search).get("class")) {
