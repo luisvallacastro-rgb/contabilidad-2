@@ -1608,6 +1608,406 @@ const customClassContent = {
       "La empresa afirma cumplir NIIF para PYMES, pero no prepara el Estado de Flujos de Efectivo. Principio afectado: cumplimiento de la NIIF para las PYMES."
     ],
     conclusion: "La presentación de estados financieros conforme a la NIIF para las PYMES no se limita a mostrar cifras. Exige razonabilidad, cumplimiento normativo, negocio en marcha, devengo, materialidad, uniformidad, comparabilidad y notas suficientes para que los usuarios comprendan la situación financiera, el rendimiento y los flujos de efectivo de la entidad."
+  },
+  "06": {
+    title: "Provisiones: Reconocimiento, Medición y Presentación",
+    shortTitle: "Provisiones, contingencias y medición",
+    subtitle: "Cómo reconocer obligaciones presentes con incertidumbre sin confundirlas con pasivos comunes o contingencias.",
+    duration: "50 minutos",
+    subtopics: "Provisiones: reconocimiento, medición y presentación; pasivos contingentes; activos contingentes; estimación fiable; revelación.",
+    objective: "Aplicar los criterios de la Sección 21 de la NIIF para las PYMES y la NIC 37 para distinguir provisiones, pasivos contingentes y activos contingentes.",
+    niifPymes: "NIIF para las PYMES, Sección 21: Provisiones y Contingencias, párrafos 21.1 al 21.16.",
+    fullNiif: "NIC 37: Provisiones, Pasivos Contingentes y Activos Contingentes, párrafos 10 al 24, 36 al 52 y 84 al 92.",
+    labels: {
+      flowEyebrow: "Mapa de decisión",
+      flowTitle: "¿Cuándo una obligación se convierte en provisión?",
+      usersEyebrow: "Riesgo financiero",
+      usersTitle: "Usuarios que necesitan ver obligaciones futuras",
+      setEyebrow: "Clasificación técnica",
+      setTitle: "Tres tratamientos contables posibles",
+      caseEyebrow: "Caso práctico",
+      discussionTitle: "Preguntas para discusión"
+    },
+    readingSections: [
+      {
+        title: "Base Técnica",
+        groups: [
+          {
+            subtitle: "NIIF para las PYMES",
+            bullets: [
+              "Sección 21: Provisiones y Contingencias.",
+              "Párrafos 21.1 al 21.16."
+            ]
+          },
+          {
+            subtitle: "NIIF Completas",
+            bullets: [
+              "NIC 37: Provisiones, Pasivos Contingentes y Activos Contingentes.",
+              "Párrafos 10 al 24, 36 al 52 y 84 al 92."
+            ]
+          }
+        ]
+      },
+      {
+        title: "Introducción",
+        paragraphs: [
+          "Durante el desarrollo normal de sus operaciones, las empresas enfrentan situaciones en las que, aun cuando no exista una factura o un documento de cobro inmediato, sí existe una obligación que deberá atenderse en el futuro.",
+          "Estas obligaciones representan riesgos para la empresa y, cuando cumplen determinadas condiciones, deben reconocerse contablemente como provisiones.",
+          "La NIIF para las PYMES y la NIC 37 establecen criterios específicos para diferenciar una provisión de un pasivo contingente, evitando que las empresas oculten obligaciones o, por el contrario, reconozcan pasivos inexistentes."
+        ],
+        bullets: [
+          "Demandas laborales.",
+          "Garantías otorgadas a clientes.",
+          "Procesos judiciales.",
+          "Obligaciones ambientales.",
+          "Desmantelamiento de activos.",
+          "Bonificaciones comprometidas al personal."
+        ]
+      },
+      {
+        title: "Fundamentación Normativa",
+        groups: [
+          {
+            subtitle: "NIIF para las PYMES - Sección 21",
+            paragraphs: [
+              "La Sección 21 regula el tratamiento contable de provisiones, pasivos contingentes y activos contingentes.",
+              "Su objetivo es garantizar que las entidades reconozcan únicamente aquellas obligaciones que realmente existen y puedan medirse de forma fiable."
+            ],
+            bullets: [
+              "Provisiones.",
+              "Pasivos contingentes.",
+              "Activos contingentes."
+            ]
+          },
+          {
+            subtitle: "NIC 37",
+            paragraphs: [
+              "La NIC 37 desarrolla el mismo tratamiento y proporciona criterios para reconocimiento, medición, revisión y revelación.",
+              "Asimismo, evita que las entidades utilicen provisiones para manipular los resultados financieros."
+            ],
+            bullets: [
+              "Reconocimiento.",
+              "Medición.",
+              "Revisión.",
+              "Revelación."
+            ]
+          }
+        ]
+      },
+      {
+        title: "Concepto de Provisión",
+        paragraphs: [
+          "Una provisión es un pasivo cuyo importe o fecha de cancelación presenta incertidumbre.",
+          "La incertidumbre puede estar relacionada con el monto que finalmente deberá pagarse, la fecha en que se realizará el pago o ambos aspectos simultáneamente."
+        ],
+        bullets: [
+          "El monto que finalmente deberá pagarse.",
+          "La fecha en que se realizará el pago.",
+          "Ambos aspectos simultáneamente."
+        ]
+      },
+      {
+        title: "Diferencia entre Pasivo y Provisión",
+        table: {
+          headers: ["Pasivo", "Provisión"],
+          rows: [
+            ["Existe certeza sobre el monto y la fecha de pago.", "Existe incertidumbre sobre el monto, la fecha o ambos."],
+            ["Ejemplo: factura de un proveedor.", "Ejemplo: demanda judicial en proceso."],
+            ["El valor está claramente determinado.", "Debe estimarse razonablemente."]
+          ]
+        }
+      },
+      {
+        title: "Requisitos para Reconocer una Provisión",
+        paragraphs: [
+          "La NIIF para las PYMES y la NIC 37 establecen tres condiciones indispensables para reconocer una provisión."
+        ],
+        groups: [
+          {
+            subtitle: "1. Existencia de una obligación presente",
+            paragraphs: [
+              "La obligación debe originarse por un hecho ocurrido en el pasado."
+            ],
+            cards: [
+              ["Ejemplo", "La empresa vende un electrodoméstico con garantía de un año. Al realizar la venta nace una obligación presente de atender futuras reparaciones."]
+            ]
+          },
+          {
+            subtitle: "2. Probabilidad de salida de recursos",
+            paragraphs: [
+              "Debe ser probable que la empresa tenga que entregar recursos económicos para cancelar la obligación.",
+              "Si la salida de recursos no es probable, no se reconoce una provisión."
+            ],
+            bullets: [
+              "Pago de indemnizaciones.",
+              "Reparaciones cubiertas por garantía.",
+              "Pago de demandas."
+            ]
+          },
+          {
+            subtitle: "3. Medición fiable",
+            paragraphs: [
+              "La obligación debe poder estimarse razonablemente.",
+              "No es necesario conocer el valor exacto. Es suficiente realizar una estimación basada en información objetiva."
+            ]
+          }
+        ]
+      },
+      {
+        title: "Ejemplos de Provisiones",
+        groups: [
+          {
+            subtitle: "Garantías sobre productos",
+            paragraphs: [
+              "Una empresa vende 2,000 televisores.",
+              "La experiencia indica que aproximadamente el 3 % requerirá reparaciones durante el período de garantía.",
+              "Aunque todavía no se conozca cuáles equipos fallarán, existe una obligación presente. Debe reconocerse una provisión."
+            ]
+          },
+          {
+            subtitle: "Demandas judiciales",
+            paragraphs: [
+              "Una empresa enfrenta una demanda laboral.",
+              "Los abogados consideran que existe una alta probabilidad de perder el caso.",
+              "La indemnización estimada asciende a $40,000. Debe reconocerse una provisión por dicho importe."
+            ]
+          },
+          {
+            subtitle: "Desmantelamiento de activos",
+            paragraphs: [
+              "Una empresa minera está obligada por ley a restaurar el terreno una vez finalice la explotación.",
+              "Aunque el pago se realizará dentro de varios años, la obligación ya existe. Debe reconocerse una provisión."
+            ]
+          }
+        ]
+      },
+      {
+        title: "Pasivos Contingentes",
+        paragraphs: [
+          "Un pasivo contingente es una obligación posible cuya existencia dependerá de que ocurra o no un hecho futuro incierto.",
+          "También puede tratarse de una obligación presente que no se reconoce porque no es probable la salida de recursos o no puede estimarse razonablemente.",
+          "Los pasivos contingentes no se reconocen en los estados financieros, pero generalmente deben revelarse en las notas."
+        ],
+        bullets: [
+          "No es probable la salida de recursos.",
+          "No puede estimarse razonablemente."
+        ]
+      },
+      {
+        title: "Activos Contingentes",
+        paragraphs: [
+          "Un activo contingente representa un posible beneficio económico cuyo resultado depende de sucesos futuros inciertos.",
+          "Ejemplo: una empresa demanda a un proveedor por incumplimiento contractual. Existe la posibilidad de recibir una indemnización.",
+          "Mientras el ingreso no sea prácticamente cierto, no debe reconocerse como activo."
+        ]
+      },
+      {
+        title: "Diferencias Fundamentales",
+        table: {
+          headers: ["Concepto", "¿Se reconoce?", "¿Se revela?"],
+          rows: [
+            ["Provisión", "Sí", "Sí"],
+            ["Pasivo contingente", "No", "Sí"],
+            ["Activo contingente", "No", "Sí, cuando sea apropiado"]
+          ]
+        }
+      },
+      {
+        title: "Medición de una Provisión",
+        paragraphs: [
+          "Las provisiones deben registrarse utilizando la mejor estimación del importe necesario para cancelar la obligación al final del período sobre el que se informa.",
+          "La estimación puede realizarse considerando evidencia histórica, informes técnicos, experiencia de la entidad e información disponible al cierre del período."
+        ],
+        bullets: [
+          "Experiencia histórica.",
+          "Opinión de especialistas.",
+          "Estudios técnicos.",
+          "Información disponible al cierre del período."
+        ]
+      },
+      {
+        title: "Caso Práctico No. 1: Garantía sobre productos",
+        paragraphs: [
+          "Comercial Electrohogar vende durante el año 2026 un total de 1,500 refrigeradoras.",
+          "Cada unidad posee garantía de un año."
+        ],
+        bullets: [
+          "El 4 % presenta reparaciones.",
+          "El costo promedio de cada reparación es de $120."
+        ],
+        groups: [
+          {
+            subtitle: "Desarrollo",
+            paragraphs: [
+              "Número estimado de reparaciones: 1,500 x 4 % = 60 unidades.",
+              "Costo estimado: 60 x $120 = $7,200."
+            ]
+          },
+          {
+            subtitle: "Registro contable",
+            table: {
+              headers: ["Cuenta", "Debe", "Haber"],
+              rows: [
+                ["Gasto por garantía", "$7,200", ""],
+                ["Provisión por garantías", "", "$7,200"]
+              ]
+            }
+          },
+          {
+            subtitle: "Análisis",
+            paragraphs: [
+              "Aunque la empresa todavía no conoce qué clientes harán uso de la garantía, la venta ya generó una obligación presente.",
+              "Por ello, la provisión debe reconocerse en el mismo período en que se registran las ventas, aplicando el principio del devengo."
+            ]
+          }
+        ]
+      },
+      {
+        title: "Caso Práctico No. 2: Demanda Laboral",
+        paragraphs: [
+          "La empresa Comercial Moderna enfrenta una demanda interpuesta por un ex trabajador.",
+          "El departamento jurídico informa una probabilidad de perder el caso del 85 % y una indemnización estimada de $25,000."
+        ],
+        groups: [
+          {
+            subtitle: "Preguntas",
+            bullets: [
+              "¿Existe una obligación presente?",
+              "¿Es probable la salida de recursos?",
+              "¿Puede estimarse razonablemente?"
+            ]
+          },
+          {
+            subtitle: "Respuesta",
+            paragraphs: [
+              "Sí en los tres casos.",
+              "Por lo tanto, debe reconocerse una provisión por $25,000."
+            ]
+          }
+        ]
+      },
+      {
+        title: "Actividad de Aplicación",
+        paragraphs: [
+          "Indique si corresponde reconocer una provisión, revelar un pasivo contingente o no realizar ningún registro."
+        ],
+        groups: [
+          {
+            subtitle: "Situación 1",
+            paragraphs: [
+              "Una empresa tiene una demanda cuya probabilidad de perder es del 20 %.",
+              "Respuesta: Pasivo contingente. Se revela, no se reconoce."
+            ]
+          },
+          {
+            subtitle: "Situación 2",
+            paragraphs: [
+              "La empresa ofrece garantía de dos años sobre sus productos y, con base en experiencias anteriores, estima reparaciones por $18,000.",
+              "Respuesta: Provisión."
+            ]
+          },
+          {
+            subtitle: "Situación 3",
+            paragraphs: [
+              "Una empresa espera ganar un juicio contra un proveedor por $50,000.",
+              "Respuesta: Activo contingente."
+            ]
+          },
+          {
+            subtitle: "Situación 4",
+            paragraphs: [
+              "La empresa recibió una factura pendiente de un proveedor por $8,000.",
+              "Respuesta: No es provisión; corresponde registrar un pasivo."
+            ]
+          }
+        ]
+      }
+    ],
+    intro: [
+      "Una provisión nace cuando existe una obligación presente, aunque el monto o la fecha todavía sean inciertos.",
+      "La Sección 21 y la NIC 37 evitan ocultar obligaciones reales o reconocer pasivos sin fundamento técnico.",
+      "El juicio profesional se aplica con evidencia: probabilidad, obligación presente y medición fiable."
+    ],
+    normative: [
+      {
+        label: "NIIF para las PYMES",
+        title: "Sección 21 · 21.1 al 21.16",
+        body: "Regula provisiones, pasivos contingentes y activos contingentes para reconocer solo obligaciones existentes y medibles.",
+        items: ["Obligación presente", "Probabilidad", "Estimación fiable", "Revelación"]
+      },
+      {
+        label: "NIIF completas",
+        title: "NIC 37 · 10-24, 36-52, 84-92",
+        body: "Desarrolla reconocimiento, medición, revisión y revelación para impedir provisiones arbitrarias.",
+        items: ["Reconocimiento", "Medición", "Revisión", "Notas"]
+      }
+    ],
+    users: [
+      ["Gerencia", "Evalúa compromisos futuros y decide cómo administrar riesgos operativos y legales."],
+      ["Inversionistas", "Necesitan conocer obligaciones presentes que afectan rentabilidad y solvencia."],
+      ["Bancos", "Analizan si la empresa ha reconocido riesgos que pueden exigir salida de efectivo."],
+      ["Auditores", "Revisan evidencia, probabilidad y estimaciones para evitar manipulación de resultados."],
+      ["Reguladores", "Verifican que contingencias y provisiones estén presentadas y reveladas correctamente."],
+      ["Estudiantes", "Distinguen entre pasivo común, provisión, pasivo contingente y activo contingente."]
+    ],
+    informationMap: [
+      {
+        title: "Reconocer provisión",
+        formula: "Obligación presente + probable + estimable",
+        body: "Si se cumplen los tres requisitos, se registra gasto y provisión.",
+        examples: ["Garantías", "Demandas probables", "Restauración ambiental"]
+      },
+      {
+        title: "Revelar contingencia",
+        formula: "Posible o no probable",
+        body: "Si la salida no es probable o depende de hechos inciertos, se revela cuando corresponde.",
+        examples: ["Demanda 20 %", "Litigio incierto", "Obligación posible"]
+      },
+      {
+        title: "No reconocer activo",
+        formula: "Beneficio posible",
+        body: "El activo contingente no se reconoce hasta que el ingreso sea prácticamente cierto.",
+        examples: ["Juicio a favor", "Reclamo a proveedor", "Indemnización esperada"]
+      }
+    ],
+    completeSet: [
+      "Provisión: se reconoce y se revela",
+      "Pasivo contingente: no se reconoce y se revela",
+      "Activo contingente: no se reconoce y se revela cuando sea apropiado",
+      "Pasivo común: se reconoce cuando existe factura u obligación cierta",
+      "Sin registro: cuando no hay obligación ni evidencia suficiente"
+    ],
+    caseStudy: {
+      company: "Comercial Electrohogar",
+      date: "Garantías sobre refrigeradoras vendidas en 2026",
+      rows: [
+        ["Unidades vendidas", "1,500"],
+        ["Porcentaje estimado de reparaciones", "4 %"],
+        ["Reparaciones estimadas", "60 unidades"],
+        ["Costo promedio por reparación", "$120"],
+        ["Provisión requerida", "$7,200"]
+      ],
+      solution: [
+        ["Obligación presente", "Sí"],
+        ["Salida probable", "Sí"],
+        ["Medición fiable", "Sí"],
+        ["Registro", "$7,200"]
+      ],
+      formulas: [
+        "Reparaciones estimadas = 1,500 x 4 % = 60 unidades",
+        "Costo estimado = 60 x $120 = $7,200",
+        "Debe: Gasto por garantía $7,200",
+        "Haber: Provisión por garantías $7,200"
+      ]
+    },
+    discussion: [
+      "¿Por qué una provisión no puede confundirse con un pasivo común?",
+      "¿Qué riesgos existen si una empresa reconoce provisiones sin fundamento técnico?",
+      "¿Qué efectos tendría no registrar una provisión cuando la obligación realmente existe?",
+      "¿Por qué los activos contingentes no se reconocen inmediatamente?",
+      "¿Cómo contribuye la NIC 37 a la transparencia de la información financiera?"
+    ],
+    conclusion: "Las provisiones constituyen obligaciones presentes cuya cuantía o fecha de cancelación presentan incertidumbre, pero cuya existencia puede demostrarse mediante evidencia suficiente y una estimación fiable. La Sección 21 de la NIIF para las PYMES y la NIC 37 establecen criterios claros para distinguir entre provisiones, pasivos contingentes y activos contingentes, garantizando que los estados financieros reflejen de manera razonable las obligaciones reales de la entidad. La correcta aplicación de estas normas fortalece la calidad, confiabilidad y transparencia de la información financiera, permitiendo a los usuarios evaluar adecuadamente los riesgos y compromisos futuros de la empresa."
   }
 };
 
@@ -1650,7 +2050,7 @@ function pageFor(unit) {
 }
 
 function classHref(item) {
-  return `${pageFor(item.unit)}?class=${item.code}&v=conta2-class5-full-material`;
+  return `${pageFor(item.unit)}?class=${item.code}&v=conta2-class6-provisiones`;
 }
 
 function matrixReturnHref(classNumber = new URLSearchParams(window.location.search).get("class")) {
