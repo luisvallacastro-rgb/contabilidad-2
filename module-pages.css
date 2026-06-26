@@ -7317,3 +7317,605 @@ body.lesson-fullscreen {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* Contabilidad II · responsive refinement */
+@media (max-width: 1180px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .module-hero-inner,
+  .module-layout {
+    width: min(100% - 48px, 1040px);
+    max-width: min(100% - 48px, 1040px);
+  }
+
+  .module-layout {
+    margin-top: -44px;
+  }
+
+  .accounting-module .lesson-card h3,
+  .section-class-active-head h3 {
+    font-size: clamp(1.65rem, 4.4vw, 3rem);
+    line-height: 1.04;
+  }
+
+  .accounting-module .lesson-top {
+    align-items: start;
+  }
+
+  .class-one-hero h4 {
+    font-size: clamp(2rem, 4.8vw, 3.35rem);
+  }
+
+  .study-section h6 {
+    font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  }
+
+  .section-fullscreen .development-fullscreen-inner {
+    width: min(100% - 36px, 1180px);
+  }
+}
+
+@media (min-width: 621px) and (max-width: 980px) {
+  .module-nav {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-inline: 20px;
+  }
+
+  .module-nav a,
+  .module-nav button {
+    min-height: 44px;
+    padding-inline: 14px;
+    font-size: .95rem;
+  }
+
+  .module-hero {
+    min-height: 560px;
+  }
+
+  .module-hero h1 {
+    font-size: clamp(3rem, 8vw, 4.9rem);
+    line-height: 1;
+  }
+
+  .module-hero p {
+    max-width: 680px;
+    font-size: 1.1rem;
+  }
+
+  .module-layout {
+    margin-bottom: 64px;
+  }
+
+  .intro-card,
+  .learning-panel,
+  .lesson-card {
+    padding: clamp(22px, 4vw, 32px);
+  }
+
+  .learning-panel {
+    gap: 22px;
+  }
+
+  .step-line {
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+  }
+
+  .lesson-class-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lesson-top {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .class-one-intro,
+  .financial-info-map,
+  .users-wheel,
+  .case-results,
+  .study-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .normative-grid,
+  .case-workbench,
+  .class-one-discussion {
+    grid-template-columns: 1fr;
+  }
+
+  .statement-stack {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .development-fullscreen-inner {
+    width: min(100% - 32px, 920px);
+    padding: 24px;
+  }
+
+  .development-fullscreen-head {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .section-fullscreen-browser {
+    grid-template-columns: minmax(240px, .42fr) minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .section-class-browser {
+    max-height: calc(100dvh - 190px);
+  }
+
+  .section-class-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  :root {
+    --mobile-gutter: 16px;
+  }
+
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  body * {
+    min-width: 0;
+  }
+
+  .module-nav {
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+    justify-content: flex-end;
+    gap: 7px;
+    padding: 10px var(--mobile-gutter) 0;
+  }
+
+  .module-nav a,
+  .module-nav button,
+  .module-nav .module-nav-fullscreen {
+    flex: 0 0 42px;
+    width: 42px;
+    min-width: 42px;
+    height: 42px;
+    min-height: 42px;
+    border-radius: 8px;
+    padding: 0;
+  }
+
+  .module-nav a span,
+  .module-nav button span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .module-hero {
+    min-height: auto;
+  }
+
+  .module-hero-inner {
+    width: calc(100vw - (var(--mobile-gutter) * 2));
+    max-width: calc(100vw - (var(--mobile-gutter) * 2));
+    margin-inline: var(--mobile-gutter);
+    padding: 92px 0 46px;
+    overflow: hidden;
+  }
+
+  .module-hero h1 {
+    max-width: 100%;
+    font-size: clamp(1.9rem, 9.2vw, 2.45rem);
+    line-height: 1.02;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    text-wrap: pretty;
+  }
+
+  .module-hero p {
+    max-width: 100%;
+    font-size: .95rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .hero-dynamic-label {
+    font-size: .72rem;
+  }
+
+  .module-layout {
+    width: calc(100vw - (var(--mobile-gutter) * 2));
+    max-width: calc(100vw - (var(--mobile-gutter) * 2));
+    margin: -24px var(--mobile-gutter) 56px;
+    overflow: hidden;
+  }
+
+  .intro-card,
+  .learning-panel,
+  .lesson-card,
+  .accounting-module .lesson-card {
+    border-radius: 8px;
+    padding: 18px;
+  }
+
+  .intro-card {
+    gap: 18px;
+  }
+
+  .objective-card,
+  .intro-card.objective-card {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .objective-video,
+  .objective-video.video-empty {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .objective-video.video-empty {
+    min-height: 220px;
+    overflow: hidden;
+  }
+
+  .objective-video.video-empty strong,
+  .objective-video.video-empty span,
+  .objective-video span {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-wrap: pretty;
+  }
+
+  .intro-card h2,
+  .learning-head h2 {
+    font-size: clamp(1.45rem, 7vw, 2rem);
+    line-height: 1.08;
+  }
+
+  .learning-panel {
+    gap: 20px;
+  }
+
+  .learning-head {
+    gap: 10px;
+  }
+
+  .progress-text {
+    justify-self: start;
+    font-size: 1.35rem;
+  }
+
+  .step-line {
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+  }
+
+  .step-filter-item,
+  .lesson-class-panel,
+  .lesson-class-card,
+  .lesson-card {
+    min-width: 0;
+  }
+
+  .lesson-class-head {
+    align-items: center;
+  }
+
+  .lesson-class-grid {
+    gap: 10px;
+  }
+
+  .lesson-class-card {
+    padding: 14px;
+  }
+
+  .lesson-class-card strong {
+    font-size: 1rem;
+    line-height: 1.1;
+  }
+
+  .lesson-top,
+  .accounting-module .lesson-top {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .accounting-module .lesson-top-fullscreen,
+  .lesson-top-fullscreen {
+    justify-self: start;
+    width: auto;
+    min-height: 40px;
+    padding: 8px 12px;
+    font-size: .82rem;
+  }
+
+  .accounting-module .lesson-card h3,
+  .lesson-card h3 {
+    font-size: clamp(1.6rem, 8.5vw, 2.25rem);
+    line-height: 1.04;
+    overflow-wrap: anywhere;
+  }
+
+  .accounting-module .lesson-card p,
+  .lesson-card p {
+    font-size: .98rem;
+    line-height: 1.55;
+  }
+
+  .lesson-inline-development {
+    margin-top: 16px;
+  }
+
+  .accounting-module .inline-fullscreen-open,
+  .inline-fullscreen-open {
+    width: 100%;
+    justify-content: center;
+    margin: 8px 0 14px;
+  }
+
+  .accounting-module .accounting-deck,
+  .class-master-deck {
+    gap: 12px;
+  }
+
+  .accounting-module .accounting-hero-panel,
+  .class-one-hero {
+    grid-template-columns: 1fr !important;
+    padding: 18px !important;
+  }
+
+  .accounting-module .accounting-hero-panel h4,
+  .class-one-hero h4 {
+    font-size: clamp(1.85rem, 9.6vw, 2.65rem) !important;
+    line-height: 1.02;
+    overflow-wrap: anywhere;
+  }
+
+  .class-one-hero p {
+    font-size: .98rem;
+    overflow-wrap: anywhere;
+  }
+
+  .decision-signal {
+    gap: 9px;
+  }
+
+  .decision-signal span,
+  .decision-signal strong,
+  .decision-signal em {
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: .92rem;
+  }
+
+  .class-one-intro,
+  .normative-grid,
+  .financial-info-map,
+  .users-wheel,
+  .statement-stack,
+  .case-workbench,
+  .case-results,
+  .class-one-discussion,
+  .study-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .class-one-normative,
+  .class-one-flow,
+  .class-one-users,
+  .class-one-set,
+  .class-one-case,
+  .class-one-discussion,
+  .class-one-conclusion,
+  .class-one-study-material,
+  .study-section,
+  .normative-grid article,
+  .financial-info-map article,
+  .users-wheel article {
+    padding: 16px;
+  }
+
+  .class-one-impact .section-block-head h5,
+  .class-one-case h5,
+  .class-one-discussion h5 {
+    font-size: clamp(1.35rem, 7vw, 1.85rem);
+  }
+
+  .study-section h6 {
+    font-size: clamp(1.22rem, 6vw, 1.65rem);
+  }
+
+  .study-section p,
+  .study-section li {
+    font-size: .96rem;
+    line-height: 1.62;
+  }
+
+  .study-group {
+    padding: 12px;
+  }
+
+  .statement-stack article,
+  .users-wheel article {
+    min-height: auto;
+  }
+
+  .case-workbench {
+    overflow: hidden;
+  }
+
+  .case-workbench table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .case-workbench th,
+  .case-workbench td {
+    padding: 9px 10px;
+    font-size: .92rem;
+  }
+
+  .formula-strip span {
+    font-size: .92rem;
+    line-height: 1.35;
+  }
+
+  .development-fullscreen {
+    padding: 10px;
+  }
+
+  .development-fullscreen-inner,
+  .development-fullscreen.class-fullscreen .development-fullscreen-inner,
+  .section-fullscreen .development-fullscreen-inner {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .development-fullscreen-head,
+  .development-fullscreen.class-fullscreen .development-fullscreen-head {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .development-fullscreen-head h2,
+  .development-fullscreen.class-fullscreen .development-fullscreen-head h2 {
+    font-size: clamp(1.65rem, 9vw, 2.35rem) !important;
+    line-height: 1.04;
+    overflow-wrap: anywhere;
+  }
+
+  .development-fullscreen-head p,
+  .development-fullscreen.class-fullscreen .development-fullscreen-head p {
+    font-size: .96rem;
+    line-height: 1.45;
+  }
+
+  .fullscreen-actions,
+  .development-fullscreen.class-fullscreen .fullscreen-actions {
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .matrix-return,
+  .development-fullscreen.class-fullscreen .matrix-return,
+  .fullscreen-close,
+  .development-fullscreen.class-fullscreen .fullscreen-close {
+    width: 42px;
+    min-width: 42px;
+    height: 42px;
+    min-height: 42px;
+    border-radius: 8px;
+    padding: 0;
+  }
+
+  .matrix-return span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .development-fullscreen-grid {
+    gap: 14px;
+  }
+
+  .section-fullscreen-browser {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .section-class-browser {
+    position: static;
+    max-height: 38dvh;
+    overflow-y: auto;
+    padding: 14px;
+  }
+
+  .section-class-browser-head {
+    align-items: center;
+  }
+
+  .section-class-list {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .section-class-option {
+    padding: 12px;
+  }
+
+  .section-class-active-head {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .section-class-active-head h3 {
+    font-size: clamp(1.55rem, 8.5vw, 2.25rem);
+    line-height: 1.04;
+    overflow-wrap: anywhere;
+  }
+
+  .section-class-expand {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 390px) {
+  :root {
+    --mobile-gutter: 12px;
+  }
+
+  .module-nav {
+    gap: 5px;
+  }
+
+  .module-nav a,
+  .module-nav button,
+  .module-nav .module-nav-fullscreen {
+    flex-basis: 40px;
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    min-height: 40px;
+  }
+
+  .module-hero h1 {
+    font-size: clamp(1.95rem, 10.2vw, 2.55rem);
+  }
+
+  .accounting-module .lesson-card h3,
+  .lesson-card h3,
+  .section-class-active-head h3 {
+    font-size: clamp(1.45rem, 8.2vw, 2rem);
+  }
+
+  .class-one-hero h4,
+  .accounting-module .accounting-hero-panel h4 {
+    font-size: clamp(1.65rem, 9vw, 2.3rem) !important;
+  }
+}
