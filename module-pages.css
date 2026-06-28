@@ -598,6 +598,93 @@ h1 {
   transition: transform .24s ease, border-color .24s ease, background .24s ease, color .24s ease, box-shadow .24s ease;
 }
 
+.step-chip strong,
+.step-chip span {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.step-chip strong {
+  margin-bottom: 4px;
+  color: inherit;
+  font-size: .82rem;
+  font-weight: 950;
+}
+
+.schedule-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 14px;
+}
+
+.schedule-chips.compact {
+  gap: 6px;
+  margin: 8px 0 0;
+}
+
+.schedule-chip {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 28px;
+  border: 1px solid rgba(4,122,115,.18);
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: var(--ink);
+  background: rgba(255,255,255,.84);
+  font-size: .78rem;
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+.schedule-chip.date {
+  color: #24454a;
+  background: #eef7f4;
+}
+
+.schedule-chip.modality.presencial {
+  color: #143b60;
+  background: #dcecff;
+  border-color: rgba(45,109,171,.22);
+}
+
+.schedule-chip.modality.virtual {
+  color: #0d564f;
+  background: #d8f3ee;
+  border-color: rgba(4,122,115,.22);
+}
+
+.schedule-chip.modality.mixed {
+  color: #0d3b4f;
+  background: #d9fbfb;
+  border-color: rgba(0,188,188,.28);
+}
+
+.schedule-chip.detail {
+  color: #5e4a12;
+  background: #fff4c9;
+  border-color: rgba(243,197,101,.5);
+}
+
+.schedule-chip.event {
+  color: #0d531c;
+  background: #d9f7ca;
+  border-color: rgba(57,179,72,.28);
+}
+
+.step-chip.active .schedule-chip {
+  border-color: rgba(255,255,255,.28);
+  color: var(--white);
+  background: rgba(255,255,255,.14);
+}
+
+.step-chip.active .schedule-chip.event {
+  color: var(--ink);
+  background: var(--gold);
+}
+
 .step-chip::before {
   content: "";
   position: absolute;
